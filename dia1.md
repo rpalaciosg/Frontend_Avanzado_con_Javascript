@@ -238,7 +238,7 @@ Así puedo usar destructuring en arrays o en objetos para acceder a sus variable
 Esto es un concepto del dìa a día.
 
 ### Object Mutability (Mutabilidad)
-Esto es un cocepto del lenguaje.
+Esto es un cocepto del lenguaje. ----->> Me quedé hasta aqui minuto 33:41
 
 ### Arrays
 
