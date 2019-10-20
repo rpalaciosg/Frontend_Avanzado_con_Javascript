@@ -238,10 +238,452 @@ Así puedo usar destructuring en arrays o en objetos para acceder a sus variable
 Esto es un concepto del dìa a día.
 
 ### Object Mutability (Mutabilidad)
-Esto es un cocepto del lenguaje. ----->> Me quedé hasta aqui minuto 33:41
+Esto es un cocepto del lenguaje. También es un tema del dìa a día.
 
-### Arrays
+#### Que es inmutable
+
+Las variables de tipo string, number y booleam son inmutables, es decir no pueden ser mutadas con una referencia a ellas.
+
+Ejemplo 1 inmutable:
+```js
+    var a=2;
+    undefined
+    var b = a;
+    undefined
+    b=3
+    3
+```
+
+Ejemplo 2:
+```js
+
+```
+> Estos ejemplos no tienen nada que ver con var o let, se usa let para que el navegador luego no le diga de que ya esta definida y tal.
+
+####  Que es mutable
+Aquí es donde entran ya los objetos y los arrays y esto ya cambia la cosa, ya que al crear un objeto e igualar otro objeto a otro, si cambiamos el segundoobjeto que esta igualado al primero, el primer objeto que està referenciado también cambiará:
+
+Ejemplo mutabilidad en objetos:
+
+```js
+    var contact = {title: 'titulo 1'};
+    undefined
+    var contact2 = contact
+    undefined
+    contact2.number = 21
+    21
+    contact2
+    {title: "titulo 1", number: 21}
+    contact
+    {title: "titulo 1", number: 21}
+    contact.title = null
+    null
+    contact.title.a
+    VM496:1 Uncaught TypeError: Cannot read property 'a' of null
+        at <anonymous>:1:15
+    (anonymous) @ VM496:1
+```
+
+Esto es un problema, ya que si por alguna razòn se tenia referenciado un objeto al cambiar la variable que referencia a ese objeto ps se cambiaría todo.
+
+Ejemplo mutabilidad en arrays:
+```js
+    var data = [1,3,4]
+    undefined
+    var data2 = data
+    undefined
+    data2.push(5)
+    4
+    data2
+    (4) [1, 3, 4, 5]
+    data
+    (4) [1, 3, 4, 5]
+```
+#### Corregir la mutabilidad en los arrays y lso objetos.
+
+La idea es clonar un objeto.
+
+Hay dos maneras de hacer esto:
+
+##### Primera forma de clonar un objeto o array y que no se mutable
+La primera es tomando el objeto pasarlo a `string` usando el `JSON.stringify` luego ese objeto convertido a string parsearlo a JSON usando `JSON.parse`.
+
+
+Esta forma no se usa mucho pero es una forma y si es que la preguntan en una entrevista:
+```js
+    var contact = {title: 'titulo 1'};
+    undefined
+    var contact2 = JSON.parse(JSON.stringify(contact));
+    undefined
+    contact2
+    {title: "titulo 1"}
+    contact2.name = 1
+    1
+    contact2
+    {title: "titulo 1", name: 1}
+    contact
+    {title: "titulo 1"}
+```
+
+##### Segunda forma de clonar un objeto o array y que no se mutable
+La manera mas usada hasta ahora es usar `Object.assign()` al cual se le pasa como parametro un objeto vacio `{}` y como segundo parametro el objeto que queremos clonar en este caso el objeto `contact`, es decir igualar en un objeto vacio lo que tiene el objeto contact.
+
+
+```js
+    var contact = {title: 'titulo 1'};
+    undefined
+    var contact2 = Object.assign({}, contact);
+    undefined
+    contact2
+    {title: "titulo 1"}
+    contact2.name = 1
+    1
+    contact2
+    {title: "titulo 1", name: 1}
+    contact
+    {title: "titulo 1"}
+```
+
+Es la que mas se ha usado pero con la neuva feature de js llamada REST operator se usa cada vez menos:
+
+#### REST operator
+
+Con esta nueva feature de js hacemos lo mismo que el `Object.assign` pero ahora usamos un objeto en el que le pasaremos  { ...objeto_a_clonar }. 
+Esto funcionar igual pero ya no es necesario escribir Object.assign
+
+```js
+// REST OPERATOR
+    var contact2 = { ...contact };
+    undefined
+    contact2.name = 1
+    1
+    contact2
+    {title: "titulo 1", name: 1}
+    conctact
+    VM1429:1 Uncaught ReferenceError: conctact is not defined
+        at <anonymous>:1:1
+    (anonymous) @ VM1429:1
+    contact
+    {title: "titulo 1"}
+```
+
+Este REST OPERATOR se puede usar tanto para objetos, arrays o parametros de funciones.
+Hay que tener en cuenta que es muy importante el orden en que se pasan los objetos, ya que si los objetos a pasarle usando `Object.assign` o `REST OPERATOR` tienen las mismas keys, esta se pisaran con la del último objeto que se le pase.
+
+```js
+    var a = { name : 'name' }
+    undefined
+    var b = { surname: 'surname'}
+    undefined
+    var c = {}
+    undefined
+    c.name = a.name
+    "name"
+    c.surname = b.surname
+    "surname"
+    var c = Object.assing({}, a, b );
+    VM1727:1 Uncaught TypeError: Object.assing is not a function
+        at <anonymous>:1:16
+    (anonymous) @ VM1727:1
+    var c = Object.assign({}, a, b );
+    undefined
+    c
+    {name: "name", surname: "surname"}
+    var c = { ...a, ...b }
+    undefined
+    c
+    {name: "name", surname: "surname"}
+    var c = { ...a, ...b, phone: 123, items: [1,2] };
+    undefined
+    var b = { name: 'surname'};
+    undefined
+    var c = { ...a, ...b }
+    undefined
+```
+
+Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidados los items u objetos anidados son mutables cuando se usa el `Object assing`, en cambio usando el `stringify` o `REST OPERATOR` esto si hace una copia profunda.
+```js
+    var b = { surname: 'surname', detail: { info: 1234} };
+    undefined
+    var a = Object.assign({} , b);
+    undefined
+    a
+    {surname: "surname", detail: {…}}detail: {info: 1234}info: 1234__proto__: Objectsurname: "surname"__proto__: Objectconstructor: ƒ Object()hasOwnProperty: ƒ hasOwnProperty()isPrototypeOf: ƒ isPrototypeOf()propertyIsEnumerable: ƒ propertyIsEnumerable()toLocaleString: ƒ toLocaleString()toString: ƒ toString()valueOf: ƒ valueOf()__defineGetter__: ƒ __defineGetter__()__defineSetter__: ƒ __defineSetter__()__lookupGetter__: ƒ __lookupGetter__()__lookupSetter__: ƒ __lookupSetter__()get __proto__: ƒ __proto__()set __proto__: ƒ __proto__()
+    a.detail.info = 123123123
+    123123123
+    b
+    {surname: "surname", detail: {…}}
+```
+
+Para evitar esto se puede usar el stringigy o el REST OPERATOR pero aumentando las keys de las llaves de objetos anidados: ```var a = { ...b, detail: { ...b.detail } };```
+
+```js
+    var b = { surname: 'surname', detail: { info: 1234} };
+    undefined
+    var a = { ...b };
+    undefined
+    a.detail.info = 'erororor';
+    "erororor"
+    a
+    {surname: "surname", detail: {…}}
+    detail: {info: "erororor"}
+    surname: "surname"
+    __proto__: Object
+    b
+    {surname: "surname", detail: {…}}
+    detail: {info: "erororor"}
+    surname: "surname"
+    __proto__: Object
+    var a = { ...b, detail: { ...b.detail } };
+    undefined
+    a.detail.info = 5678;
+    5678
+    b
+    {surname: "surname", detail: {…}}
+    detail: {info: "erororor"}
+    surname: "surname"
+    __proto__: Object
+    a
+    {surname: "surname", detail: {…}}
+    detail: {info: 5678}
+    surname: "surname"
+    __proto__: Object
+```
+
+##### Corregir inmutabilidad en arrays
+Ejemplo de como corregir la mutabilidad en arrays.
+
+Una forma es usar `concat` para concatenar un array vacio con el array que se quiere clonar.
+
+```js
+var arr = [1,2,3,4,5]
+undefined
+var newArr = [].concat(arr);
+undefined
+newArr.push(2);
+6
+newArr
+(6) [1, 2, 3, 4, 5, 2]
+arr
+(5) [1, 2, 3, 4, 5]
+```
+
+##### Arreglar mutabilidad con REST OPERATOR en Arrays
+Hay un equivalente de rest operator en arrays. igualmente enun array se pasa 3 puntos con el array a clonar  [...array_a_clonar]
+
+```js
+    // REST OPERATOR
+    undefined
+    var newArr = [...arr];
+    undefined
+    newArr
+    (5) [1, 2, 3, 4, 5]
+    newArr.push('asd')
+    6
+    newArr
+    (6) [1, 2, 3, 4, 5, "asd"]
+    arr
+    (5) [1, 2, 3, 4, 5]
+```
+
 
 ### Arrow functions
 
-### Rest operator
+Aquí vamos a ver como se escriben y las diferentes maneras de escribirlas.
+
+Ejemplo tìpico de Arrows functions
+```js
+    var foo = (a,b) => {
+        return a + b;
+    }
+    undefined
+    var foo = (a,b) => a + b;
+    undefined
+    foo(1,3)
+    4
+```
+Ejemplo de arrow function para devolver un objeto:
+```js
+    var foo = (title) => {
+        return {title}
+    }
+    undefined
+    foo('123')
+    {title: "123"}
+    var foo = (title) => {title};
+    undefined
+    foo('123')
+    undefined
+
+```
+Un problema que tenemos con las arrow functions es que al devolver un objeto y usar la forma minificada en una sola lìnea del arrow function, js entiende las llaves del objeto como si fueran las llaves de inicio de ejecuciòn, para corregir esto debemos poner el objeto a retornar entre parentesis,
+
+```js
+    var foo = (title) => ({title});
+    undefined
+    foo('123')
+    {title: "123"}
+```
+Esto es muy común para hacer formateo de arrays con `map` y `filter`
+```js
+    var foo = title => (
+        {title}
+    );
+```
+Otra forma de cuando se tienen que hacer un return con llaves se puede tambien hacer esto, en lugar de poner las llaves se pone entre parentesis
+
+Los parentesis tambien pueden vales para hacer la suma:
+```js
+    var foo = (a, b) => (
+        a + b;
+    );
+```
+
+### REST OPerators en funciones
+Este REST OPERATOR se puede usar en los parametros de una funcion, independientemenete si es un arrow function o una function normal.
+
+Debo poner el nombre de los paramtros con 3 puntos y entre parentesis (...params), y en este caso lo que nos devolvería es un array. Es decir podría tener acceso a ellos como si estuvieran en un array.
+
+```js
+    var foo = (...params) => {
+        console.log(params)
+    }
+    foo(1, 2, 3)
+    VM3765:2 (3) [1, 2, 3]
+```
+
+Otra cosa que puedo hacer tambien es:
+Lo que hace es devolver o imprimir el primer parametro y el resto devuelve en un array
+```js
+    var foo = (first, ...rest) => {
+        console.log(first, rest)
+    }
+    undefined
+    foo(1,2,3,4)
+    1 (3) [2, 3, 4]
+```
+Por ejemplo podria ser en el primer parametro le estoy pasando una `id` a mi UI y en el ...rest, todo lo que tiene que pintar.
+
+Esto se usa bastante.
+
+### Modificaciones en arrays usando map, filter y reduce.
+
+#### Filter
+
+**Ejemplo 1** : Del siguiente array obtener solo los valores que no son null. (usaremos la funcion `filter`)
+```js
+    var data = [null, 1, null, null, null, 2, 3]
+    undefined
+    var filterData = data.filter(function(item){
+    })
+    undefined
+    var filterData = data.filter(function(item){
+        return true;
+    });
+    undefined
+    filterData
+    (7) [null, 1, null, null, null, 2, 3]
+    var filterData = data.filter(function(item){
+        return false;
+    });
+    undefined
+    filterData
+    []
+    var filterData = data.filter(function(item){
+        return item !== null;
+    });
+    undefined
+    filterData
+    (3) [1, 2, 3]
+    var filterData = data.filter((item) => item !== null);
+    undefined
+    filterData
+    (3) [1, 2, 3]
+    var filterData = data.filter(item => (
+        item !== null
+    ));
+    undefined
+    filterData
+    (3) [1, 2, 3]
+```
+
+#### Map
+Map me permite devolver un nuevo array pero aplicando algo o una funcion a cada item en la iteraciòn.
+
+```js
+    var mapValues = filterData.map(function(item) {
+        return 1;
+    });
+    undefined
+    mapValues
+    (3) [1, 1, 1]
+    var mapValues = filterData.map(function(item) {
+        return item * 2;
+    });
+    undefined
+    mapValues
+    (3) [2, 4, 6]
+    var mapValues = filterData.map( item => (
+        item * 2
+    ));
+    undefined
+    mapValues
+    (3) [2, 4, 6]
+    var mapValues = filterData.map( item => item * 2 );
+    undefined
+    mapValues
+    (3) [2, 4, 6]
+```
+
+Estas funciones tambien las podemos unir, en lugar de hacerlo en un bucle for o while, ya que el lenguaje nos permite hacer estas cosas interesentes.
+Es bueno primero filtrar los datos antes porque te quitas datosy se tienen que mapear menos datos.
+Veremos que se usará mucho esto en nuestras vistas, lo que haremos es un mao de datos quenos llegan de un API y crearemos un template y eso lo pintaremos en el UI.
+
+**Ejemplo uniendo filter y map**
+
+```js
+    var data = [null, 1, null, null, null, 2, 3]
+    undefined
+    var dataTotal = data
+    .filter(item => item !== null)
+    .map(item => item * 2)
+    undefined
+    dataTotal
+    (3) [2, 4, 6]
+```
+#### Reduce
+
+Toma un array y lo convierte en otra cosa.
+El reduce recibe 2 parametros una function y el parametro inicial.
+Lo que vamos a hacer es convertirlo en un objeto como este ```{ 'item-1': 1, 'item-2': 2, 'item-3':3 }```
+
+```js
+    var data = [1,2,3]
+    var result = data.reduce(function (acumulado, item) {
+        console.log(acumulado, item)
+        return { [item]: item};
+    }, 2);
+```
+Lo que hace [item] es que el item sera el key del objeto a retornar.
+
+Ademas para obtener o acumular el resultado voy a hacer uso de REST OPERATOR  del objeto a retornar. { ...acumulado, [item]:item }
+
+```js
+    var result = data.reduce(function (acumulado, item) {
+        return { ...acumulado, [`item-${item}`]: item };
+    }, {});
+    result
+    {item-1: 1, item-2: 2, item-3: 3}
+```
+
+Podemos escribir esto tambien usando arrow functions:
+```js
+    var result = data.reduce( (acumulado, item) => ({ ...acumulado, [`item-${item}`]: item}), {});
+```
+Si quiero que se vea un poco mas legible puedo ponerlo así;
+
+```js
+    var result = data.reduce( (acumulado, item) => (
+        { ...acumulado, [`item-${item}`]: item}
+    ), {});
+```
