@@ -833,3 +833,5 @@ Lo contrario podemos ver si en el return retornamos una function normal, a pesar
 ```
 
 Hay que tener en cuenta esto de las arrows functions, ya que el contexto influye.
+
+Me quedé en 1:39:50 - Repetir un poco la última parte del contexto de las arrow functions.
