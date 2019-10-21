@@ -687,3 +687,149 @@ Si quiero que se vea un poco mas legible puedo ponerlo así;
         { ...acumulado, [`item-${item}`]: item}
     ), {});
 ```
+
+## Preguntas de entrevistas
+
+### Variables
+
+#### ¿Que es el Hoisting?
+Basicamente es el mecanismo en el que las variables se declaran y son movidas a la parte de arriba del scope, y estan declaradas ya directamente.
+El hoisting pasa tambien con las funciones.
+
+**Ejemplo**
+```js
+    var data=1;
+    console.log(data, message);
+    1, undefined
+    var message = 2;
+```
+
+Para corregir esto del hoisting llegan el let y const.
+Entonces cuales son las diferencias entre var y let.
+Var: Puede ser accedido desde cualquier parte del código.
+Let: Solo en el scope que lo contiene y despues de que se ha definido. Es chevere usar let y const para evitar side effect que nos pueda cambiar algo que no esperamos.
+
+### Context
+A que se refiere esto del contexto. Que es el contexto de una función?
+**¿Poque quiero hacer esto?**
+Podriamos crear una funcion mas generica donde cualquiera pueda decidir el contexto y que la funcion sea mas reusable. Esto no va a cambiar el contexto por siempre y me da ese tipo de flexibilidad.
+
+#### ¿Como puedo cambiar el contexto a una funcion?
+Si quiero cambiar el contexto puedo usar `bind`, `call` y `apply`
+
+
+##### bind
+- Envia el nuevo contexto a una funcion pero sin ejecutarse.
+El bind lo que hace es devolver la función cambiada el contexto pero sin ejecutar. En el ejemplo anterior lo que hago es pasarle el contexto a la función `description()`, es decir le puedo pasar como contexto mi objeto dog, entonces lo que va a hacer description es añadir esas variables a mi contexto.
+
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    const description = funtion () {
+        const {name, age } = this;
+        console.log(`This is ${name} and is age is ${age}`);
+    };
+
+    const foo = description.bind(dog);
+    foo();
+```
+
+##### call
+Ejecuta la funcion con el contexto seleccionado o pasado en el segundo parametro.
+Es distinta a bind, lo que hace es recibir el contexto y los parametros necesarios y se ejecuta directamente la funcion.
+
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    const description = funtion (...params) {
+        const {name, age } = this;
+        console.log(`This is ${name} and is age is ${age}`);
+    };
+
+    description.call(dog,1,2);
+```
+
+##### apply
+La diferencia con call es que en lugar del contexto y los parametros, se le pasa el contexto y un array.
+
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    const description = funtion (...params) {
+        const {name, age } = this;
+        console.log(`This is ${name} and is age is ${age}`);
+    };
+
+    description.call(dog, [1,2]);
+```
+
+Esto ya depende si es que para los parametros quieres usar un array usas `apply` o si se quiere usar varias variables como parametros uso call.
+
+### Arrow Functions Context
+LAs arrows functions no cambian el contexto, estas no son solo un sintantix sugar sino que el contexto influye, Lo que hace el arrow funtcion es que toma el contexto en donde ella está, o el que le he pasado en este caso es `Window`.
+
+HAy que tener cuidado con las arrow functions, que usa el contexto es el anterior.
+
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    //const description = function () => {
+    const description = () => {
+        const {name, age } = this;
+        console.log(this)
+        console.log(`This is ${name} and is age is ${age}`);
+    };
+
+    description.call(dog);
+```
+
+Como podemos ver o probar esto es retornando una arrow functinn en el return, y nos daremos cuenta que retornará según el mismo contexto en el que esta o que le pasemos en este caso `dog`. 
+> nota para ejecutar esto debemos usar otro par de parentesis ya que el return tambien es una función.
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    //const description = function () => {
+    const description = () => {
+        const {name, age } = this;
+        console.log('primero',this)
+        console.log(`This is ${name} and is age is ${age}`);
+        return () => {
+            console.log('segundo',this);
+        };
+    };
+
+    description.call(dog)();
+```
+
+Lo contrario podemos ver si en el return retornamos una function normal, a pesar de modificarle o parsarle el contexto con con call. en este caso vemos que nos devuelve segun el contexto en el que está en este caso `window`
+
+```js
+    const dog = {
+        name: 'Kasper',
+        age: 3
+    };
+    //const description = function () => {
+    const description = () => {
+        const {name, age } = this;
+        console.log('primero',this)
+        this.text = 1;
+        console.log(`This is ${name} and is age is ${age}`);
+        return function () => {
+            console.log('segundo',this);
+        };
+    };
+
+    description.call(dog)();
+```
+
+Hay que tener en cuenta esto de las arrows functions, ya que el contexto influye.
