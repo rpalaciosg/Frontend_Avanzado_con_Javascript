@@ -98,6 +98,7 @@ function printSquare(x){
 
 printSquare(5);
 ```
+El call stack queda limpio y es importante que quede limpio.
 
 Es importante que esl Callstack quede limpio, por que si se llena da un error de `Uncaught RangeError: MAximum call stack size exceeded`. Vamos a ver el sigueinte ejemplo que da ese error.
 
