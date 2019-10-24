@@ -859,3 +859,102 @@ Lo contrario podemos ver si en el return retornamos una function normal, a pesar
 ```
 
 Hay que tener en cuenta esto de las arrows functions, ya que el contexto influye.
+
+### Clases
+
+JS en su incio, antes de que saliese la palabra reservada `class` se hacia de una forma diferente que era hacer una función que hacia las de constructor y  luego se definian prototipos.
+
+Ejemplo forma antigua:
+
+```js
+    function Persona(name) {
+        this.name = name;
+    }
+
+    const kevin = new Persona('kevin');
+    console.log(kevin);
+```
+
+Estariamos creando un objeto persoan el cual hereda de el objeto `Object`.
+
+Como se le añadian métodos:
+```js
+    function Persona(name) {
+        this.name = name;
+    }
+
+    Persona.prototype.description = function () {
+        console.log(`This is: ${this.name}`);
+    }
+
+    const kevin = new Persona('kevin');
+    kevin.description();
+```
+> Tener en cuenta que el orden de omo se crean los `prototypes` importa, deben estar antes de que se los referencia o se los llame.
+
+Entonces la equivalencia de esto anterior usando la palabra reservada `class`
+
+Ejemplo usndo class:
+
+```js
+    class Persona {
+        constructor (name) {
+            this.name = name;
+        }
+
+        description() {
+            console.log(`This is: ${this.name}`);
+        }
+    }
+
+    const kevin = new Persona('kevin');
+    kevin.description();
+```
+
+Si queremos hacer una herencia que extienda o herede de persona:
+
+```js
+    class Persona {
+        constructor (name) {
+            this.name = name;
+        }
+        description() {
+            console.log(`This is: ${this.name}`);
+        }
+    }
+
+    class Programador extends Persona {
+        constructor(name) {
+            super();
+            this.name = name;
+        }
+        jobPosition() {
+            console.log(`${this.name} is a developer`);
+        }
+    }
+
+    const kevin = new Programador('kevin');
+    kevin.jobPosition();
+```
+
+Esto en el UI no se usa mucho o no se suele ver mucho, lo que se hace es usar `Closures` en un tipo medio funcional, que es una funcion que retorna o devuelve una función. Esto se verá mas adelante con el código en el UI.
+
+**Pregunta:** ¿SI a la llamada de super no hay que pasar su variables de parametros?
+
+Lo que mas o menos se suele usar es algo como esto:
+
+```js
+    const Persona = (name, extraParameter = {jobPosition: () => 0 }) => {
+        const name = name;
+        return {
+            description: () => console.log(`This is: ${this.name}`),
+            ...extraParameter
+        }
+    };
+
+    const kevin = Persona('kevin');
+    console.log(kevin);
+    kevin.description();
+```
+Esto es un metodo que recibe los parametros o variables,  se crean constantes y se igualan a esos parametros, y se retorna un objeto con los distintos métodos.
+Aquí ya no se pone new, seria mas cómodo si lo ponemos dentro de un map o filter.
