@@ -305,7 +305,7 @@ La idea es clonar un objeto.
 
 Hay dos maneras de hacer esto:
 
-##### Primera forma de clonar un objeto o array y que no se mutable
+##### Primera forma de clonar un objeto o array y que no sea mutable
 La primera es tomando el objeto pasarlo a `string` usando el `JSON.stringify` luego ese objeto convertido a string parsearlo a JSON usando `JSON.parse`.
 
 
@@ -324,6 +324,25 @@ Esta forma no se usa mucho pero es una forma y si es que la preguntan en una ent
     contact
     {title: "titulo 1"}
 ```
+Esto seria una buean forma de clonar un objeto y que sea inmutable:
+```js
+    var objetc1 = {data: 1, detail: { info: 'My info' } };
+    var cleanCopy = JSON.parse(JSON.stringify(object1));
+    cleanCopy
+    {data:1, detail:{info: 'My info'}}
+    object1
+    {data:1, detail:{info: 'My info'}}
+    cleanCopy.detail.info = 'Second info';
+    cleanCopy
+    {data:1, detail:{info: 'Second info'}}
+    object1
+    {data:1, detail:{info: 'My info'}}
+
+    // lo hago un poco mas funcional
+    const cleanCopy = obj => JSON.parse(JSON.stringify(object1));
+```
+
+Se puede hacer una copia limpia con este método. El cleanCopy es una funcion que me hara copias limpias de objetos.
 
 ##### Segunda forma de clonar un objeto o array y que no se mutable
 La manera mas usada hasta ahora es usar `Object.assign()` al cual se le pasa como parametro un objeto vacio `{}` y como segundo parametro el objeto que queremos clonar en este caso el objeto `contact`, es decir igualar en un objeto vacio lo que tiene el objeto contact.
