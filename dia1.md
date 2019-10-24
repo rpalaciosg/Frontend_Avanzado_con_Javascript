@@ -706,17 +706,18 @@ El hoisting pasa tambien con las funciones.
 
 Para corregir esto del hoisting llegan el let y const.
 Entonces cuales son las diferencias entre var y let.
-Var: Puede ser accedido desde cualquier parte del código.
-Let: Solo en el scope que lo contiene y despues de que se ha definido. Es chevere usar let y const para evitar side effect que nos pueda cambiar algo que no esperamos.
+- Var: Puede ser accedido desde cualquier parte del código.
+- Let: Solo en el scope que lo contiene y tambien despues de que se ha definido. Es chevere usar let y const para evitar `side effect` que nos pueda cambiar algo que no esperamos.
 
 ### Context
 A que se refiere esto del contexto. Que es el contexto de una función?
-**¿Poque quiero hacer esto?**
-Podriamos crear una funcion mas generica donde cualquiera pueda decidir el contexto y que la funcion sea mas reusable. Esto no va a cambiar el contexto por siempre y me da ese tipo de flexibilidad.
+
+#### Poque quiero hacer esto?
+Podriamos crear una funciones mas generica donde cualquiera pueda decidir el contexto y que la funcion sea mas reusable. Esto no va a cambiar el contexto para siempre y me da ese tipo de flexibilidad.
+
 
 #### ¿Como puedo cambiar el contexto a una funcion?
 Si quiero cambiar el contexto puedo usar `bind`, `call` y `apply`
-
 
 ##### bind
 - Envia el nuevo contexto a una funcion pero sin ejecutarse.
@@ -736,6 +737,16 @@ El bind lo que hace es devolver la función cambiada el contexto pero sin ejecut
     foo();
 ```
 
+El contexto va a estar disponible para la funcion que hace la referencia al contexto.
+
+SE puede crear funciones que en vez de recibir parametros reciba uno o varios contextos, entonces puedo tener diferentes description()
+
+```js
+const kasperDescription = description.bind(dog);
+const otroperroDescription = description.bind(dog);
+```
+Se puede usar bastane en el rrollo funcional.
+
 ##### call
 Ejecuta la funcion con el contexto seleccionado o pasado en el segundo parametro.
 Es distinta a bind, lo que hace es recibir el contexto y los parametros necesarios y se ejecuta directamente la funcion.
@@ -752,9 +763,12 @@ Es distinta a bind, lo que hace es recibir el contexto y los parametros necesari
 
     description.call(dog,1,2);
 ```
+El call se puede usar, pasando el contextoy mas parametros, y lo que harà es devolver un array con los parametros y luego el contexto.
 
 ##### apply
-La diferencia con call es que en lugar del contexto y los parametros, se le pasa el contexto y un array.
+La diferencia con call es que en lugar del contexto y los parametros, se le pasa el contexto y un array de los parametros. Aqui lo que tengo que introducir en este description( ...params ) son parametros.
+
+
 
 ```js
     const dog = {
@@ -766,13 +780,25 @@ La diferencia con call es que en lugar del contexto y los parametros, se le pasa
         console.log(`This is ${name} and is age is ${age}`);
     };
 
-    description.call(dog, [1,2]);
+    description.apply(dog, [1,2]);
 ```
+Lo que recibo es un array  y luego el contexto.
 
+SI quisiera obtener lo mismo que hice con call un array con cada parametro, como apply lo que recibe como 2do parametro es un array deberia pasar un array con otra array dentro con cada uno de sus parametros.
+```js
+      const description = funtion (firts) {
+        const {name, age } = this;
+        console.log(`This is ${name} and is age is ${age}`);
+    };
+
+    description.apply(dog, [[1,2]]);
+```
+Esto simularia lo que hace el call.
 Esto ya depende si es que para los parametros quieres usar un array usas `apply` o si se quiere usar varias variables como parametros uso call.
 
 ### Arrow Functions Context
-LAs arrows functions no cambian el contexto, estas no son solo un sintantix sugar sino que el contexto influye, Lo que hace el arrow funtcion es que toma el contexto en donde ella está, o el que le he pasado en este caso es `Window`.
+Las arrows functions no cambian el contexto, estas no son solo un sintantix sugar sino que el contexto influye.
+Lo que hace el arrow funtcion es que toma el contexto en donde ella está, o el que le he pasado en este caso es `Window`.
 
 HAy que tener cuidado con las arrow functions, que usa el contexto es el anterior.
 
@@ -808,7 +834,7 @@ Como podemos ver o probar esto es retornando una arrow functinn en el return, y 
         };
     };
 
-    description.call(dog)();
+    description.call(dog)(); // ejecuto la funcion que retorna
 ```
 
 Lo contrario podemos ver si en el return retornamos una function normal, a pesar de modificarle o parsarle el contexto con con call. en este caso vemos que nos devuelve segun el contexto en el que está en este caso `window`
@@ -833,5 +859,3 @@ Lo contrario podemos ver si en el return retornamos una function normal, a pesar
 ```
 
 Hay que tener en cuenta esto de las arrows functions, ya que el contexto influye.
-
-Me quedé en 1:39:50 - Repetir un poco la última parte del contexto de las arrow functions.
