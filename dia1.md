@@ -977,3 +977,7 @@ Lo que mas o menos se suele usar es algo como esto:
 ```
 Esto es un metodo que recibe los parametros o variables,  se crean constantes y se igualan a esos parametros, y se retorna un objeto con los distintos métodos.
 Aquí ya no se pone new, seria mas cómodo si lo ponemos dentro de un map o filter.
+
+### ¿Que es el DOM?
+
+Me quedé en 2:14:11 en Que es el DOM.
