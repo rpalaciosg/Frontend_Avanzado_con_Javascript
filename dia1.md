@@ -910,7 +910,7 @@ Como se le añadian métodos:
     const kevin = new Persona('kevin');
     kevin.description();
 ```
-> Tener en cuenta que el orden de omo se crean los `prototypes` importa, deben estar antes de que se los referencia o se los llame.
+> Tener en cuenta que el orden de como se crean los `prototypes` importa, deben estar antes de que se los referencia o se los llame.
 
 Entonces la equivalencia de esto anterior usando la palabra reservada `class`
 
@@ -981,4 +981,74 @@ Aquí ya no se pone new, seria mas cómodo si lo ponemos dentro de un map o filt
 
 ### ¿Que es el DOM?
 
-Me quedé en 2:14:11 en Que es el DOM.
+DOM (Document Object Model), e suna cross platform, y lenguaje independiente de interfaces que trata un XML o documento HTML como una estructura de arbol, donde cada nodo es un objeto que representa una parte del documento.
+
+Document no hay en html solo es a nivel del browser.
+
+Si es que en una pagina en la consola del navegador escribimos document, podremos acceder al document y a todos sus nodos, por ejemplo, html, head, body, etc.
+
+```js
+document
+#document<!doctype html><!--[if lt IE 10]><html lang="en" class="ie9"><![endif]--><!--[if lt IE 9]><html lang="en" class="ie8"><![endif]--><!--[if !IE]><!--><html lang=​"es" class=​"js svg wf-myriadpro1-n7-active wf-myriadpro1-i7-active wf-myriadpro1-i4-active wf-myriadpro1-n4-active wf-myriadpro1-n6-active wf-myriadpro1-i6-active wf-active translated-ltr">​<!--<![endif]--><head>​…​</head>​<body class=​"bsmq wireframes nbc targetTop top" id=​"wireframes">​…​</body>​</html>​
+www-embed-player.js:382 GET https://googleads.g.doubleclick.net/pagead/id net::ERR_BLOCKED_BY_CLIENT
+De @ www-embed-player.js:382
+Ce @ www-embed-player.js:368
+(anonymous) @ www-embed-player.js:644
+L @ www-embed-player.js:254
+Di @ www-embed-player.js:641
+(anonymous) @ www-embed-player.js:658
+```
+Como vemos se abre la estructura del html.
+
+Escribiendo en html estamos escribiendo en DOM, entonces lo que haremos con javascript lo que podemos hacer es acceder a este DOM, al html jugar con partes del DOM, acceder a las clases, jugar con sus propiedades, crear nuestros propios layouts.
+
+Porque puedo acceder a document en la co nsola, es porque en el browser todo lo que venga de `window` es accesible. 
+Document biene en realidad un nodo anterior que es window, que es de donde viene todo.
+
+```js
+    window.document
+```
+
+Para poder entender mejor de que podemos hacer, como lo podemos manipular o como lo podemos tratar, es hacer los primeros pasos en TVMaze, que es la aplicacion de practica del curso.
+
+Cosas que deberia saber tambien un desarrollador frontend que son:
+- Herramientas de diseño.
+- Consejos de CSS
+
+### Developers vs Designers
+Los developers ven el diseño de otra manera, y los designers no ven la complejidad. Es muy importante que como desarrolladores saber comunicarnos con el equipo de diseño.
+Debemso conocer y saber desemvolvernos con las herramientas con las que vamos a trabajar en la maquetacion o al desarrollar un prototipo sin tener que crear todo un sistema de diseño. Las herramientas mas famosas son:
+    - Figma
+    - Adobe Xd
+    - Zeplin
+    - Framer
+    - Sketch
+    - Stage & Gallery
+    - ProtoPie
+
+Unas que nos pueden servir a nivel de frontend son:
+    - balsamiq wireframes: es sencillo prototipar
+    - Photoshop: Hay qgente que diseña con photoshop, es para experiencias mas para UI.
+    - Adobe Xd: es parecido a sketch para la gente que no tiene mac
+    - Framer: Es el favorito del instructor, se pueden animar, puedes validar la idea mucho mas rapido. Esta herramienta permite exportar los componentes en Reac.js por lo que en teoria podrias tener medio trabajo hecho con esos componentes. Tambien puedes traer tu componente en React.js y ponerlo con los demas componentes de Framer.
+    - inVision: Es el que mas se verá, Hace mockups de animar, se puede construir y poner comentarios, feedback. Tiene modo de inspeccion, dice paddings, distancias, muestra el grid, muestra los estilos, los colores, etc.
+    - Zeplin: Al instructor le gusta mas, porque el tema de medidas, y la forma de obtener los assets, es mas comod que invision, por ejem. te da un color pallete, que puedes descargar o exportar un archivo. Tiene mejor experiencia.
+
+### Mobile First y Alcance
+Algo muy importante es el mobile first, es una más, si me pasan un diseño que no es mobile first, devolverlo y que lo entreguen en mobile first. Es muy importante.
+Por lo general es improtante porque genera valor a un cliente.
+
+#### Alcance
+Hay que tener presente el alcance, que plataforma voy a soportar. Es improtante tener claro a que alcance.
+- Que plataformas voy a soportar, por ejem personas que solo quieran trabajar en IE 11 con suerte es como un dolor, es trabajar con tu chrome para no hacer nada, ya que va afuncionar distinto o incluso no funcionar, entonces hay que tener claro para luego no comerte el marron de todo lo que he hecho lo tengo que llenar de Polyfills, de parches y cosas que lo podemos haber evitado desde el principio.
+
+### Consejos de CSS
+PAginas o herramientas que van a servir para la practica:
+    - coolors.co : Le gusta al instructor porque genera una paleta de colores con un color main, lo bloqueas y luego puedes ir generando una paleta con sentido que p uedas llevar a una web. Lo que suele hacer es tener un color main y uno secundario distintivo y d eahi ya colores grises eso nunca falla.
+    - material.io: Es como una especie de layout. Se va jugando con tonalidades grises. [https://material.io/resources/color/#!/?view.left=0&view.right=0]
+
+#### Variables
+
+#### Sprites
+
+#### Animaciones con SVG
