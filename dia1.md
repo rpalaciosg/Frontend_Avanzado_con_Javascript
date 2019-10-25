@@ -1050,5 +1050,6 @@ PAginas o herramientas que van a servir para la practica:
 #### Variables
 
 #### Sprites
+Me quedé en Spirtes en el tiempo 2:34:49
 
 #### Animaciones con SVG
