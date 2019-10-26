@@ -1047,9 +1047,36 @@ PAginas o herramientas que van a servir para la practica:
     - coolors.co : Le gusta al instructor porque genera una paleta de colores con un color main, lo bloqueas y luego puedes ir generando una paleta con sentido que p uedas llevar a una web. Lo que suele hacer es tener un color main y uno secundario distintivo y d eahi ya colores grises eso nunca falla.
     - material.io: Es como una especie de layout. Se va jugando con tonalidades grises. [https://material.io/resources/color/#!/?view.left=0&view.right=0]
 
-#### Variables
+A pesar de que no tenermos módulo de Diseño, el instructor nos pasa unos links y post con las pautas que los developers deben saber sobre el diseño.
+    - gerarquias,
+    - consistencia
+    - coloresalineados
+    - espacios
+Para tener claro eso.
+Hay que trabajar el ojo, para un frontend lo bueno es consumir buen contenido, es decir consumir webs de calidad.
+(https://www.cssdesignawards.com/)[https://www.cssdesignawards.com/] - Son webs que han ganado premios. Que tienen buen diseño.
+Es una web muy chula que te ayuda a entrenarte, para ver sie staoy lelvando el diseño bien o nó, Te dice esta web esta bien diseñada o nó y vas votando.
+
+#### Variables CSS
 
 #### Sprites
 Me quedé en Spirtes en el tiempo 2:34:49
+Crearemos un ejemplo de sprites en la carpeta `dia-1/Ejercicios/css-examples/` para el ejemplo de sprites.
+¿Que son los sprites?
+Basicamente es una imagen, que tienen distintas imagnes e distintos pixeles. 
+- Esto en la web de que me sirve, estas imagenes talvez pesen menos en diferentes imagenes que en una sola, y es verdad, pero la ventaja es que así hago menos peticiones al servidor.
+- Lo que queremos conseguir es obtener estos diseños o hacer uno para la practica y saber como gestionarlos.
+- Es importante que el tamaño de las imagenes sea parecido.
+- Lo que generalmente se usa es un sprite generator `https://spritegen.website-performance.org/` (https://spritegen.website-performance.org/)[https://spritegen.website-performance.org/]
+- Se puede pedir a los diseñadores, que todo el banco de iconos los pasen en un sprite.
+- Lo que se hace en esta pagina es crear un sprite a partir de imagenes.
+- Podemos exportar los settings.txt para tenerlos guardados
+- Y tambien podemos descargar el png, el CSS y HTML.
+  - El css lo que hace es generar un sprite
+  - Ese css  y la imagene .png las exportamos y agregamos a la carpeta de nuestro proyecto.
+  - Luego copiamos el html que nos dá y vemos que nos aparece como imagenes diferentes, pero vemos que solo hace una sola petición.
+- Otra cosa que se suele hacer tambien es hacerlo como fuente, pero eso no lo vamos a hacer ahora.
 
-#### Animaciones con SVG
+#### Animaciones SVG
+Como podemos poner el .svg en nuestra web:
+1. La primera es usar la etiqueta <img/>

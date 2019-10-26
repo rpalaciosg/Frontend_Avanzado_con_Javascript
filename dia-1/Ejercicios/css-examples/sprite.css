@@ -1,0 +1,17 @@
+.sprite {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-logo {
+    width: 128px;
+    height: 128px;
+    background-position: 0 0;
+}
+
+.sprite-selenium_ {
+    width: 128px;
+    height: 128px;
+    background-position: -128px 0;
+}
