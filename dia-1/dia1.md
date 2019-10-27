@@ -1079,4 +1079,21 @@ Basicamente es una imagen, que tienen distintas imagnes e distintos pixeles.
 
 #### Animaciones SVG
 Como podemos poner el .svg en nuestra web:
-1. La primera es usar la etiqueta <img/>
+1. La primera es usar la etiqueta <img/>, el problema al cargarlo como una imagen es que no puedo acceder a las clases o id's del svg.
+2. Otra manera es importando el svg, es decir poner el còdgio dentro del archivo. O mejor es haciendo un include tipo template con ejs, para no tener que poner todo el código svg en el html. En el caso de cargarlo como svg, ya puedo acceder a sus propiedades.
+
+En el css `sprite,css` hago los keyframes para animar el svg. 
+
+Como no queremos cargar el svg de esa manera y como no disponesmos de un motor de templates y un servidor, vamos a usar la etiqueta `<object>`, el tema con esta etiqueta es que no está soportada por todos los navegadores y entonces se debe colocar un mensaje "Fallback Image logo", o la iamgen directamente en svg o en .png para que no falle en los navegadores que no lo soprotan.
+```html
+        <object data="tv.svg" type="image/svg+xml">
+            Fallback Image logo
+        </object>
+```
+Aqui al usar la etiqueta `objetc`, no puedo hacer las animaciones con el css. Entonces debo hacerlo dentro del svg.
+Si abrimos el código del svg, en realidad es un xml pero al final es como un html, hay qetiquetas que debemos conocer, tenemos animaciones, tenemos estilos, tenemos clases, tenemos animaciones, y lo que vamos a ver ahora son animaciones. 
+- Hay librerias que incluso ayudan a crear mi propio svg y a animarlo.
+- En el svg que nos paso el instructor hay varias cosas que estan comentadas, son varios tipos de animacion.
+- Aqui se puede esperar a eventos, o a que termine una animación. Esto ya es imaginacion de cada persona.
+- Hya muchas librerias para hacer animaciones como:
+  - svg js: [https://svgjs.com/docs/2.7/]
