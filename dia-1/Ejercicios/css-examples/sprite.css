@@ -46,3 +46,8 @@ body {
     50% { opacity: 1;}
     100% { opacity: 0;}
 } */
+
+.flex-class {
+    display: flex;
+    justify-content: space-between;
+}

@@ -1025,6 +1025,7 @@ Debemso conocer y saber desemvolvernos con las herramientas con las que vamos a 
     - Sketch
     - Stage & Gallery
     - ProtoPie
+    - Adobe Ilustrator
 
 Unas que nos pueden servir a nivel de frontend son:
     - balsamiq wireframes: es sencillo prototipar
@@ -1056,6 +1057,8 @@ Para tener claro eso.
 Hay que trabajar el ojo, para un frontend lo bueno es consumir buen contenido, es decir consumir webs de calidad.
 (https://www.cssdesignawards.com/)[https://www.cssdesignawards.com/] - Son webs que han ganado premios. Que tienen buen diseño.
 Es una web muy chula que te ayuda a entrenarte, para ver sie staoy lelvando el diseño bien o nó, Te dice esta web esta bien diseñada o nó y vas votando.
+
+- Con ilustrador de adobe creo tambien el UI y puedo exportar elementos directamente para usar.
 
 #### Variables CSS
 
@@ -1097,3 +1100,16 @@ Si abrimos el código del svg, en realidad es un xml pero al final es como un ht
 - Aqui se puede esperar a eventos, o a que termine una animación. Esto ya es imaginacion de cada persona.
 - Hya muchas librerias para hacer animaciones como:
   - svg js: [https://svgjs.com/docs/2.7/]
+
+#### Selectores para navegadores
+
+Esto viene un poco la necesidad de definir un alcance. Hay momentos en los que toca si o sí a diferentes anvegadores, o a no soportados como Internet explorer.
+El instructor recomienda mucho usar [modernizr.com](https://modernizr.com/) la cual es muy útil para estos casos.
+Debemos entender lo que hace `modernizr`, porque incluso nosotros podriamos hacer nuestro propio modernizr.
+- Lo que hace es que cuando lo instalo puedo instalarlo de varias maneras. Loq ue hace es que el detecta para una serie de funcionalidades del lenguaje o css, si es que el navegador lo va a soportar o nó.
+
+Ejemplo con algo de no soportado., como `Local Storage`  o `emoji` o `JSON`. Lo que hago es generar una build y esto me genera un archivo javascript y el cual lo pego en mi index.html.
+
+Lo que ahce es que cuando el navegador no soporta algo, x ejemplo flex, modernizr.js poner una clase `.no-flex` y aqui pondremos el codigo css equivalente en la version de ese navegador.
+
+Da un objeto global, para mis archivos javascript. Me da ese trigger de decidir y saber si esta soportado o no esta soportado.
