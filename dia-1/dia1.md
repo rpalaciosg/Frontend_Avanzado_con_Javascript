@@ -1113,3 +1113,7 @@ Ejemplo con algo de no soportado., como `Local Storage`  o `emoji` o `JSON`. Lo 
 Lo que ahce es que cuando el navegador no soporta algo, x ejemplo flex, modernizr.js poner una clase `.no-flex` y aqui pondremos el codigo css equivalente en la version de ese navegador.
 
 Da un objeto global, para mis archivos javascript. Me da ese trigger de decidir y saber si esta soportado o no esta soportado.
+
+#### Imagenes Responsive
+
+Me que dé en 3:32:40
