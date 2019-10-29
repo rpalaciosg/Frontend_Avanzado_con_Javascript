@@ -1221,3 +1221,5 @@ En el source si importa el orden en que definamos nuestros tags
   ```shell
   > npm run server
   ```
+
+  Termine aqui este día continuar en el día 2.
