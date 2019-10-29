@@ -1201,3 +1201,23 @@ En el source si importa el orden en que definamos nuestros tags
 </body>
 </html>
 ```
+
+
+### Maquetando nuestra Web
+
+- Creamos una carpeta `src` y dentro un archivo `index.html` para que sea nuestra ruta principal de nustro proyecto.
+- Vamos a instalar con npm el modulo `http-server` el cual es un servidor de estaticos y que sea mas cercano a producción.
+  ```shell
+  > npm install --save-dev http-server
+  ```
+  --save-dev: es para guardar como dependencia y -dev es una dependencia para el desarrollo.
+  Esta lib se puede instalar de forma global se puede usarla de la siguiente forma `http-server .` PEro como lo instalamos de forma local en el proyecto debemos modificar el package.json para poder usarlo.
+
+  Agrego el siguiente script para arrancar el servidor -c-1 es para desabilitar la cache.
+  ```json
+  "server": "./node_modules/.bin/http-server . -c-1"    
+  ```
+  Luego de guardar en el shel pongo:
+  ```shell
+  > npm run server
+  ```
