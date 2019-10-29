@@ -1116,4 +1116,88 @@ Da un objeto global, para mis archivos javascript. Me da ese trigger de decidir 
 
 #### Imagenes Responsive
 
-Me que dé en 3:32:40
+Vamos a hacer un ejemplo de imagenes responsive. en el mismo directorio de `dia-1/Ejercicios/css-examples/responsive-images.html`
+
+Esto de las imagenes responsive, es una manera de optimizar toda la experiencia a nivel UI como de performance, por ejemplo si yo hago mobile first, no tengo tantas media querys, y las media querys cargan para desktop lo que en teoria es un poco mejor y performante.
+
+Siempre vamos a garantizar la mejor calidad de imagen para nuestros clientes.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Images</title>
+    <style>
+        img {
+            max-width: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <img 
+        src="img/yacht_race@tablet.jpg"
+        srcset="
+            img/yacht_race@mobile.jpg 320w,
+            img/yacht_race@tablet.jpg 768w
+        "
+    />
+</body>
+</html>
+```
+Luego hacemos una cosa, abrimos los devtools ctrl + shift + I y le damos en el icono del mobile.
+
+El objetivo de esto es dar la mejor calidad a nuestro usuario
+#### SRCSET
+Es para jugar con la densidad de pixeles.
+Como podemos manejar las iamgenes responsive con esto de la densidad de pixeles.
+PAra ello debemos usar el atributo `srcset`, recordar que los navegadores que soprotan esto de iamgenes responsive tomarian por defecto la imagen del `srcset` en caso de abrir en un navegador no soportado tomaria el src.
+
+Aquì entra el cálculo del ancho que hemos definido en este caso 320w y 768w y dividirlo entre el ancho que tiene el cliente que estoy usando para mostrar la página. Si yo lo divido loq ue va a hacer va a dividir eso y va a escoger el que mas se acerque a la densidad de pixeles que tenga el dispositivo cliente.
+
+De esta manera estamos garantizando servir la img adecuada para la densidad de pixeles. Tambien se debe habalr con diseño y pedir las dimensiones para saber como manejarse con la densidad de pixeles.
+
+Esto esta chevere porque podremos servir la mejro imagen posible, pero tambien hay que jugar con mas factores si tengo una densidad de 3 pixeles, me saldran las iamgenes de mayor calidad, pero esta mal en el sentido que es una imagen muy costosa por ejemplo en un movil.
+
+#### PICTURE
+LA etiqueta `<picture>` unido con la etiqueta `<source>`, nos va a permitir llevar el resposibe a otro nivel.
+
+En el source si importa el orden en que definamos nuestros tags
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Images</title>
+    <style>
+        img {
+            max-width: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- <img 
+        src="img/yacht_race@tablet.jpg"
+        srcset="
+            img/yacht_race@mobile.jpg 320w,
+            img/yacht_race@tablet.jpg 768w
+        "
+    /> -->
+    <picture>
+        <source srcset="img/obama-500.jpg" media="(min-width: 320px)">
+        <source
+        srcset="
+        img/yacht_race@mobile.jpg 320w,
+        img/yacht_race@tablet.jpg 768w 
+        "
+        media="(min-width: 768px)"
+        >
+        <img src="img/obama-100-art.jpg" alt="obama">
+    </picture>
+
+</body>
+</html>
+```

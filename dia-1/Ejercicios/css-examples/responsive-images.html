@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Images</title>
+    <style>
+        img {
+            max-width: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- <img 
+        src="img/yacht_race@tablet.jpg"
+        srcset="
+            img/yacht_race@mobile.jpg 320w,
+            img/yacht_race@tablet.jpg 768w
+        "
+    /> -->
+    <picture>
+        <source srcset="img/obama-500.jpg" media="(min-width: 320px)">
+        <source
+        srcset="
+        img/yacht_race@mobile.jpg 320w,
+        img/yacht_race@tablet.jpg 768w 
+        "
+        media="(min-width: 768px)"
+        >
+        <img src="img/obama-100-art.jpg" alt="obama">
+    </picture>
+
+</body>
+</html>
