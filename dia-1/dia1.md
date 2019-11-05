@@ -364,15 +364,15 @@ La manera mas usada hasta ahora es usar `Object.assign()` al cual se le pasa com
     {title: "titulo 1"}
 ```
 
-Es la que mas se ha usado pero con la neuva feature de js llamada REST operator se usa cada vez menos:
+Es la que mas se ha usado pero con la nueva feature de js llamada SPREAD operator se usa cada vez menos:
 
-#### REST operator
+#### SPREAD operator (corrigio el tutor)
 
 Con esta nueva feature de js hacemos lo mismo que el `Object.assign` pero ahora usamos un objeto en el que le pasaremos  { ...objeto_a_clonar }. 
 Esto funcionar igual pero ya no es necesario escribir Object.assign
 
 ```js
-// REST OPERATOR
+// SPREAD OPERATOR
     var contact2 = { ...contact };
     undefined
     contact2.name = 1
@@ -421,7 +421,7 @@ Hay que tener en cuenta que es muy importante el orden en que se pasan los objet
     undefined
 ```
 
-Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidados los items u objetos anidados son mutables cuando se usa el `Object assing`, en cambio usando el `stringify` o `REST OPERATOR` esto si hace una copia profunda.
+Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidados los items u objetos anidados son mutables cuando se usa el `Object assing`, en cambio usando el `stringify` o `SPREAD OPERATOR` (corrigio tutor) esto si hace una copia profunda.
 ```js
     var b = { surname: 'surname', detail: { info: 1234} };
     undefined
@@ -435,7 +435,7 @@ Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidad
     {surname: "surname", detail: {…}}
 ```
 
-Para evitar esto se puede usar el stringigy o el REST OPERATOR pero aumentando las keys de las llaves de objetos anidados: ```var a = { ...b, detail: { ...b.detail } };```
+Para evitar esto se puede usar el stringigy o el SPREAD OPERATOR (corrigio el tutor) pero aumentando las keys de las llaves de objetos anidados: ```var a = { ...b, detail: { ...b.detail } };```
 
 ```js
     var b = { surname: 'surname', detail: { info: 1234} };
@@ -488,11 +488,11 @@ arr
 (5) [1, 2, 3, 4, 5]
 ```
 
-##### Arreglar mutabilidad con REST OPERATOR en Arrays
+##### Arreglar mutabilidad con SPREAD OPERATOR (corrigio tutor) en Arrays
 Hay un equivalente de rest operator en arrays. igualmente enun array se pasa 3 puntos con el array a clonar  [...array_a_clonar]
 
 ```js
-    // REST OPERATOR
+    // SPREAD OPERATOR
     undefined
     var newArr = [...arr];
     undefined
@@ -1182,7 +1182,7 @@ En el source si importa el orden en que definamos nuestros tags
     <!-- <img 
         src="img/yacht_race@tablet.jpg"
         srcset="
-            img/yacht_race@mobile.jpg 320w,
+            img/yacht_race@mobile.jpg 320w, 320w / 320w = 1
             img/yacht_race@tablet.jpg 768w
         "
     /> -->
@@ -1201,6 +1201,9 @@ En el source si importa el orden en que definamos nuestros tags
 </body>
 </html>
 ```
+La regla de `srcset` es que segun el ancho que le definimos y dependiendo la densidad e pixeles, ejemp 320w / 320w = 1 entonces los dispositivos que tengan una densidad de pixeles de 1 usaran estaimagen. 
+
+Luego con la version mas dopada es la parte `picture` con media query.
 
 
 ### Maquetando nuestra Web
