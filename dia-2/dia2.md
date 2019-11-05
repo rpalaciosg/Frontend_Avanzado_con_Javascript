@@ -45,3 +45,4 @@ const foo = (...PARAMS) => {
 };
 foo(1,2,3,4)
 ```
+Me quedé en video dia 2 tiempo 10:57
