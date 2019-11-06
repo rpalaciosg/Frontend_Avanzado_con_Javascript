@@ -11,8 +11,26 @@
   </head>
   <body>
     <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
     <script>
-      Object.keys({ a: 234, b:234}) // ['a', 'b']
+      console.log('Hello world');
+      // Accediendo con el id a un párrafo con getElementById
+      // const myElement = document.getElementById('my-p');
+      // console.log(myElement.innerHTML);
+      // console.log(myElement.textContent);
+      // myElement.innerHTML = '<button>Send</button>'
+      // myElement.textContent = '<button>Send</button>'
+
+      // Accediendo al id con querySelector
+      // const myElement = document.querySelector('#my-p');
+      // console.log(myElement);
+      // myElement.innerHTML = '<button>Send</button>'
+
+      // Accediendo al atributo data.cy con querySelector
+      const myElement = document.querySelector('[data-cy=selector-cypress]');
+      console.log(myElement.dataset);
+      myElement.innerHTML = '<button>Send</button>'
+
     </script>
   </body>
 </html>

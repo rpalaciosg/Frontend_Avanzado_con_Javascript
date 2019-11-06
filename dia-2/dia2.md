@@ -45,4 +45,126 @@ const foo = (...PARAMS) => {
 };
 foo(1,2,3,4)
 ```
-Me quedé en video dia 2 tiempo 10:57
+
+## DOM con JavaScript
+
+Primero ejecutamos javascript en el DOM
+```html
+  <body>
+    <h1>TVMaze</h1>
+    <script>
+      console.log('Hello world');
+    </script>
+  </body>
+```
+Para que usamos java script, para darle dinamismo a nuestra web y darle una mejor experiencia al usuario. Generar valor a nuestros usuarios.
+
+Como habla JS con el DOM.
+
+### Selectores
+
+Es básicamente conectar nuestro javascript del Front con elementos del DOM y poder obtenerlos.
+
+document.<Selector>
+
+#### getElementById
+
+ver ejemplo en `dia-2/src/index.html`
+
+Como vemos para usar el getElementById usamos el ``document`, el cual es el DOM y tiene todo el arbol y tal, y lo que tiene es una serie de métodos para acceder a zonas del árbol, además tiene eventos.
+
+```html
+ <body>
+    <h1>TVMaze</h1>
+    <p id="my-p" class="texto" data-cy="selector-cypress">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! Minima eveniet omnis enim provident ad debitis beatae praesentium.</<p>
+    <script>
+      console.log('Hello world');
+      // Accediendo con el id a un párrafo con getElementById
+      const myElement = document.getElementById('my-p');
+      console.log(myElement);
+    </script>
+  </body>
+```
+Esto nos devuelve el elemento seleccionado `my-p`
+```console.log
+  Hello world
+  (index):21 <p id=​"my-p" class=​"texto" data-cy=​"selector-cypress">​…​</p>​
+```
+Que pasa cuando no existe el elemento o no existe el id?. Esto nos devuelve `null`. 
+
+La constante creada para obtener el elemento en este caso `myElement` es un objeto del DOM, por lo cual tiene propiedades que puedo usar como por ejemplo:
+- **innerHTML:** Lo cual nos devuelve el contenido del elemento que estamos seleccionando incluidas las etiquetas html. Puedo usarlo tambien para remplazar el html seleccionado.
+```html
+<script>
+      console.log('Hello world');
+      // Accediendo con el id a un párrafo con getElementById
+      const myElement = document.getElementById('my-p');
+      console.log(myElement.innerHTML);
+      myElement.innerHTML = '<button>Send</button>';
+    </script>
+```
+- **textContent:** Este nos devuelve el texto del elemento que seleccionamos pero sin mostrar las etiquetas html.
+
+> Algo importante saber es que al momento de cargar la pàgina y aparece el boton en lugar del parrafo o div, lo que esta sirviendo al navegador en realidad es el div, sino que al llegar al script este lo cambia y renderiza visualmente.  A esto es lo que se le llama `Client side rendering`, y cuando usamos plantillas como en node con ejs es lo que se le llama `server side rendering` que ya viene cargado todo el html y tal.   Esto tampoco puede decir que no puedan convivir juntos, se puede hacer. 
+
+Es importante saber esto xq si tengo una app React no va a funcionar el SEO.
+
+### querySelector
+
+Lo que hace este es seleccionar como se lo haría en CSS, por ejemplo si es el id con `#id_elemento` o con la clase `.class_elemento` ver en `dia-2/src/index.html`, en jQuery el `document.querySelector` equivale al signo de doalar `$`
+
+```html
+<body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');
+      // Accediendo al id con querySelector
+      const myElement = document.querySelector('#my-p');
+      // console.log(myElement);
+      myElement.innerHTML = '<button>Send</button>'
+
+    </script>
+  </body>      
+```
+También puedo acceder a la propiedad `data-cy` que es otro tipo de atributo que podemos agregar a nuestro html. La manera de acceder a estos atributos sería:
+
+```html
+<body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');
+      // Accediendo al atributo data.cy con querySelector
+      const myElement = document.querySelector('[data-cy=selector-cypress]');
+      myElement.innerHTML = '<button>Send</button>'
+    </script>
+  </body>
+```
+
+Luego veremos esto del `data-cy` que son data sets y es informacion extra que podemos aportar a nuestros elementos de html. Lo importante de estos datasets, al tenerlos dentro del elemento ps podemos tener mas informacion y poder juar con ella, se usa por ejemplo en formularios y poner un dataset como `data-error="Completa el input"` y asì cuando el formulario envie y vea que no es vàlido el campo de ese formulario ps de ese elemento podemos obtener el valor del atributo `data-error` y con ese campo de texto podemos enviarlo a una función que se encargue de pintar el mensaje de error para el usuario.
+Al mostrar con un console.log el dataset, podemos ver un mapa de los datasets del elemento seleccionado o información adicional que podemos usar.
+
+```html
+  <body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');
+
+      // Accediendo al atributo data.cy con querySelector
+      const myElement = document.querySelector('[data-cy=selector-cypress]');
+      console.log(myElement.dataset);
+      myElement.innerHTML = '<button>Send</button>'
+
+    </script>
+  </body>
+```
+
+```sh
+DOMStringMap {cy: "selector-cypress", error: "mi error"}
+  cy: "selector-cypress"
+  error: "mi error"
+  __proto__: DOMStringMap
+```
+> Veremos esto de los data sets mas adelante.
