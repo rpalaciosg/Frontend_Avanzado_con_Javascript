@@ -168,3 +168,5 @@ DOMStringMap {cy: "selector-cypress", error: "mi error"}
   __proto__: DOMStringMap
 ```
 > Veremos esto de los data sets mas adelante.
+
+Me quedé en día 2 tiempo 30:44.
