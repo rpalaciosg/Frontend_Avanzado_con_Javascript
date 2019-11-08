@@ -169,4 +169,83 @@ DOMStringMap {cy: "selector-cypress", error: "mi error"}
 ```
 > Veremos esto de los data sets mas adelante.
 
-Me quedé en día 2 tiempo 30:44.
+### getElementByClassName
+Esto me devuelve o selecciona los elementos del DOM por el ClassName y me devuelve es un objeto de tipo HTMLCOllection{} con un key que es el elemento seleccionado.
+
+```html
+  <body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');      
+      // Accediendo con GetElementMyClassName
+      const myElement = document.getElementsByClassName('texto');
+      console.log(myElement);
+    </script>
+  </body>
+```
+  
+**Resultado**
+
+```js
+  HTMLCollection [div#my-p.texto, my-p: div#my-p.texto]
+  0: div#my-p.texto
+  length: 1
+  my-p: div#my-p.texto
+  __proto__: HTMLCollection
+```
+
+Lo que nos devuelve esta propiedad si ponemos o seleccionamos otras clases o atributos de los elementos es un objeto vacío de tipo HTMLCollection[], ya que lo que hace es buscar los elementos por className no por otra atributo.
+```html
+  <body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');
+      // Accediendo con GetElementMyClassName
+      const myElement = document.getElementsByClassName('[data-cy=selector-cypress]');
+      console.log(myElement);
+    </script>
+  </body>
+```
+
+Por ejemplo si yo multiplico el div que estoy seleccionando a 3, entonces el array que me devuelve getElementByClassName seria de 3.
+```html
+<body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <script>
+      console.log('Hello world');
+      // Accediendo con GetElementMyClassName
+      const myElement = document.getElementsByClassName('texto');
+      console.log(myElement);
+    </script>
+  </body>
+```
+
+**Resultado**
+
+```js
+HTMLCollection(3) [div#my-p.texto, div#my-p.texto, div#my-p.texto, my-p: div#my-p.texto]
+```
+
+Si quisiera hacer la parte de modificar el elemento con `innerHTML` como se lo hizo con otros selectores, si lo hacemos directamente no va a funcionar ya que el `myElement` es un objeto lo que no tiene mucho sentido.
+```js
+myElement.innerHTML = '<button>Send</button>';
+```
+
+Para corregir esto que es por clase o byTagName entonces lo que debemos hacer es modificar cada uno de los items, keys o elementos del objeto.
+```html
+    <script>
+      console.log('Hello world');
+      // Accediendo con GetElementMyClassName
+      const myElement = document.getElementsByClassName('texto');
+      console.log(myElement);
+      console.log(Object.keys(myElement)), // devuelve un array con las keys del objeto
+      Object.keys(myElement).forEach(key => { 
+        myElement[key].innerHTML = '<button>Send</button>';
+      });
+    </script>
+```

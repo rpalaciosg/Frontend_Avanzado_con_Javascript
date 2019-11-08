@@ -12,6 +12,8 @@
   <body>
     <h1>TVMaze</h1>
     <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
     <script>
       console.log('Hello world');
       // Accediendo con el id a un párrafo con getElementById
@@ -27,10 +29,17 @@
       // myElement.innerHTML = '<button>Send</button>'
 
       // Accediendo al atributo data.cy con querySelector
-      const myElement = document.querySelector('[data-cy=selector-cypress]');
-      console.log(myElement.dataset);
-      myElement.innerHTML = '<button>Send</button>'
+      // const myElement = document.querySelector('[data-cy=selector-cypress]');
+      // console.log(myElement.dataset);
+      // myElement.innerHTML = '<button>Send</button>'
 
+      // Accediendo con GetElementMyClassName
+      const myElement = document.getElementsByClassName('texto');
+      console.log(myElement);
+      console.log(Object.keys(myElement)), // devuelve un array con las keys del objeto
+      Object.keys(myElement).forEach(key => { 
+        myElement[key].innerHTML = '<button>Send</button>';                      
+      });
     </script>
   </body>
 </html>
