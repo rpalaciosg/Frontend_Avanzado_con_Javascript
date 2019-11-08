@@ -249,3 +249,6 @@ Para corregir esto que es por clase o byTagName entonces lo que debemos hacer es
       });
     </script>
 ```
+
+### getElementByTagName
+Funciona parecido que el `getElementByClassName` pero usando los nombres de los Tag's html
