@@ -252,3 +252,8 @@ Para corregir esto que es por clase o byTagName entonces lo que debemos hacer es
 
 ### getElementByTagName
 Funciona parecido que el `getElementByClassName` pero usando los nombres de los Tag's html
+
+## Eventos en Javascript
+Se refiere a eventos que pueden aparecer en el browser, como evento de click, de submit, de cuando se escribe en teclado, hay muchos tipos de evento, como drag, drop, resize de la pantalla.
+
+Me quedè en el minuto 40:33 del dia 2
