@@ -254,6 +254,179 @@ Para corregir esto que es por clase o byTagName entonces lo que debemos hacer es
 Funciona parecido que el `getElementByClassName` pero usando los nombres de los Tag's html
 
 ## Eventos en Javascript
-Se refiere a eventos que pueden aparecer en el browser, como evento de click, de submit, de cuando se escribe en teclado, hay muchos tipos de evento, como drag, drop, resize de la pantalla.
+Se refiere a eventos que pueden aparecer en el browser, como evento de click, de submit, de cuando se escribe en teclado, hay muchos tipos de evento, como drag, drop, resize de la pantalla. Conceptualmente es siempre parecido.
+- Un compañero hace una pregunta si el copiar y pegar es un evento. Y dice que puedo pillar las teclas o el evento onCopy.
 
-Me quedè en el minuto 40:33 del dia 2
+### Evento onclick
+
+```html
+<body>
+    <h1>TVMaze</h1>
+    
+    <button id="my-input">Texto</button>
+    
+    <script>
+      console.log('Hello world');
+
+      const myButton = document.getElementById('my-input');
+      myButton.addEventListener('click', function () {
+        console.log('Execute');
+      }); // Añade un escuchador de eventos      
+      console.log(myButton);
+    </script>
+  </body>
+```
+Al seleccionar un elemento del DOM como por ejemplo un `input`, ese objeto obtenido sirve funciones como el escuchador de eventos como el `addEventLister`, el cuál añade un escuchador de eventos. Este recibe 2 parametros que es un array de strign con el evento a escuchar y un Callback o funcion que se ejecute cuando detecte ese evento.
+
+Hay que tener en cuenta que este callback no se ejecutará hasta que el `CALLSTACK` esté libre, ya los eventos se envian al `CALBACK QUEUE` es decir se ejecutarán después de que esté libre el callstack, por eso cuando en una web se queda colgada o no responde sin que podamos hacer click o algo es porque el callstack está muy ocupado por un bucle infito o algo, por eso es mejor que esas funciones se las manejen con funciones asincronas.
+
+La idea es localizar nustro elemento que este en el DOM, luego añadir un addEventListener pasandole los parametos como son el evento en sring y el callback.
+
+Podemos darnos cuenta que en lugar de una function podemos usar un arrowFunction, pero debemos tener en cuenta que la diferencia al usar arrow function es que perdemos el contexto del this y estariamos obteniendo el primero que seria el del window, algo diferente al usar una function normal.
+```html
+<body>
+    <h1>TVMaze</h1>
+    
+    <button id="my-button">Texto</button>
+    
+    <script>
+      console.log('Hello world');
+
+      const myButton = document.getElementById('my-button');
+      myButton.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+      console.log(myButton);
+    </script>
+  </body>
+```
+
+En el caso de que queremos seguir modificando cosas del mismo boton por ejemplo o en el this del boton, podemos hacer esto. LA funcion lo que hace es que te exporta el propio evento, un  objeto evento. Ya verenis qye ese objeto evento tiene el target que es el propio elemento html.
+
+```html
+<body>
+    <h1>TVMaze</h1>
+    
+    <button id="my-button">Texto</button>
+    
+    <script>
+      console.log('Hello world');
+
+      const myButton = document.getElementById('my-button');
+      myButton.addEventListener('click', (evt.target) => console.log('Execute'));// Añade un escuchador de eventos      
+      console.log(myButton);
+    </script>
+  </body>
+```
+
+Luego veremos este objeto `evt`.
+
+### Evento focus, blur, keydown, copy
+
+```html
+  <body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    
+    <button id="my-button">Texto</button>
+    <input type="text" id="input">
+    
+    <script>
+      const myButton = document.getElementById('my-button');
+      const myInput = document.querySelector('#input');
+
+      myButton.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+
+      myInput.addEventListener('focus', () => console.log('focus'));
+      myInput.addEventListener('blur', () => console.log('Blur'));
+      myInput.addEventListener('change', () => console.log('change'));
+      myInput.addEventListener('copy', () => console.log('copy'));
+      
+      // console.log(myButton);
+    </script>
+  </body>
+```
+
+El evento `focus` se activa cuando me posiciono en el input,
+El evento `blur` se activa cuando el input pierde el foco, un ejemplo aqui es que cuando se active el blur mandar a validar el campo y poner en rojo si no se valida.
+El evento `keydown` se activa cuando se escribe o cambia. Hay un keyup tambien que vemos mas adelante.
+
+```html
+    <script>
+      const myButton = document.getElementById('my-button');
+      const myInput = document.querySelector('#input');
+
+      myButton.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+
+      myInput.addEventListener('focus', evt =>  {
+        console.log(evt);
+        console.log('focus');
+      });
+      myInput.addEventListener('blur', () => console.log('Blur'));
+      myInput.addEventListener('change', () => console.log('change'));
+      myInput.addEventListener('copy', () => console.log('copy'));
+      
+      // console.log(myButton);
+    </script>
+```
+
+### Objeto FocusEvent
+Como habiamos comentado el addEventlistener en el callback recibe un objeto `evt` el cual es un objeto tipo `FocusEvent`. Ademés este objeto tiene una propiedad que es el `target` qye es el propio elemento del DOm que se ha seleccionado.
+
+```sh
+FocusEvent {isTrusted: true, relatedTarget: null, view: Window, detail: 0, sourceCapabilities: InputDeviceCapabilities, …}bubbles: falsecancelBubble: falsecancelable: falsecomposed: truecurrentTarget: nulldefaultPrevented: falsedetail: 0eventPhase: 0isTrusted: truepath: (5) [input#input, body, html, document, Window]relatedTarget: nullreturnValue: truesourceCapabilities: InputDeviceCapabilities {firesTouchEvents: true}srcElement: input#inputtarget: input#inputaccept: ""accessKey: ""align: ""alt: ""assignedSlot: nullattributeStyleMap: StylePropertyMap {size: 0}attributes: NamedNodeMap {0: type, 1: id, type: type, id: id, length: 2}autocapitalize: ""autocomplete: ""autofocus: falsebaseURI: "http://localhost:3000/"checked: falsechildElementCount: 0childNodes: NodeList []children: HTMLCollection []classList: DOMTokenList [value: ""]className: ""clientHeight: 17clientLeft: 2clientTop: 2clientWidth: 150contentEditable: "inherit"dataset: DOMStringMap {}defaultChecked: falsedefaultValue: ""dir: ""dirName: ""disabled: falsedraggable: falseelementTiming: ""enterKeyHint: ""files: nullfirstChild: nullfirstElementChild: nullform: nullformAction: "http://localhost:3000/"formEnctype: ""formMethod: ""formNoValidate: falseformTarget: ""height: 0hidden: falseid: "input"incremental: falseindeterminate: falseinnerHTML: ""innerText: ""inputMode: ""isConnected: trueisContentEditable: falselabels: NodeList []lang: ""lastChild: nulllastElementChild: nulllist: nulllocalName: "input"max: ""maxLength: -1min: ""minLength: -1multiple: falsename: ""namespaceURI: "http://www.w3.org/1999/xhtml"nextElementSibling: scriptnextSibling: textnodeName: "INPUT"nodeType: 1nodeValue: nullnonce: ""offsetHeight: 21offsetLeft: 60offsetParent: bodyoffsetTop: 143offsetWidth: 154onabort: nullonauxclick: nullonbeforecopy: nullonbeforecut: nullonbeforepaste: nullonblur: nulloncancel: nulloncanplay: nulloncanplaythrough: nullonchange: nullonclick: nullonclose: nulloncontextmenu: nulloncopy: nulloncuechange: nulloncut: nullondblclick: nullondrag: nullondragend: nullondragenter: nullondragleave: nullondragover: nullondragstart: nullondrop: nullondurationchange: nullonemptied: nullonended: nullonerror: nullonfocus: nullonformdata: nullonfullscreenchange: nullonfullscreenerror: nullongotpointercapture: nulloninput: nulloninvalid: nullonkeydown: nullonkeypress: nullonkeyup: nullonload: nullonloadeddata: nullonloadedmetadata: nullonloadstart: nullonlostpointercapture: nullonmousedown: nullonmouseenter: nullonmouseleave: nullonmousemove: nullonmouseout: nullonmouseover: nullonmouseup: nullonmousewheel: nullonpaste: nullonpause: nullonplay: nullonplaying: nullonpointercancel: nullonpointerdown: nullonpointerenter: nullonpointerleave: nullonpointermove: nullonpointerout: nullonpointerover: nullonpointerrawupdate: nullonpointerup: nullonprogress: nullonratechange: nullonreset: nullonresize: nullonscroll: nullonsearch: nullonseeked: nullonseeking: nullonselect: nullonselectionchange: nullonselectstart: nullonstalled: nullonsubmit: nullonsuspend: nullontimeupdate: nullontoggle: nullontouchcancel: nullontouchend: nullontouchmove: nullontouchstart: nullonvolumechange: nullonwaiting: nullonwebkitfullscreenchange: nullonwebkitfullscreenerror: nullonwheel: nullouterHTML: "<input type="text" id="input">"outerText: ""ownerDocument: documentparentElement: bodyparentNode: bodypart: DOMTokenList [value: ""]pattern: ""placeholder: ""prefix: nullpreviousElementSibling: button#my-buttonpreviousSibling: textreadOnly: falserequired: falsescrollHeight: 17scrollLeft: 0scrollTop: 0scrollWidth: 150selectionDirection: "forward"selectionEnd: 0selectionStart: 0shadowRoot: nullsize: 20slot: ""spellcheck: truesrc: ""step: ""style: CSSStyleDeclaration {alignContent: "", alignItems: "", alignSelf: "", alignmentBaseline: "", all: "", …}tabIndex: 0tagName: "INPUT"textContent: ""title: ""translate: truetype: "text"useMap: ""validationMessage: ""validity: ValidityState {valueMissing: false, typeMismatch: false, patternMismatch: false, tooLong: false, tooShort: false, …}value: ""valueAsDate: nullvalueAsNumber: NaNwebkitEntries: []webkitdirectory: falsewidth: 0willValidate: true__proto__: HTMLInputElementtimeStamp: 20692.754999996396type: "focus"view: Window {parent: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …}which: 0__proto__: FocusEvent
+
+```
+
+Luego una propiedad muy interesante que tiene que es util para los formularios es una función que se llama `preventDefault()`
+
+```html
+    <script>
+      const myButton = document.getElementById('my-button');
+      const myInput = document.querySelector('#input');
+
+      myButton.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+
+      myInput.addEventListener('focus', evt =>  {
+        console.log(evt.preventDefault); //preventDefault function
+        console.log('focus');
+      });
+      myInput.addEventListener('blur', () => console.log('Blur'));
+      myInput.addEventListener('keydown', () => console.log('keydown'));
+      myInput.addEventListener('copy', () => console.log('copy'));
+      
+      // console.log(myButton);
+    </script>
+```
+
+El preventDefault() lo que hace es prevenir el funcionamiento por defecto de un evento por ejemplo en el caso del focus, si a n input le damos click el focus es como que se sombrea el input, pero si es que tenemos un input con un css especial, no tiene porque funcionar igual entonces usamos el preventDefault() por que hay que distinguie ya que el focus significa que ya podemos escribir.
+
+SE muestra un ejemplo con el evento `keyDown` y el evt.preventDefault(), al escribir este evento previene el funcionamiento por defecto no permitiendo escribir.
+
+```html
+    <script>
+      const myInput = document.querySelector('#input');
+
+      myInput.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+
+      myInput.addEventListener('focus', () => console.log('focus'));
+      myInput.addEventListener('blur', () => console.log('Blur'));
+      myInput.addEventListener('keydown', evt => {        
+        evt.preventDefault();
+        // console.log(evt.target);
+        console.log(evt.target.className);
+        console.log('keydown');
+      });
+      myInput.addEventListener('copy', () => console.log('copy'));
+    </script>
+```
+
+Que mas tiene este event, comos e habia dicho antes es el `target`. Que como vemos al escribir se ejecuta el console log imprimiendo el target que en realidad es el elemento input obtenido del DOM.
+
+Asì mismo ese target podriamos aplicarselo a lo de mas del elemento como por ejemplo su clase, y esto me devolveria el nombre de la clase del elemento imput.
+
+Ademàs podemos acceder a los `datasets` que tiene un elemento, o todas las cosas que tenga un elemento las podemos aplicar con el `evt.target`
+
+Tambien podemos obtener el valor de el elemento input por ejemplo usando `evt.target.value`. Es decir cada vez que escribamos dentro de nuestro input se ira impimiendo u obteniendo esos valores.
+
+El evento  **keyup** tambien es muy importante.

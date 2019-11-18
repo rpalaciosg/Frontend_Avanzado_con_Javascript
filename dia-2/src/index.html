@@ -15,10 +15,11 @@
     <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
     <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
     
-    <button></button>
+    <button id="my-button" >Texto</button>
+    <input type="text" id="input" class="input-class" data-error="mi error">
     
     <script>
-      console.log('Hello world');
+      // console.log('Hello world');
       // Accediendo con el id a un párrafo con getElementById
       // const myElement = document.getElementById('my-p');
       // console.log(myElement.innerHTML);
@@ -38,11 +39,42 @@
 
       // Accediendo con GetElementMyClassName
       const myElement = document.getElementsByClassName('texto');
-      console.log(myElement);
-      console.log(Object.keys(myElement)), // devuelve un array con las keys del objeto
+      // console.log(myElement);
+      // console.log(Object.keys(myElement)), // devuelve un array con las keys del objeto
       Object.keys(myElement).forEach(key => { 
         myElement[key].innerHTML = '<button>Send</button>';                      
       });
+
+      const myButton = document.getElementById('my-button');
+      const myInput = document.querySelector('#input');
+
+      myInput.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
+
+      myInput.addEventListener('focus', () => console.log('focus'));
+      myInput.addEventListener('blur', () => console.log('Blur'));
+      myInput.addEventListener('keydown', evt => {
+        // evt.preventDefault();
+        // console.log(evt.target);
+        // console.log(evt.target.className);
+        // console.log(evt.target.dataset);
+        console.log('start keydown');
+        console.log(evt.target.value);
+        console.log('end keydown');
+      });
+
+      myInput.addEventListener('keyup', evt => {
+        // evt.preventDefault();
+        // console.log(evt.target);
+        // console.log(evt.target.className);
+        // console.log(evt.target.dataset);
+        console.log('start keyup');
+        console.log(evt.target.value);
+        console.log('end keyup');
+      });
+
+      myInput.addEventListener('copy', () => console.log('copy'));
+      
+      // console.log(myButton);
     </script>
   </body>
 </html>
