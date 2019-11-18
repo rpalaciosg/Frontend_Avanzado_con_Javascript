@@ -430,3 +430,49 @@ Ademàs podemos acceder a los `datasets` que tiene un elemento, o todas las cosa
 Tambien podemos obtener el valor de el elemento input por ejemplo usando `evt.target.value`. Es decir cada vez que escribamos dentro de nuestro input se ira impimiendo u obteniendo esos valores.
 
 El evento  **keyup** tambien es muy importante.
+
+## Event Bubbling
+
+Es que los eventos van como burbujitas hacia arriba. El ejemplo lo podemos ver en `dia-2/src/index.html` en:
+
+```html
+<body>
+   <div id="container">
+      <button id="button">Texto</button>
+    </div>
+</body>
+<script>
+  const container = document.getElementById('container');
+      const button = document.getElementById('button');
+
+      container.addEventListener('click', () => alert('Click container'));
+      button.addEventListener('click', () => alert('click button'));
+</script>
+```
+
+Aquì nos podemos dar cuenta como los eventos se propagan hacia arriba es decir de antro hacia afuera, desde el hijo al padre. Lo que hace esto por debajo es que tiene una etapa de captura, de que haria hacia abajo buscando el elemento del DOM, lo encuentra lo captura y luego tiene la fase de bubbling dodne hace el click y lo va enviando luego hacia arriba. Es decir estos listener se irian propagando hacia arriba.
+
+Hay veces que esto nos podria molestar. Ya veremos como lo podemos arreglar, aunque no siempre es habitual.
+
+#### Solucionar el event bubbling
+Para arreglar esto del event bubbling hacemos lo siguiente, es usar el evt Objetc el cual tiene el target y ademàs tiene un comando llamado `stopPropagation()` esto lo que hace es que detiene la propagacion de los eventos.
+
+```html
+<body>
+   <div id="container">
+      <button id="button">Texto</button>
+    </div>
+</body>
+<script>
+  const container = document.getElementById('container');
+      const button = document.getElementById('button');
+
+      container.addEventListener('click', () => alert('Click container'));
+      button.addEventListener('click', (evt) => {
+        evt.stopPropagation(); // detiene la propagación
+        alert('click button');
+      });
+</script>
+```
+
+> !Nota: En ciertos casos esta bien pero se recomienda no hacer esa parada de la propagación de los eventos.

@@ -18,6 +18,10 @@
     <button id="my-button" >Texto</button>
     <input type="text" id="input" class="input-class" data-error="mi error">
     
+    <div id="container">
+      <button id="button">Texto</button>
+    </div>
+
     <script>
       // console.log('Hello world');
       // Accediendo con el id a un párrafo con getElementById
@@ -74,7 +78,14 @@
 
       myInput.addEventListener('copy', () => console.log('copy'));
       
-      // console.log(myButton);
+      const container = document.getElementById('container');
+      const button = document.getElementById('button');
+
+      container.addEventListener('click', () => alert('Click container'));
+      button.addEventListener('click', (evt) => {
+        evt.stopPropagation();
+        alert('click button');
+      });
     </script>
   </body>
 </html>
