@@ -474,5 +474,6 @@ Para arreglar esto del event bubbling hacemos lo siguiente, es usar el evt Objet
       });
 </script>
 ```
+Tener en cuenta que si doy click al div, si se lanzarìa el evento click del container es decir se saltarìa ese `evt.stopPropagation()` del button ya que el div es mas grande y tiene area visible en el DOM ya que el `stopPropagation` solo estaria cubriendo al elemento button en sì mas que todo en evento click(). Es importante jugar con el css, a lo mejor el z-index, ya que siempre el DOM va apillar el que estè visible o el que este por encima. Lo que recomienda es que si se tiene problema es dar al inspector y ver cual està encima ya que aveces hay layouts que se esta sobreponiendo, otra cosa del z-index es que no pasa nada si no se le pone position.
 
 > !Nota: En ciertos casos esta bien pero se recomienda no hacer esa parada de la propagación de los eventos.
