@@ -480,6 +480,183 @@ Tener en cuenta que si doy click al div, si se lanzarìa el evento click del con
 
 ## Manejo de CSS con Javascript
 
-Es algo que se hace bastante y es bastante ùtil que se usa al día a día.
+Es algo que se hace bastante y es bastante ùtil que se usa al día a día. Vamos a ver como modificar propiedades, aunque no es la mejor opcion vamos a ver como hacerlo correctamente.
 
-Me quedé en 1:17:15 Manejo de CSS con Javascript.
+En este ejemplo lo que vamos a hacer es oculatar un parafo cuando demos click en un botón.
+
+```html
+<body>
+  <div>
+    <p id="lorem-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid sed, distinctio et magnam corporis magni atque cumque qui. Unde earum doloribus animi esse architecto iste molestiae quae tenetur modi debitis.</p>
+    <button id="hideButton">Hide</button>
+  </div>
+
+  <script>
+ // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', () => {
+        loremText.style.display = 'none';
+      });
+    </script>
+  </body>
+```
+
+Aunque esto se puede hacer, el instructor recomienda o prefiere no hacerlo, porque al final si nos fijamos al final lo que esta haciendo es poner un estilo en línea, esto se puede poner, pero si tienes estilos a parte hace que no los tome en cuenta y solo tome en cuenta los estilos en línea.
+
+Otro acercamiento que podriamos tener es jugar con las clases y tener estados en la UI, dependiendo de X clase mi UI se comporte de una manera y otra.
+
+Una mejor forma de hacer esto o manejar los estilos con Javascript, es maquetar mi UI con CSS incluso con los eventos de como esta UI se va a comportar, para yo no hacer cambios de estilos en linea sino cambiar solo clases de los contenedores de los elementos que quiero cambiar, y además esto estará alineado a mi CSS sin agregar un estilo que no tiene que ver con mi css ya definido.
+
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
+    <title>TVMaze shows</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- styles -->
+    <style>
+      .show p {
+        display: block;
+      }
+
+      .hide p {
+        display: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="text-container" class="show">
+      <p id="lorem-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid sed, distinctio et magnam corporis magni atque cumque qui. Unde earum doloribus animi esse architecto iste molestiae quae tenetur modi debitis.</p>
+      <button id="hideButton">Hide</button>
+    </div>
+    <script>
+      // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', () => {
+        // loremText.style.display = 'none';
+        // loremText.style.backgroundColor = 'red';
+        // loremText.style.color = 'blue';
+        const container = document.querySelector('#text-container');
+        console.log(container.className);
+        container.className += 'hide';
+      });
+    </script>
+  </body>
+```
+la propiedad `className` a la final es un string y podemos hacer esto `container.className += 'hide';` para concatener la clase, debemos tener en cuenta que si no le damos un espacio no va a funcionar la clase. Para esto la forma que vamos a usar es `classList` es otra propiedad que tendria container.
+
+```html
+<script>
+  // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', () => {
+        // loremText.style.display = 'none';
+        // loremText.style.backgroundColor = 'red';
+        // loremText.style.color = 'blue';
+        const container = document.querySelector('#text-container');
+        // console.log(container.className);
+        // container.className += ' hide';
+        console.log(container.classList);
+      });
+</script>
+```
+
+Lo que nos da esta `classList` es un array de tipo `DOMTokenList` con todas las clases que tenga mi container o el elemento html que este seleccionando del DOM, el resultado de un console log de esto seria:
+
+```sh
+DOMTokenList ["show", value: "show"]
+0: "show"
+length: 1
+value: "show"
+__proto__: DOMTokenList
+```
+Esto parece un poco raro de manejar pero js nos da una serie de métodos sobre `classList` para manejarlo que son:
+- .classList.remove()
+- .classList.add()
+- .classList.toggle()
+
+Antes lo teniamos en una sola línea pero el tema de `className` es que si tengo muchas mas clases voy a pisar todas las clases cuando solo quiero cambiar una lo que sí me da el classList que es mas declarativo. 
+
+```html
+<script>
+        // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', () => {
+        // loremText.style.display = 'none';
+        // loremText.style.backgroundColor = 'red';
+        // loremText.style.color = 'blue';
+        const container = document.querySelector('#text-container');
+        // console.log(container.className);
+        // container.className += ' hide';
+        // console.log(container.classList);
+        container.classList.remove('show');
+        container.classList.add('hide');
+      });
+    </script>
+
+```
+
+El class.List.toggle funcionaria igual que al tener el remove show y el add hide pero esto nos ayudaria ya que sin poner la clase show, ya el container tiene por defecto la propiedad `display:block` el toggle me permitirá hacer un show sin crear esa clase lo que me ahorraria una clase en sí, solo usando el `classList.toggle()`
+
+```html
+
+<body>
+  <script>
+      // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', () => {
+        // loremText.style.display = 'none';
+        // loremText.style.backgroundColor = 'red';
+        // loremText.style.color = 'blue';
+        const container = document.querySelector('#text-container');
+        // console.log(container.className);
+        // container.className += ' hide';
+        // console.log(container.classList);
+        //container.classList.remove('show');
+        // container.classList.add('hide');
+        container.classList.toggle('hide');
+      });
+    </script>
+  </body>
+```
+
+OTra cosa que podemos hacer, es como tenemos acceso al boton con el target del objeto evt podemos cambiar el nombre al boton.
+Esto lo podemos hacer con `evt.target.textContent = 'hide'`, pero si queremos que cambie el texto segun el contenido del texto podemos hacer lo siguiente usando un if y la propiedad de string el includes. Algo muy común que suele ver en Javascript es que usan mucho el return, y remplazan el else por el return.
+```html
+<script>
+      // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', (evt) => {
+        const container = document.querySelector('#text-container');
+        container.classList.toggle('hide');// usa la propiedad dislay:block por defecto del container y ya no es necesario hacer remove(show) y add(hide)
+        // console.log(evt.target);
+        if (evt.target.textContent.includes('show')) {
+          return evt.target.textContent = 'hide';  // remplaza else por return
+        }
+        return evt.target.textContent = 'show';
+      });
+    </script>
+```
+
+Yo voy jugando con las clases del css de los contenedores de la UI en vez de agregar elementos en línea.

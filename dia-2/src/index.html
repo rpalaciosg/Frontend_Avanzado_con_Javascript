@@ -7,7 +7,16 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- styles -->
+    <style>
+      .show p {
+        display: block;
+      }
 
+      .hide p {
+        display: none;
+      }
+
+    </style>
   </head>
   <body>
     <h1>TVMaze</h1>
@@ -20,6 +29,11 @@
     
     <div id="container">
       <button id="button">Texto</button>
+    </div>
+
+    <div id="text-container" class="container white test">
+      <p id="lorem-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid sed, distinctio et magnam corporis magni atque cumque qui. Unde earum doloribus animi esse architecto iste molestiae quae tenetur modi debitis.</p>
+      <button id="hideButton">Hide</button>
     </div>
 
     <script>
@@ -85,6 +99,31 @@
       button.addEventListener('click', (evt) => {
         evt.stopPropagation();
         alert('click button');
+      });
+
+      // Manejo de Css con Javascript
+      // cuando presionemos el boton vamos a quitar el pàrrafo
+      const loremText = document.querySelector('#lorem-text');
+      const hideButton = document.querySelector('#hideButton');
+
+      hideButton.addEventListener('click', (evt) => {
+        // loremText.style.display = 'none';
+        // loremText.style.backgroundColor = 'red';
+        // loremText.style.color = 'blue';
+        const container = document.querySelector('#text-container');
+        // console.log(container.className);
+        // container.className += ' hide';
+        // console.log(container.classList);
+        // container.classList.remove('show');
+        // container.classList.add('hide');
+        container.classList.toggle('hide');// usa la propiedad dislay:block por defecto del container y ya no es necesario hacer remove(show) y add(hide)
+        // console.log(evt.target);
+        if (evt.target.textContent.includes('show')) {
+          return evt.target.textContent = 'hide';  // reemplaza else por return
+        }
+        return evt.target.textContent = 'show';
+        
+        
       });
     </script>
   </body>
