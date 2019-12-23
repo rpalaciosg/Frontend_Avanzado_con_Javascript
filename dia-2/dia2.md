@@ -77,7 +77,7 @@ Que teniamos la parte de `srcset` que en base al width y el ancho de nuestra pan
 ### picture
 Luego tenemos la version mas dopada que es `<picture>`tenemos y podemos usar cositas con los `source` y definir `mediaquerys` entonces ya jugamos con que una media query jugamos con una imagen con otra y además podemos ampliar esa condición de `mediaquery` con `srcset` osea todo lo anterior visto para mejorar la calidad de imagen, esto para a lo mejor para la versiones web, las mas pequeñas mas comprimidas para que sean para la version mobil y tablet y no gaste bateria y datos.
 
-
+Me quede en 11:48
 
 ## DOM con JavaScript
 
