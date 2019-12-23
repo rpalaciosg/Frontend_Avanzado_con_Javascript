@@ -42,7 +42,7 @@ Por lo tanto si hacemos un clon con json.parse, para clonarnos los subniveles co
 ### Conclusion de clonar objetos
 La conclusión es que si necesitamos un clonado muy complejo optar por una libreria como `lodash` o sino obtar por el `SPREAD OPERATOR` que es el que mas se verá.
 
-## Corrección importante sobre Rest Operator
+## Corrección importante sobre Rest Operator sino SPREAD OPERATOR
 
 Hay 2 cosas distintas:
 - Uno es el `Spread Operator` que es para clonar objetos.
@@ -52,7 +52,7 @@ Hay 2 cosas distintas:
 { ...OBJETOPARACLONAR }
 ```
 
-- El otro es el `Rest Operator` el resto que se refiere a los parámetros, para con un solo ...params poder recibir los parametros que se desee, o así mismo imprimir o usar los parametros que se desee.
+- El otro es el `Rest Operator` el resto que se refiere a los parámetros, rest parameters, para con un solo ...params poder recibir los parametros que se desee, o así mismo imprimir o usar los parametros que se desee.
 
 ```js
 // REST OPERATOR
@@ -61,6 +61,9 @@ const foo = (...PARAMS) => {
 };
 foo(1,2,3,4)
 ```
+
+## Sprites
+Dividiamos una imagen y luego con css lo dividiamos y nos quedabamos con una parte un otra.
 
 ## DOM con JavaScript
 
