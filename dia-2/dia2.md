@@ -20,11 +20,27 @@
   ```
 
 ## Clonar Objetos
-Con un json.parse con stringify es lo que haciamos, lo que explicaba es que tenia efectos secundarios es que los keys undefined desaparecian o las funciones o tipo infinito, la conclusion al final si es que se necesita clonar un objeto peculiar con valores undefined usar la libreria `lodash`. 
+### Json.parse o Json.stringify
+Lo que haciamos para hacer un clonado interno de objetos es usando `json.parse` o `stringyfy` algo que no se comento es que ese clonado, tiene efectos secundarios, como que los keys undefined desaparecian o las funciones valores tipo infinito
+La conclusion al final si es que se necesita clonar un objeto asi tan peculiar que tenga funciones con valores undefined usar la libreria `lodash` la cual usaremos en este curso.
+ASí que si lo mejor era copiarlo.
+### Lodash
 
-Si lo hiciera de otra manera y perdiera los `undefined` al acceder a la clave de un objeto que no existe, me va a devolver undefined que si accedo a esa key.
-Por ejemplo si uso `object.keys({a: 234, b:234})`, esto lo que me devuelve es un array con las keys que tiene el objeto. Por lo tanto si hacemos un clon con json.parse, perderiamos las keys que son `undefined`, entonces si trabajamos con object.keys seria un problema y nos podría dar un error.
-La conclusión es que si necesitamos un clonado muy complejo optar por una libreria o sino obtar por el REST OPERATOR que es el que mas se verá.
+Si lo hiciera de otra manera y perdiera los `undefined` al acceder a la clave de un objeto que no existe, me va a devolver `undefined` al igual que si accedo a esa key a esa misma clave.
+El único porblema es que si por ejemplo estoy trabajando con un método de los objetos llamado object.keys que lo que hace es que me devuelve un array de las keys que tiene el objeto, Ejemplo
+
+```html
+<script>
+object.keys({a: 234, b:234}) // ['a', 'b']
+</script>
+```
+
+si uso `object.keys({a: 234, b:234})`, esto lo que me devuelve es un array con las keys que tiene el objeto como vemos a y b.
+
+Por lo tanto si hacemos un clon con json.parse, para clonarnos los subniveles como hemos dicho perderiamos las keys que son `undefined`, entonces si trabajamos con `object.keys` seria un problema y ya que perderiamos una key por ejemplo la b y nos podría dar un error.
+
+### Conclusion de clonar objetos
+La conclusión es que si necesitamos un clonado muy complejo optar por una libreria como `lodash` o sino obtar por el `SPREAD OPERATOR` que es el que mas se verá.
 
 ## Corrección importante sobre Rest Operator
 
