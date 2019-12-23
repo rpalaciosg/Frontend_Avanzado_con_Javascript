@@ -65,6 +65,20 @@ foo(1,2,3,4)
 ## Sprites
 Dividiamos una imagen y luego con css lo dividiamos y nos quedabamos con una parte un otra.
 
+## Imagenes Responsive
+
+### srcset
+Que teniamos la parte de `srcset` que en base al width y el ancho de nuestra pantalla si dividimos el ancho de nuesta pantalla entre el width que definimos eso nos va a dar un número cercano a 1 a 2 o 3 y dependiendo de la densidad de pixeles que tenga nuestro dispositivo va a escoger una u otra. Por ejemplo
+
+- Si tenemos 320w de ancho /  320w lo definido = 1 .-> para las pantallas con densidad de 1 pixel mostraremos la imagen de 230
+    img/yacht_race@mobile.jpg 320w, 320w / 320w = 1 pixel de densidad
+    img/yacht_race@tabler.jpg 768w, 768w / 320w = 2 pixeles de densidad
+
+### picture
+Luego tenemos la version mas dopada que es `<picture>`tenemos y podemos usar cositas con los `source` y definir `mediaquerys` entonces ya jugamos con que una media query jugamos con una imagen con otra y además podemos ampliar esa condición de `mediaquery` con `srcset` osea todo lo anterior visto para mejorar la calidad de imagen, esto para a lo mejor para la versiones web, las mas pequeñas mas comprimidas para que sean para la version mobil y tablet y no gaste bateria y datos.
+
+
+
 ## DOM con JavaScript
 
 Primero ejecutamos javascript en el DOM
