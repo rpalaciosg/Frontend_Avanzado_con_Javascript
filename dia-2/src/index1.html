@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TVMaze</h1>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error" data-success="listo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error" data-success="listo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error" data-success="listo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
+
+    <button id="my-input">Texto</button>
+
+    <script>
+    console.log('Hello World');
+    const myElement = document.getElementsByClassName('texto');
+    // console.log(Object.keys(myElement));
+    Object.keys(myElement).forEach( key => {
+        myElement[key].innerHTML = '<button>Send</button>';
+    });
+
+    const myInput = document.getElementById('my-input');
+
+    myInput.addEventListener('click', function () {
+      console.log('Execute');
+    });
+    console.log(myInput);
+    </script>
+</body>
+</html>

@@ -73,11 +73,8 @@ Que teniamos la parte de `srcset` que en base al width y el ancho de nuestra pan
 - Si tenemos 320w de ancho /  320w lo definido = 1 .-> para las pantallas con densidad de 1 pixel mostraremos la imagen de 230
     img/yacht_race@mobile.jpg 320w, 320w / 320w = 1 pixel de densidad
     img/yacht_race@tabler.jpg 768w, 768w / 320w = 2 pixeles de densidad
-
 ### picture
 Luego tenemos la version mas dopada que es `<picture>`tenemos y podemos usar cositas con los `source` y definir `mediaquerys` entonces ya jugamos con que una media query jugamos con una imagen con otra y además podemos ampliar esa condición de `mediaquery` con `srcset` osea todo lo anterior visto para mejorar la calidad de imagen, esto para a lo mejor para la versiones web, las mas pequeñas mas comprimidas para que sean para la version mobil y tablet y no gaste bateria y datos.
-
-Me quede en 11:48
 
 ## DOM con JavaScript
 
@@ -96,7 +93,7 @@ Como habla JS con el DOM.
 
 ### Selectores
 
-Es básicamente conectar nuestro javascript del Front con elementos del DOM y poder obtenerlos.
+Es básicamente conectar nuestro codigo de javascript del Front con elementos del DOM y poder obtenerlos.
 
 document.<Selector>
 
@@ -138,7 +135,7 @@ La constante creada para obtener el elemento en este caso `myElement` es un obje
 ```
 - **textContent:** Este nos devuelve el texto del elemento que seleccionamos pero sin mostrar las etiquetas html.
 
-> Algo importante saber es que al momento de cargar la pàgina y aparece el boton en lugar del parrafo o div, lo que esta sirviendo al navegador en realidad es el div, sino que al llegar al script este lo cambia y renderiza visualmente.  A esto es lo que se le llama `Client side rendering`, y cuando usamos plantillas como en node con ejs es lo que se le llama `server side rendering` que ya viene cargado todo el html y tal.   Esto tampoco puede decir que no puedan convivir juntos, se puede hacer. 
+> Algo importante saber es que al momento de cargar la pàgina y aparece el boton en lugar del parrafo o div, lo que esta sirviendo al navegador en realidad es el div, sino que al llegar al script este lo cambia y renderiza visualmente.  A esto es lo que se le llama `Client side rendering`, y cuando usamos plantillas como en node con ejs es lo que se le llama `server side rendering` que ya viene cargado todo el html y tal.   Esto tampoco puede decir que no puedan convivir juntos, se puede hacer. Se puede tener una parte de server side rendering y client side rendering.
 
 Es importante saber esto xq si tengo una app React no va a funcionar el SEO.
 
@@ -160,6 +157,7 @@ Lo que hace este es seleccionar como se lo haría en CSS, por ejemplo si es el i
     </script>
   </body>      
 ```
+
 También puedo acceder a la propiedad `data-cy` que es otro tipo de atributo que podemos agregar a nuestro html. La manera de acceder a estos atributos sería:
 
 ```html
@@ -202,7 +200,9 @@ DOMStringMap {cy: "selector-cypress", error: "mi error"}
 ```
 > Veremos esto de los data sets mas adelante.
 
+
 ### getElementByClassName
+
 Esto me devuelve o selecciona los elementos del DOM por el ClassName y me devuelve es un objeto de tipo HTMLCOllection{} con un key que es el elemento seleccionado.
 
 ```html
@@ -286,7 +286,9 @@ Para corregir esto que es por clase o byTagName entonces lo que debemos hacer es
 ### getElementByTagName
 Funciona parecido que el `getElementByClassName` pero usando los nombres de los Tag's html
 
+
 ## Eventos en Javascript
+
 Se refiere a eventos que pueden aparecer en el browser, como evento de click, de submit, de cuando se escribe en teclado, hay muchos tipos de evento, como drag, drop, resize de la pantalla. Conceptualmente es siempre parecido.
 - Un compañero hace una pregunta si el copiar y pegar es un evento. Y dice que puedo pillar las teclas o el evento onCopy.
 
@@ -309,9 +311,12 @@ Se refiere a eventos que pueden aparecer en el browser, como evento de click, de
     </script>
   </body>
 ```
+
 Al seleccionar un elemento del DOM como por ejemplo un `input`, ese objeto obtenido sirve funciones como el escuchador de eventos como el `addEventLister`, el cuál añade un escuchador de eventos. Este recibe 2 parametros que es un array de strign con el evento a escuchar y un Callback o funcion que se ejecute cuando detecte ese evento.
 
 Hay que tener en cuenta que este callback no se ejecutará hasta que el `CALLSTACK` esté libre, ya los eventos se envian al `CALBACK QUEUE` es decir se ejecutarán después de que esté libre el callstack, por eso cuando en una web se queda colgada o no responde sin que podamos hacer click o algo es porque el callstack está muy ocupado por un bucle infito o algo, por eso es mejor que esas funciones se las manejen con funciones asincronas.
+
+>>>>> Me quedé aqui minuto 46:37
 
 La idea es localizar nustro elemento que este en el DOM, luego añadir un addEventListener pasandole los parametos como son el evento en sring y el callback.
 
