@@ -12,7 +12,8 @@
     <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error" data-success="listo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
     <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error" data-success="listo">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
 
-    <button id="my-input">Texto</button>
+    <button id="my-button">Texto</button>
+    <input type="text" id="input">
 
     <script>
     console.log('Hello World');
@@ -22,12 +23,24 @@
         myElement[key].innerHTML = '<button>Send</button>';
     });
 
-    const myInput = document.getElementById('my-input');
+    const myButton = document.getElementById('my-button');
+    const myInput = document.querySelector('#input');
 
-    myInput.addEventListener('click', function () {
-      console.log('Execute');
+    myButton.addEventListener('click', () => console.log('Execute'));
+    
+    myInput.addEventListener('focus', evt => {
+        evt.preventDefault();
+        console.log('Focus');
     });
-    console.log(myInput);
+
+    myInput.addEventListener('blur', () => console.log('Blur'));
+
+    myInput.addEventListener('keydown', evt => { 
+        evt.preventDefault();
+        console.log('keydown');
+    });
+
+    myInput.addEventListener('copy', () => console.log('Copy'));
     </script>
 </body>
 </html>

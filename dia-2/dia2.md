@@ -408,6 +408,8 @@ El evento `keydown` se activa cuando se escribe o cambia. Hay un keyup tambien q
     </script>
 ```
 
+Me quedé aqui en 01:01:00 keydown
+
 ### Objeto FocusEvent
 Como habiamos comentado el addEventlistener en el callback recibe un objeto `evt` el cual es un objeto tipo `FocusEvent`. Ademés este objeto tiene una propiedad que es el `target` qye es el propio elemento del DOm que se ha seleccionado.
 
