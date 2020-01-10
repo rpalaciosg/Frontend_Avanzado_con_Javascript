@@ -1,130 +1,36 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
-    <title>TVMaze shows</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <!-- styles -->
-    <style>
-      .show p {
-        display: block;
-      }
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Async</title>
+</head>
+<body>
+  <div id="container">
 
-      .hide p {
-        display: none;
-      }
+  </div>
+  <script>
+    const container = document.querySelector('#container');
 
-    </style>
-  </head>
-  <body>
-    <h1>TVMaze</h1>
-    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
-    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
-    <div id="my-p" class="texto" data-cy="selector-cypress" data-error="mi error">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint animi, culpa quas necessitatibus, amet nulla porro ipsa molestiae soluta dignissimos nostrum! <span>Link</span> <button>Button</button></div>
-    
-    <button id="my-button" >Texto</button>
-    <input type="text" id="input" class="input-class" data-error="mi error">
-    
-    <div id="container">
-      <button id="button">Texto</button>
-    </div>
-
-    <div id="text-container" class="container white test">
-      <p id="lorem-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid sed, distinctio et magnam corporis magni atque cumque qui. Unde earum doloribus animi esse architecto iste molestiae quae tenetur modi debitis.</p>
-      <button id="hideButton">Hide</button>
-    </div>
-
-    <script>
-      // console.log('Hello world');
-      // Accediendo con el id a un párrafo con getElementById
-      // const myElement = document.getElementById('my-p');
-      // console.log(myElement.innerHTML);
-      // console.log(myElement.textContent);
-      // myElement.innerHTML = '<button>Send</button>'
-      // myElement.textContent = '<button>Send</button>'
-
-      // Accediendo al id con querySelector
-      // const myElement = document.querySelector('#my-p');
-      // console.log(myElement);
-      // myElement.innerHTML = '<button>Send</button>'
-
-      // Accediendo al atributo data.cy con querySelector
-      // const myElement = document.querySelector('[data-cy=selector-cypress]');
-      // console.log(myElement.dataset);
-      // myElement.innerHTML = '<button>Send</button>'
-
-      // Accediendo con GetElementMyClassName
-      const myElement = document.getElementsByClassName('texto');
-      // console.log(myElement);
-      // console.log(Object.keys(myElement)), // devuelve un array con las keys del objeto
-      Object.keys(myElement).forEach(key => { 
-        myElement[key].innerHTML = '<button>Send</button>';                      
-      });
-
-      const myButton = document.getElementById('my-button');
-      const myInput = document.querySelector('#input');
-
-      myInput.addEventListener('click', () => console.log('Execute'));// Añade un escuchador de eventos      
-
-      myInput.addEventListener('focus', () => console.log('focus'));
-      myInput.addEventListener('blur', () => console.log('Blur'));
-      myInput.addEventListener('keydown', evt => {
-        // evt.preventDefault();
-        // console.log(evt.target);
-        // console.log(evt.target.className);
-        // console.log(evt.target.dataset);
-        console.log('start keydown');
-        console.log(evt.target.value);
-        console.log('end keydown');
-      });
-
-      myInput.addEventListener('keyup', evt => {
-        // evt.preventDefault();
-        // console.log(evt.target);
-        // console.log(evt.target.className);
-        // console.log(evt.target.dataset);
-        console.log('start keyup');
-        console.log(evt.target.value);
-        console.log('end keyup');
-      });
-
-      myInput.addEventListener('copy', () => console.log('copy'));
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
       
-      const container = document.getElementById('container');
-      const button = document.getElementById('button');
+      container.appendChild(para);
 
-      container.addEventListener('click', () => alert('Click container'));
-      button.addEventListener('click', (evt) => {
-        evt.stopPropagation();
-        alert('click button');
-      });
+      // innerHTML
+      // const para2 = '<p>Super texto 2!!</p>';
+      // container.innerHTML += para2;
 
-      // Manejo de Css con Javascript
-      // cuando presionemos el boton vamos a quitar el pàrrafo
-      const loremText = document.querySelector('#lorem-text');
-      const hideButton = document.querySelector('#hideButton');
+    };
 
-      hideButton.addEventListener('click', (evt) => {
-        // loremText.style.display = 'none';
-        // loremText.style.backgroundColor = 'red';
-        // loremText.style.color = 'blue';
-        const container = document.querySelector('#text-container');
-        // console.log(container.className);
-        // container.className += ' hide';
-        // console.log(container.classList);
-        // container.classList.remove('show');
-        // container.classList.add('hide');
-        container.classList.toggle('hide');// usa la propiedad dislay:block por defecto del container y ya no es necesario hacer remove(show) y add(hide)
-        // console.log(evt.target);
-        if (evt.target.textContent.includes('show')) {
-          return evt.target.textContent = 'hide';  // reemplaza else por return
-        }
-        return evt.target.textContent = 'show';
-        
-        
-      });
-    </script>
-  </body>
+    console.log('Hello');
+    setInterval( function (){
+      addP();
+    } ,2000);
+  </script>
+</body>
 </html>

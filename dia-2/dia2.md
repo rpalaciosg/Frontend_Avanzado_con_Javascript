@@ -698,4 +698,132 @@ Esto lo podemos hacer con `evt.target.textContent = 'hide'`, pero si queremos qu
 
 Yo voy jugando con las clases del css de los contenedores de la UI en vez de agregar elementos en línea.
 
-Me quedé en 1:40:04 hasta modificar estilos con javascript
+
+
+## Crear elementos en el DOM con CreateElement y appendChild
+
+Para esto cambio de nombre a mi archivo index y le pongo ´dia-2\src\index-javascript-dom.html´ y me vuelvo a crear otro archivo ´dia-2\src\index.html´ con un nuevo template.
+
+Lo que vamos a hacer es un setTimeout aplicado al DOM, que va a ir añadiendo párrafos al div a los 2 segundos.
+
+Este ´createElement´ lo que va a hacer es crearnos un elemento del DOM. Además vamos a usar el setTimeout que lo que hace es esperar 2 segundos y ejecutar la funcion addP() que crea el párrado en nuestro div.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      container.appendChild(para);
+
+    };
+
+    console.log('Hello');
+    setTimeout( function (){
+      addP();
+    } ,2000);
+  </script>
+</body>
+```
+
+Ahora el mismo equivalente de una forma mas sencilla y facil de leer.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      // innerHTML
+      const para2 = '<p>Super texto 2!!</p>';
+      container.innerHTML = para2;
+
+    };
+
+    console.log('Hello');
+    setTimeout( function (){
+      addP();
+    } ,2000);
+  </script>
+</body>
+```
+
+Esto añadiria el párrafo de una manera mas sencilla al momento de leer.
+
+Por lo general cuando se hace cosas en vanilla, en rollo template componente, se suele hacer con innerHTML en lugar de appendChild.
+
+Pero viendo la realidad una manera facil de verlo en el punto de vista de programador es con el appendChild ya que una buena manera seria abstraerlo en una función que espera recibir unas propiedades como el texto o los atributos. O si quisieramos ir haciendo unos layouts esto se haria mas complejo. 
+Pero si imaginamos que tenemos un div y tengamos un listado, innerHTML no seria lo mejor, ya que estarias repitando todo, por ejemplo tienen un array que se va repitando cada elemento del array caso contrario que si usamos el appendChild que solo se añadiría el último.
+
+Tenemos que ver la necesidad de la aplicación. En el mayor de los casos al hacer templates con vanilla el innerHTML es suficiente, ahi es en lo que ayuda los frameworks o librerias como React.js.
+
+Según una pregunta de un compañero, que si se esta quitando y poniendo elementos al finla eso afecta el rendimiento, es mejor aplicar innerHTML a que estar repintando cada elemento. Lo único que los frameworks hacen, es que si por ejemplo tenemos un arbol de un DOM, con vanilla es mas performante.
+
+En el caso de react lo que ayuda es que si tengo una lista, ayuda a que solo se repinte un elemento de esa lista o demás y de forma más optima, ya que tiene algo que se llama virtual DOM que ayuda al reRender.
+Esta dando el ejemplo con este artículo: https://indepth.dev/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react/
+
+Para el propósito de vanilla, hacerlo con innerHTML o appendChild nos vá de sobra.
+
+Ahora lo que vamos a hacer es cambiar el ´setTimeout´ por ´setInterval´, este lo que va hacer es esperar los 2 segundos y dibujar el párrafo, esto lo va a ir ejecutando cada 2 segundos.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      container.appendChild(para);
+
+      // innerHTML
+      // const para2 = '<p>Super texto 2!!</p>';
+      // container.innerHTML = para2;
+
+    };
+
+    console.log('Hello');
+    setInterval( function (){
+      addP();
+    } ,2000);
+  </script>
+</body>
+```
+
+Si cambiaramos la forma de repintar con el appendChild, nos podemos dar cuenta que el append achild solo pinta el nuevo elemento a añadir, lo contrario al innerHTML que lo que hace es repintar todos los elemento.
+
+```js
+   const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      container.appendChild(para);
+
+      // innerHTML
+      const para2 = '<p>Super texto 2!!</p>';
+      container.innerHTML += para2;
+
+    };
+```
+
+Hay varios métodos o formas con este appendChild, esta removeChild para quitarlos hay varios. Veremos que usaremos casi siempre innetHTML para la parte del curso.
