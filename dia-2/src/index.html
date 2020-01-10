@@ -19,22 +19,22 @@
       const textNode = document.createTextNode('Super texto!!');
       para.appendChild(textNode);
       
-      container.appendChild(para);
+      // container.appendChild(para);
 
       // innerHTML
-      // const para2 = '<p>Super texto 2!!</p>';
-      // container.innerHTML += para2;
+      const para2 = '<button id="texto">Super texto 2!!</button>';
+      container.innerHTML += para2;
+
+      const texto = document.querySelector('#texto');
+      texto.addEventListener('click', () => console.log('click!!!'));
 
     };
 
     console.log('Hello');
-    const intervalo = setInterval( function (){
+    setTimeout( function (){
       addP();
-    } ,500);
+    } ,0);
 
-    setTimeout(() => {
-      clearInterval(intervalo);
-    }, 3000);
   </script>
 </body>
 </html>

@@ -861,3 +861,87 @@ Entonces para arreglar eso debo llamar a ´clearInterval´
     }, 3000);
   </script>
 ```
+
+## Cuidado con los eventos y nuevos renderizados
+
+Si yo hago esto, con un setTimeout coy creando botones con id, y luego quiero agregar un evento con ese id del elemento creado, me va a salir que no puede leer la propiedad addEventlister de null.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      // container.appendChild(para);
+
+      // innerHTML
+      const para2 = '<button id="texto">Super texto 2!!</button>';
+      container.innerHTML += para2;
+
+    };
+
+    console.log('Hello');
+    setTimeout( function (){
+      addP();
+    } ,0);
+
+    const texto = document.querySelector('#texto');
+    texto.addEventListener('click', () => console.log('click!!!'));
+  </script>
+</body>
+```
+
+Error
+```console
+Hello
+index.html:39 Uncaught TypeError: Cannot read property 'addEventListener' of null
+    at index.html:39
+(anonymous) @ index.html:39
+index.html:20 Add p
+```
+
+Hay que tener en mente mucho eso de cuando se renderiza una cosa si esta ya renderizado, entra en jeugo el tema de asincronia, de cuando puedo añadir un evento o no.
+
+Básicamente yo no puedo hacer ese addEventListener antes de que este pintado ese botón. Así que donde debo poner el código es abajo de el innerHTML y asi estyo 100% seguro que el elemento ya está pintado en el DOM y ya puedo acceder a el.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      // container.appendChild(para);
+
+      // innerHTML
+      const para2 = '<button id="texto">Super texto 2!!</button>';
+      container.innerHTML += para2;
+
+      const texto = document.querySelector('#texto');
+      texto.addEventListener('click', () => console.log('click!!!'));
+
+    };
+
+    console.log('Hello');
+    setTimeout( function (){
+      addP();
+    } ,0);
+
+  </script>
+</body>
+```
