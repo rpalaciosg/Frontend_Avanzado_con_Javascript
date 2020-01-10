@@ -316,8 +316,6 @@ Al seleccionar un elemento del DOM como por ejemplo un `input`, ese objeto obten
 
 Hay que tener en cuenta que este callback no se ejecutará hasta que el `CALLSTACK` esté libre, ya los eventos se envian al `CALBACK QUEUE` es decir se ejecutarán después de que esté libre el callstack, por eso cuando en una web se queda colgada o no responde sin que podamos hacer click o algo es porque el callstack está muy ocupado por un bucle infito o algo, por eso es mejor que esas funciones se las manejen con funciones asincronas.
 
->>>>> Me quedé aqui minuto 46:37
-
 La idea es localizar nustro elemento que este en el DOM, luego añadir un addEventListener pasandole los parametos como son el evento en sring y el callback.
 
 Podemos darnos cuenta que en lugar de una function podemos usar un arrowFunction, pero debemos tener en cuenta que la diferencia al usar arrow function es que perdemos el contexto del this y estariamos obteniendo el primero que seria el del window, algo diferente al usar una function normal.
@@ -408,7 +406,6 @@ El evento `keydown` se activa cuando se escribe o cambia. Hay un keyup tambien q
     </script>
 ```
 
-Me quedé aqui en 01:01:00 keydown
 
 ### Objeto FocusEvent
 Como habiamos comentado el addEventlistener en el callback recibe un objeto `evt` el cual es un objeto tipo `FocusEvent`. Ademés este objeto tiene una propiedad que es el `target` qye es el propio elemento del DOm que se ha seleccionado.
@@ -700,3 +697,5 @@ Esto lo podemos hacer con `evt.target.textContent = 'hide'`, pero si queremos qu
 ```
 
 Yo voy jugando con las clases del css de los contenedores de la UI en vez de agregar elementos en línea.
+
+Me quedé en 1:40:04 hasta modificar estilos con javascript
