@@ -827,3 +827,37 @@ Si cambiaramos la forma de repintar con el appendChild, nos podemos dar cuenta q
 ```
 
 Hay varios métodos o formas con este appendChild, esta removeChild para quitarlos hay varios. Veremos que usaremos casi siempre innetHTML para la parte del curso.
+
+Que pasa si por ejemplo yo noquiero que este intervalo esté siempre. Ejemplo, el feed de twitter, va cargando y por debajo tiene un intervalo que te va haciendo x peticiones cada x cierto tiempo, si llega una petición a lo mejor hay algo nuevo o a lo mejor no, lo que hace la UI lo que hace es pintarte en la interfaz hay 2 nuevos tweets. Pero que pasa cuando yo navego hacia otra parte de la pantalla donde el feed ya te da igual, y si cambio de ruta o navego a nivel de cleinte, que lo que hace es que no recargue otra vez la web que ya entraremos en detalle con eso. 
+
+¿que pasa con ese intervalo? Si no se gestiona bien, ese intervalo va a estar ahí pan pan pan, y no me importa que ese intervalo haga eso si está afectando al usuario directamente, pero si ya no le esta afectando al usuario  y no lo está viendo, no queiro que ese intervalo moleste.
+Entonces para arreglar eso debo llamar a ´clearInterval´
+
+```html
+  <script>
+    const container = document.querySelector('#container');
+
+    const addP = () => {
+      console.log('Add p');
+      const para = document.createElement('p');
+      const textNode = document.createTextNode('Super texto!!');
+      para.appendChild(textNode);
+      
+      container.appendChild(para);
+
+      // innerHTML
+      // const para2 = '<p>Super texto 2!!</p>';
+      // container.innerHTML += para2;
+
+    };
+
+    console.log('Hello');
+    const intervalo = setInterval( function (){
+      addP();
+    } ,500);
+
+    setTimeout(() => {
+      clearInterval(intervalo);
+    }, 3000);
+  </script>
+```
