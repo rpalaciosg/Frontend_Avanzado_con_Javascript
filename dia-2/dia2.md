@@ -1288,3 +1288,43 @@ Hay una forma de ejecutar el await sin tener que hacer o ejecutar una función a
 ```
 
 Al instructor le está gustando y volviendose más al `.then` a un estilo mas funcional, lo que en await seria ponern await()()() varios parentesis.
+
+El instructor pregunta que preferimos más, callbacks, .then o async/await. la mayoria dice async/await pero el nos va a intentar convencer del .then.
+
+Por ejemplo el método getResource podiamos haberlo puesto con () y sin el return y funcionaba igual
+
+```html
+<script>
+const getResource = () => (
+        return new Promise( (resolve) => {
+          setTimeout( () => {
+            const info = 'Super texto pero desde API';
+            resolve(info);
+          }, 3000);      
+        });
+      );
+</script>
+```
+
+Con el .then lo que le engancha es el tema de esta función que deja, puedo hacer cosas muy chulas
+
+```html
+<script>
+ getResource()
+        .then(filterText('API'))// por ejemplo si quiero filtrar.
+        .then(info => {
+          addP(`1. ${info}`);
+          return getResource();
+        })
+        .then(info => {
+          addP(`2. ${info}`);
+          return getResource();
+        })
+        .then(info => {
+          addP(`3. ${info}`);
+        })
+        ;
+</script>
+```
+
+Esto lo usaremos al momento de hacer el UI y maquetar.
