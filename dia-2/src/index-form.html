@@ -7,6 +7,16 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <form id="form">
+    <label for="name">Name: </label>
+    <input input="name" required name="name" type="text">
+    <button type="submit">submit</button>
+  </form>
+  <script>
+  const nameInput = document.querySelector('#name');
+  const nameInput = document.querySelector('#name');
+  nameInput.setCustomValidity('Error custom modificado!!!');  
+  console.log(nameInput);
+  </script>
 </body>
 </html>

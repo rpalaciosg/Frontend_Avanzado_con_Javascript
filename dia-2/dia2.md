@@ -1328,3 +1328,52 @@ Con el .then lo que le engancha es el tema de esta función que deja, puedo hace
 ```
 
 Esto lo usaremos al momento de hacer el UI y maquetar.
+
+## Validaciones de Formularios con JS
+
+Este ejemplo se vera en el archivo `dia-2\src\index-form.html`
+
+Creamos  un formulario:
+
+```html
+<body>
+  <form id="form">
+    <input input="name" name="name" type="text">
+    <button type="submit">submit</button>
+  </form>
+</body>
+```
+
+Lo primero que va a pasar, cuando yo clique en submit la web va a recargar la página, pero si le pongo un label para que tome el valor del input.
+
+```html
+<body>
+  <form id="form" method="GET">
+    <label for="name">Name: </label>
+    <input input="name" name="name" type="text">
+    <button type="submit">submit</button>
+  </form>
+</body>
+```
+
+cuando le doy al submit escribiendo algo, En el url le pone un Query Param por el comportamiento por defecto de los formularios.
+
+Lo que hace es renderiza otra vez la web, pero con estos query params, que lo que hace es una petición `GET` si es que no le pongo un método en el form. 
+
+Si le pongo Post, se necesita tener algo en el servidor que nos gestione esto, pero esto no lo vamos a hacer. Nosotros vamos a hacerlo desde el cliente para ahcer una peticion AJAX.
+
+Si yo le doy a submit vemos que no carga, por que tengo la propiedad `required` y el html me hace la validación por su cuenta.
+
+```html
+<body>
+  <form id="form">
+    <label for="name">Name: </label>
+    <input input="name" required name="name" type="text">
+    <button type="submit">submit</button>
+  </form>
+</body>
+```
+
+Si envarga la validación nos va a quedar corta y queremos darle otro rollo. Primero vamosa hacer un pequeño cambi del mensaje.
+
+Me quedé min 3:21:04 customiza msg input validacion
