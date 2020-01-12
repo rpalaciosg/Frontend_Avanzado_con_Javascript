@@ -945,3 +945,52 @@ Básicamente yo no puedo hacer ese addEventListener antes de que este pintado es
   </script>
 </body>
 ```
+
+## InnerText
+
+Mostramos la diferencia del `textContent` con el `innerText`.
+
+```html
+<div id="app">    text    1   234   </div>
+<script src="src/index.js">
+  const text = document.getElementById("app");
+
+  console.log('textContent:', text.textContent);
+
+  console.log('innerText:', text.innerText);
+</script>
+```
+
+## Codesandbox
+
+Es una herramienta online, para hacer pruebas de concepto.
+Hacer pruebas rápidas. 
+
+```url
+https://codesandbox.io/
+```
+
+Se pueden hacer pruebas, con react, con vue.js, angular, etc.
+
+## Práctica
+- Beerflix
+- Cliente que tiene un APi a la cual debemos adaptarnos si o sí.
+- Tenemos que ahce su UI
+- Historias de usuario.
+  - 
+
+Notas del desarrollador:
+- Sin frameworks javascript, pero podemos usar frameworks css como bootstrap, materialize, sematicUI (solo para los diseños, menos la parte de javascript), ejm si quiero hacer un carrusel tengo que gestionarlo yó con js no con el de bootstrap.
+- Sera necesario buena documentación.
+- Será necesario el uso del API de nuestro proveedor.
+- Será necesario el uso de localStorage.
+- Añadir workboz para tener soporte offline.
+- se valorará que las especificaciones para parte del cliente sean correctas, la calidad del código al momento de leer, que sea reusable y facil de mantener.
+
+Uso del API
+- Las imagenes que devuelve el API no tienen fondo.
+
+Extras
+- ESLINT, usar el de AirBnb (pone reglas en el código)
+- Deploy con now.sh o 
+
