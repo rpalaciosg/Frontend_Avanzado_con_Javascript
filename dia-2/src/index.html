@@ -11,30 +11,68 @@
 
   </div>
   <script>
-    const container = document.querySelector('#container');
+    ( async () => {
+      const container = document.querySelector('#container');
+      const getResource = () => {
+        return new Promise( (resolve) => {
+          setTimeout( () => {
+            const info = 'Super texto pero desde API';
+            resolve(info);
+          }, 3000);      
+        });
+      };
 
-    const addP = () => {
-      console.log('Add p');
-      const para = document.createElement('p');
-      const textNode = document.createTextNode('Super texto!!');
-      para.appendChild(textNode);
+      // getResource( function (info) {
+      //   addP(`1. ${info}`);
+      //   getResource( function (info) {
+      //     addP(`2. ${info}`);
+      //     getResource( function (info){
+      //       addP(`3. ${info}`);
+      //     });
+      //   });
+      // });
+
+      // getResource()
+      //   .then(info => {
+      //     addP(`1. ${info}`);
+      //     return getResource();
+      //   })
+      //   .then(info => {
+      //     addP(`2. ${info}`);
+      //     return getResource();
+      //   })
+      //   .then(info => {
+      //     addP(`3. ${info}`);
+      //   })
+      //   ;
+
+        const addP = pValue => {      
+          const para = document.createElement('p');
+          const textNode = document.createTextNode(pValue);
+          para.appendChild(textNode);
+          
+          // container.appendChild(para);
+
+          // innerHTML
+          const para2 = `<p id="texto">${pValue}</p>`;
+          container.innerHTML += para2;
+
+          // const texto = document.querySelector('#texto');
+          // texto.addEventListener('click', () => console.log('click!!!'));
+        };
+
+        const info1 = await getResource();
+        addP(`1. ${info1}`);
+        const info2 = await getResource();
+        addP(`2. ${info2}`);
+        const info3 = await getResource();
+        addP(`3. ${info3}`);    
+
+      // initRender();
+
       
-      // container.appendChild(para);
-
-      // innerHTML
-      const para2 = '<button id="texto">Super texto 2!!</button>';
-      container.innerHTML += para2;
-
-      const texto = document.querySelector('#texto');
-      texto.addEventListener('click', () => console.log('click!!!'));
-
-    };
-
-    console.log('Hello');
-    setTimeout( function (){
-      addP();
-    } ,0);
-
+    })();
+    
   </script>
 </body>
 </html>

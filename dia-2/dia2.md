@@ -994,3 +994,297 @@ Extras
 - ESLINT, usar el de AirBnb (pone reglas en el código)
 - Deploy con now.sh o 
 
+## CB/Then/Async/Await
+
+Vamos a hacer un ejemplo con supertexto con nuestro código asincrono.
+
+Vamos a intentar simular un ejemplo un poco "real"
+
+Ejemplo de como funciona la asincronia:
+
+- Muestra como se gestiona un proceso asincrono.
+
+```html
+<script>
+
+    console.log('Hello');
+    setTimeout( () => {
+      console.log('class');
+    }, 0);
+    console.log('Goodbye');
+</script>
+```
+
+En este ejemplo voy a hacer una simulacion de una petición a un API usando callbacks, el tema usar callbacks es el callbacks hell.
+
+```html
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    const container = document.querySelector('#container');
+
+    const getResource = cb => {
+      setTimeout( () => {
+        const info = 'Super texto pero desde API';
+        cb(info);
+      }, 3000);
+    };
+
+    getResource( function (info) {
+      addP(info);
+    });
+
+    const addP = pValue => {      
+      const para = document.createElement('p');
+      const textNode = document.createTextNode(pValue);
+      para.appendChild(textNode);
+      
+      // container.appendChild(para);      
+      const para2 = `<p id="texto">${pValue}</p>`;
+      container.innerHTML += para2;
+    };
+    
+  </script>
+</body>
+```
+
+Ejemplo del callback hell:
+```html
+<script>
+    const container = document.querySelector('#container');
+
+    const getResource = cb => {
+        setTimeout( () => {
+        const info = 'Super texto pero desde API';
+        cb(info);
+      }, 3000);      
+    };
+
+    //callbackhell
+    getResource( function (info) {
+      addP(`1. ${info}`);
+      getResource( function (info) {
+        addP(`2. ${info}`);
+        getResource( function (info){
+          addP(`3. ${info}`);
+        });
+      });
+    });
+
+    const addP = pValue => {      
+      const para = document.createElement('p');
+      const textNode = document.createTextNode(pValue);
+      para.appendChild(textNode);
+      
+      // container.appendChild(para);
+      
+      const para2 = `<p id="texto">${pValue}</p>`;
+      container.innerHTML += para2;
+
+    };
+    
+  </script>
+```
+
+## Convertir un callback a una promesa
+
+Cuando tenemos una funciona que no sabe de proemsas, lo que tengo que hacer es convertir un callback a una promesa.
+
+Dentro de la nueva promesa voy a meter mi código asincrono.
+
+```html
+<script>
+    const container = document.querySelector('#container');
+
+    const getResource = cb => {
+      return new Promise( (resolve) => {
+        setTimeout( () => {
+          const info = 'Super texto pero desde API';
+          cb(info);
+        }, 3000);      
+      });
+    };
+</script>
+```
+
+Lo que tengo que hacer después es sustituir mi callback por resolve.
+
+```html
+<script>
+    const container = document.querySelector('#container');
+
+    const getResource = () => {
+      return new Promise( (resolve) => {
+        setTimeout( () => {
+          const info = 'Super texto pero desde API';
+          resolve(info);
+        }, 3000);
+      });
+    };
+</script>
+```
+
+Ahora `getResources()` es una función mismo pero que devuelve una promesa. 
+Lo que hace una promesa es que retorna un then() y que hace el then es que hace una funcion que tienen un parametro.
+
+```html
+<script>
+    const container = document.querySelector('#container');
+
+    const getResource = () => {
+      return new Promise( (resolve) => {
+        setTimeout( () => {
+          const info = 'Super texto pero desde API';
+          resolve(info);
+        }, 3000);      
+      });
+    };
+
+    getResource()
+      .then(info => {
+        addP(`1. ${info}`);
+        return getResource();
+      })
+      .then(info => {
+        addP(`2. ${info}`);
+        return getResource();
+      })
+      .then(info => {
+        addP(`3. ${info}`);
+      });
+</script>
+```
+
+Lo bueno de las promesas es que se pueden encadenar, las puedo ir uniendo una tras otra.
+
+La ventaja de esto es que la lectura es vertical y no horizontal o crecerá a la derecha.
+
+Hay muchas formas de hacerlo, aveces veremos funciones mas o mneos así
+
+```html
+<script>
+    getResource()
+      .then(info => getResource())
+      .then(info => getResource())
+      .then(info => {
+        addP(`3. ${info}`);
+      });
+</script>
+```
+
+O también hay otras veces que se puede escribir de esta manera:
+
+```html
+<script>
+    getResource()
+      .then(getResource)
+      .then(getResource)
+      .then(info => {
+        addP(`3. ${info}`);
+      });
+</script>
+```
+
+Que es directamente a la función se le pase el info.
+
+Y la forma que más le gusta al instructor es pasandole los parametros a la función, que es plan hacer como closures, de funciones que retornan funciones, pero esto lo veremos más cuando entremos al UI.
+```html
+<script>
+    getResource()
+      .then(getResource('qwe','qwer'))
+      .then(getResource)
+      .then(info => {
+        addP(`3. ${info}`);
+      });
+</script>
+```
+
+## Async/Await
+
+Es mas fácil de leer que las 2 formas anteriores, pero tiene que tener unas series de condiciones para poder usar. Siempre deben estar dentro de una funcion `async` 
+
+Todo lo que tenga montado con `Promesas` le puedo poner el await adelante, que eso va a funcionar bien.
+
+```html
+  <script>
+    const container = document.querySelector('#container');
+
+    const getResource = () => {
+      return new Promise( (resolve) => {
+        setTimeout( () => {
+          const info = 'Super texto pero desde API';
+          resolve(info);
+        }, 3000);      
+      });
+    };
+
+    const initRender = async () => {
+      const info1 = await getResource();
+      addP(`1. ${info1}`);
+      const info2 = await getResource();
+      addP(`2. ${info2}`);
+      const info3 = await getResource();
+      addP(`3. ${info3}`);
+    };
+
+     initRender();
+
+         const addP = pValue => {      
+      const para = document.createElement('p');
+      const textNode = document.createTextNode(pValue);
+      para.appendChild(textNode);
+      
+      // container.appendChild(para);
+
+      const para2 = `<p id="texto">${pValue}</p>`;
+      container.innerHTML += para2;
+    };
+  </script>
+```
+
+Hay una forma de ejecutar el await sin tener que hacer o ejecutar una función aparte.
+
+```html
+<script>
+  (async () => {
+    ...
+  })();
+</script>
+```
+
+```html
+  <script>
+    ( async () => {
+      const container = document.querySelector('#container');
+      const getResource = () => {
+        return new Promise( (resolve) => {
+          setTimeout( () => {
+            const info = 'Super texto pero desde API';
+            resolve(info);
+          }, 3000);      
+        });
+      };
+
+        const addP = pValue => {      
+          const para = document.createElement('p');
+          const textNode = document.createTextNode(pValue);
+          para.appendChild(textNode);
+          
+          const para2 = `<p id="texto">${pValue}</p>`;
+          container.innerHTML += para2;
+        };
+
+        const info1 = await getResource();
+        addP(`1. ${info1}`);
+        const info2 = await getResource();
+        addP(`2. ${info2}`);
+        const info3 = await getResource();
+        addP(`3. ${info3}`);          
+    })();
+    
+  </script>
+```
+
+Al instructor le está gustando y volviendose más al `.then` a un estilo mas funcional, lo que en await seria ponern await()()() varios parentesis.
