@@ -1376,4 +1376,286 @@ Si yo le doy a submit vemos que no carga, por que tengo la propiedad `required` 
 
 Si envarga la validación nos va a quedar corta y queremos darle otro rollo. Primero vamosa hacer un pequeño cambi del mensaje.
 
-Me quedé min 3:21:04 customiza msg input validacion
+El mundo del custom validity se puede cambiar bastante, todas la validaciones que da por defecto html5, pero si trabajo con un borwser antiguo o hacer validaciones antiguas, talvez se nos pueda quedar corto.
+
+Primero para que no nos pille debemos poner al formulacio la propiedad `novalidate`.
+
+Esto aún asi no me va a validar y mostrar el mensaje, como podemos hacer para que nuestro formulario no se comporte como viene por defecto, esto lo hicimos con el `preventDefault`., cual es el evento que esta por defecto es el `submit`, entonces a partir de ahi ya podemos ir hilando y decir:
+
+```html
+  <form id="form" novalidate>
+    <label for="name">Name: </label>
+    <input id="name" required name="name" type="text">
+    <button type="submit">submit</button>
+  </form>
+  
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    form.addEventListener('submit', () => {
+      console.log('Submit!!!!');
+    });
+  </script>
+```
+
+El instructor tiene la consola configurada con `Preserve log`, lo que hace es que mantienen los log's incluso en las recargas o cambiando de ruta. 
+
+Para evitar que haga la recarga por defecto el `form` debo agregarle la propiedad `preventDefault()`.
+
+Aquí lo que podemos decir, esto ya lo tengo controlado, pero necesito ahora ver si esta validado el formulario, saber si los campos están bien o están mal.
+Veremos un tipos de datos para ver como validar el formulario.
+
+Para esto vamso a usar `evt.target` para saber cual es el form en el que hemos dado o activado el submit y vamos a ver si está validado con la propiedad `checkValidity()`.
+
+```html
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    form.addEventListener('submit', evt => {
+      evt.preventDefault();
+      console.log(evt.target.checkValidity());
+    });
+  </script>
+```
+
+Vamos al navegadro para probar y si vemos la consola, nos devuelve un `false`, xq false, porque yo puse un campo que es `required`  en mi html y en ningún momento lo he rellenado.
+
+
+El instructor usa algo mas que el checkValidity().
+
+Lo que podemos hacer es ver la validez de este input con la propiedad `.validity`
+
+```html
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      console.log(nameInput.validity);
+    });
+  </script>
+```
+
+Este objeto validity lo que tiene es una serie de propiedades, de si es válido (valid) el cual está en falso.
+
+```log
+ValidityState {valueMissing: true, typeMismatch: false, patternMismatch: false, tooLong: false, tooShort: false, …}
+valueMissing: true
+typeMismatch: false
+patternMismatch: false
+tooLong: false
+tooShort: false
+rangeUnderflow: false
+rangeOverflow: false
+stepMismatch: false
+badInput: false
+customError: false
+valid: false
+__proto__: ValidityState
+```
+
+ Pero podriamos llegar al fomulario y decir que si valid es false que pinte un error:
+
+ ```html
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      console.log(nameInput.validity);
+      if(!nameInput.validity.valid) {
+        return showError('Name not valid');
+      }
+    });
+  </script>
+ ```
+
+ Si uso las validaciones de `tooLong` o `tooShort` cuando sean verdaderas es que se esta dando el error, cuando el string es muy largo o muy corto. O si es requerido. Y así podemos ir poniendo un popup tipo bootstrap el valor es requerido. O tambien lo que podemos hacer es lo que hicimos antes con los data sets como el `data-error` y agregarlo en el input, y luego obtenermos el valor del dataset.
+
+ ```html
+ <body>
+  <form id="form" novalidate>
+    <label for="name">Name: </label>
+    <input id="name" name="name" type="text" required data-error="Error en el input">>
+    <button type="submit">submit</button>
+  </form>
+  
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      console.log(nameInput.validity);    
+      console.log(nameInput.dataset.error);    
+      if(!nameInput.validity.valid) {
+        return showError('Name not valid');
+      }
+    });
+  </script>
+</body>
+ ```
+
+ Esto me devolveria el valor de el data ser si lo quiero usar o nó.
+
+ Ahora vamos a hacer la función de showError()
+
+
+Un copañero le pregunta, si el instructor alguna vez hace una función usando la palabra `function` o siempre usa const? El instructor responde, que casi siempre usa `const nombreFuncion =() => {};` a menos que tenga prototipos o necesite algo de contextos o usar el `this` es decir que tena internamente el tipo de propiedades.
+
+```html
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .group-input {
+      display: flex;
+      flex-direction: column;
+    }
+    .error {
+      display: none;
+      color: red;
+    }
+
+    .form.invalid .error {
+      display: block;
+    }
+    .block {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" name="name" type="text" required data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <button type="submit">submit</button>
+  </form>
+  
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    const showError = message => {
+      const error = document.querySelectorAll('form .error');
+      error.forEach((error, index) => {
+        error.innerText = `${message} ${index}`;
+      });
+      console.log(error);
+      error.innerText = message;
+      form.classList.add('invalid');
+    };
+
+    nameInput.addEventListener('keyup', () => {
+      form.classList.remove('invalid');
+    });
+
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      
+      if(!nameInput.validity.valid) {
+        return showError(nameInput.dataset.error);
+      }
+    });
+  </script>
+</body>
+```
+
+ > querySelector lo que hace solo toma o pilla un solo selector que enceuntra al recorrer el arbol de dom, pero recordar que siempre lo podemos especializar usandolo como selector de css.
+
+ > Además si tenemos por ejemplo varios elementos y para que no solo seleccione uno, podemos usar `querySelectorAll`
+
+ Al final uno acaba usando mucho librerias para las validaciones., ya que es raro terminar manejando las validaciones por nuestra cuenta.
+
+ Las validaciones en el front son a nivel de UX (user experience) son sobre todo de una persperctiva de experiencia de usuario.
+
+ Merece la pena validar mejor en el backend. Aunque si merece la pena hacerlo en el frontend.
+
+ ```html
+  <title>Document</title>
+<style>
+    .group-input {
+      display: flex;
+      flex-direction: column;
+    }
+    .error {
+      display: none;
+      color: red;
+    }
+
+    .form.invalid .error {
+      display: block;
+    }
+    .block {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" name="name" type="text" required data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <button type="submit">submit</button>
+  </form>
+  
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    const showError = message => {
+      const errors = document.querySelectorAll('form .error');
+      errors.forEach((error, index) => {
+        error.innerText = `${message} ${index}`;
+      });      
+      form.classList.add('invalid');
+    };
+
+    nameInput.addEventListener('keyup', () => {      
+      form.classList.remove('invalid');
+      console.log('quita el invalid!!!!');
+    });
+
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      
+      if(!nameInput.validity.valid) {
+        return showError(nameInput.dataset.error);
+      }
+    });
+  </script>
+</body>
+ ```
