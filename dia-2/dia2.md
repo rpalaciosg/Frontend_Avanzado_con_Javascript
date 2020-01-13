@@ -1673,3 +1673,5 @@ Los estilos que nos pasa el instructor, se ve un poco raro porque está hecho co
 Una cosa del css, el archivo `dia-2\src\css\styles.css` que es el principal donde hay imports ya que todo lo tiene separados en archivos o secciones de componentes. De esta forma organiza todo, pero esto tienen aún mas sentido cuando trabajamos con herramientas de preprocesado de CSS que veremos en el siguiente módulo.
 
 Como en el `dia-2\src\index.html` los estilos los ha puesto con barra tengo que ejecutarlo con el `http-server`
+
+Me quede en el minuto 3:53:37 del segundo día
