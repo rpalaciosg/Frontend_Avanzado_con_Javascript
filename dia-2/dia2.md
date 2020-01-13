@@ -1659,3 +1659,17 @@ Un copañero le pregunta, si el instructor alguna vez hace una función usando l
   </script>
 </body>
  ```
+
+## Maquetar nuestra Web TVMaze
+
+Vamos a ir creando la estructura de carpetas que va a llevar nuestro proyecto.
+
+Creo 2 carpetas debtro de src para el css `dia-2\src\css` y js `dia-2\src\js`
+
+Para el tema de los estilos para la app, el instructor nos va a pasar todos los estilos, ya que no es contenido de esta parte del curso.
+
+Los estilos que nos pasa el instructor, se ve un poco raro porque está hecho con sass, algo que veremos en el siguiente módulo pero que se lee mucho mejor.
+
+Una cosa del css, el archivo `dia-2\src\css\styles.css` que es el principal donde hay imports ya que todo lo tiene separados en archivos o secciones de componentes. De esta forma organiza todo, pero esto tienen aún mas sentido cuando trabajamos con herramientas de preprocesado de CSS que veremos en el siguiente módulo.
+
+Como en el `dia-2\src\index.html` los estilos los ha puesto con barra tengo que ejecutarlo con el `http-server`

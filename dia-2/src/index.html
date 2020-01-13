@@ -1,79 +1,16 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Async</title>
-</head>
-<body>
-  <div id="container">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
+    <title>TVMaze shows</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- styles -->
+    <link rel="stylesheet" href="/src/css/styles.css">
+  </head>
+  <body>
 
-  </div>
-  <script>
-    ( async () => {
-      const container = document.querySelector('#container');
-      const getResource = () => {
-        return new Promise( (resolve) => {
-          setTimeout( () => {
-            const info = 'Super texto pero desde API';
-            resolve(info);
-          }, 3000);      
-        });
-      };
-
-      // getResource( function (info) {
-      //   addP(`1. ${info}`);
-      //   getResource( function (info) {
-      //     addP(`2. ${info}`);
-      //     getResource( function (info){
-      //       addP(`3. ${info}`);
-      //     });
-      //   });
-      // });
-
-      // getResource()
-      //   .then()
-      //   .then(info => {
-      //     addP(`1. ${info}`);
-      //     return getResource();
-      //   })
-      //   .then(info => {
-      //     addP(`2. ${info}`);
-      //     return getResource();
-      //   })
-      //   .then(info => {
-      //     addP(`3. ${info}`);
-      //   })
-      //   ;
-
-        const addP = pValue => {      
-          const para = document.createElement('p');
-          const textNode = document.createTextNode(pValue);
-          para.appendChild(textNode);
-          
-          // container.appendChild(para);
-
-          // innerHTML
-          const para2 = `<p id="texto">${pValue}</p>`;
-          container.innerHTML += para2;
-
-          // const texto = document.querySelector('#texto');
-          // texto.addEventListener('click', () => console.log('click!!!'));
-        };
-
-        const info1 = await getResource();
-        addP(`1. ${info1}`);
-        const info2 = await getResource();
-        addP(`2. ${info2}`);
-        const info3 = await getResource();
-        addP(`3. ${info3}`);    
-
-      // initRender();
-
-      
-    })();
-    
-  </script>
-</body>
+  </body>
 </html>
