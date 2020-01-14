@@ -1674,4 +1674,64 @@ Una cosa del css, el archivo `dia-2\src\css\styles.css` que es el principal dond
 
 Como en el `dia-2\src\index.html` los estilos los ha puesto con barra tengo que ejecutarlo con el `http-server`
 
-Me quede en el minuto 3:53:37 del segundo día
+Ejecutamos el servidor desde el terminal con `npm run server` 
+
+
+- Si vamos a la consola de chrome y en network vemos los css que se están cargando, vemos que es están cargando todos y uno en cada archivo diferente, lo que no es bueno del todo, por lo que cada una de estas request tiene el Waiting(TTFB) que es el tiempo que cargan en hacer el handshide, osea en hacer la conexión con el server o abrir la conexión con el server.   Esto con http2 no pasa pero con lo que se está ahciendo ahora si pasa y es lo más habitual, pero eso no mola, tener un monton de archivos css así separados, 
+- ¿y esto porque és? porque yo los estoy importando de esta manera.
+```css
+@import "variables.css";
+@import "reset.css";
+@import "button.css";
+@import "loader.css";
+@import "input.css";
+@import "card.css";
+@import "icon.css";
+@import "detail.css";
+@import "mainSection.css";
+@import "navbar.css";
+
+* {
+  font-family: 'Roboto', Verdana;
+}
+
+a {
+  color: initial;
+  text-decoration: none;
+}
+```
+
+Y se lo hace así porque queremos tener organizado nuestro css, y para esto tengo que pagar el coste de tenerlo separado en varios archivos y que me haga varias request. 
+
+Eso es un problema cuando está montado el css asi en plan vanilla, pero en el siguiente módulo esto va a cobrar mucho más sentido porque se va a importar de una manera en que todo va a ser un solo archivo y cada uno de los css cargados se vana poner en orden por improtación y luego vamos a poder minificarlo, etc.
+
+Esta vez como no estamos usando preprocesadores, va a dar un coste en el rendimiento.
+
+Ahora agregamos el navbar:
+```html
+<!-- navbar -->
+    <navbar id="navbar" class="app-navbar no-search">
+      <div class="navbar-logo">
+        <a href="/">TVMAZE</a>
+      </div>
+      <div class="navbar-right-actions">
+        <div class="filter-container">
+          <form id="search-form" class="filter-input" novalidate>
+            <input data-pattern-mismatch="Input invalid" required placeholder="search your serie" class="input search" type="text">
+            <button type="submit" class="button search">Search</button>
+          </form>
+        </div>
+        <div class="navbar-icon">
+          <i id="navbar-search" class="fas fa-search"></i>
+          <i id="navbar-close" class="fas fa-times"></i>
+        </div>
+      </div>
+    </navbar>
+    <!-- navbar-end -->
+```
+
+Si vemos la consola del navegador y cambiamos el tamaño vemos que el navbar cambia si está en tamaño mobiles mostrando un ícono de buscar, o tamaño escritorio que muestra el input para buscar.
+
+Trabaja con la key o clase `no-search` y si es que le cambio el `no-search` por `search` esta navbar cambia al layout con el input para ingresar búsqueda.
+
+Luego jugaremos con el formulario usando el input de búsqueda, y jugaremos a escribir y que cuando mandemos la peticion haga la query filtrada, y haga los shows y empecemos a filtrar.
