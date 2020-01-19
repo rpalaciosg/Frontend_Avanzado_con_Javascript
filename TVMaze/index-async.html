@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Async</title>
+</head>
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    ( async () => {
+      const container = document.querySelector('#container');
+      const getResource = () => {
+        return new Promise( (resolve) => {
+          setTimeout( () => {
+            const info = 'Super texto pero desde API';
+            resolve(info);
+          }, 3000);      
+        });
+      };
+
+      // getResource( function (info) {
+      //   addP(`1. ${info}`);
+      //   getResource( function (info) {
+      //     addP(`2. ${info}`);
+      //     getResource( function (info){
+      //       addP(`3. ${info}`);
+      //     });
+      //   });
+      // });
+
+      // getResource()
+      //   .then()
+      //   .then(info => {
+      //     addP(`1. ${info}`);
+      //     return getResource();
+      //   })
+      //   .then(info => {
+      //     addP(`2. ${info}`);
+      //     return getResource();
+      //   })
+      //   .then(info => {
+      //     addP(`3. ${info}`);
+      //   })
+      //   ;
+
+        const addP = pValue => {      
+          const para = document.createElement('p');
+          const textNode = document.createTextNode(pValue);
+          para.appendChild(textNode);
+          
+          // container.appendChild(para);
+
+          // innerHTML
+          const para2 = `<p id="texto">${pValue}</p>`;
+          container.innerHTML += para2;
+
+          // const texto = document.querySelector('#texto');
+          // texto.addEventListener('click', () => console.log('click!!!'));
+        };
+
+        const info1 = await getResource();
+        addP(`1. ${info1}`);
+        const info2 = await getResource();
+        addP(`2. ${info2}`);
+        const info3 = await getResource();
+        addP(`3. ${info3}`);    
+
+      // initRender();
+
+      
+    })();
+    
+  </script>
+</body>
+</html>

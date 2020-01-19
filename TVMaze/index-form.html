@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .group-input {
+      display: flex;
+      flex-direction: column;
+    }
+    .error {
+      display: none;
+      color: red;
+    }
+
+    .form.invalid .error {
+      display: block;
+    }
+    .block {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" name="name" type="text" required data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <button type="submit">submit</button>
+  </form>
+  
+  <script>
+    const nameInput = document.querySelector('#name');
+    const form = document.querySelector('#form');
+    // nameInput.setCustomValidity("Error custom modificado!!!");    
+    
+    const showError = message => {
+      const errors = document.querySelectorAll('form .error');
+      errors.forEach((error, index) => {
+        error.innerText = `${message} ${index}`;
+      });      
+      form.classList.add('invalid');
+    };
+
+    nameInput.addEventListener('keyup', () => {      
+      form.classList.remove('invalid');
+      console.log('quita el invalid!!!!');
+    });
+
+    form.addEventListener('submit', evt => {
+      // console.log(evt.target.checkValidity());
+      evt.preventDefault();
+      
+      if(!nameInput.validity.valid) {
+        return showError(nameInput.dataset.error);
+      }
+    });
+  </script>
+</body>
+</html>
