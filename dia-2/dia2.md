@@ -1670,14 +1670,14 @@ Para el tema de los estilos para la app, el instructor nos va a pasar todos los 
 
 Los estilos que nos pasa el instructor, se ve un poco raro porque está hecho con sass, algo que veremos en el siguiente módulo pero que se lee mucho mejor.
 
-Una cosa del css, el archivo `dia-2\src\css\styles.css` que es el principal donde hay imports ya que todo lo tiene separados en archivos o secciones de componentes. De esta forma organiza todo, pero esto tienen aún mas sentido cuando trabajamos con herramientas de preprocesado de CSS que veremos en el siguiente módulo.
+Una cosa del css, el archivo `dia-2\src\css\styles.css` que es el principal donde hay imports ya que todo lo tiene separados en archivos o secciones de componentes, botnes, cards, etc. De esta forma organiza todo, pero esto tienen aún mas sentido cuando trabajamos con herramientas de preprocesado de CSS que veremos en el siguiente módulo.
 
 Como en el `dia-2\src\index.html` los estilos los ha puesto con barra tengo que ejecutarlo con el `http-server`
 
 Ejecutamos el servidor desde el terminal con `npm run server` 
 
 
-- Si vamos a la consola de chrome y en network vemos los css que se están cargando, vemos que es están cargando todos y uno en cada archivo diferente, lo que no es bueno del todo, por lo que cada una de estas request tiene el Waiting(TTFB) que es el tiempo que cargan en hacer el handshide, osea en hacer la conexión con el server o abrir la conexión con el server.   Esto con http2 no pasa pero con lo que se está ahciendo ahora si pasa y es lo más habitual, pero eso no mola, tener un monton de archivos css así separados, 
+- Si vamos a la consola de chrome y en network vemos los css que se están cargando, vemos que se están cargando todos y uno en cada archivo diferente, lo que no es bueno del todo, por lo que cada una de estas request tiene el Waiting(TTFB) que es el tiempo que cargan en hacer el `handshide`, osea en hacer la conexión con el server o abrir la conexión con el server.   Esto con http2 no pasa pero con lo que se está haciendo ahora si pasa y es lo más habitual, entonces eso no mola, tener un monton de archivos css así separados
 - ¿y esto porque és? porque yo los estoy importando de esta manera.
 ```css
 @import "variables.css";
@@ -1701,11 +1701,12 @@ a {
 }
 ```
 
-Y se lo hace así porque queremos tener organizado nuestro css, y para esto tengo que pagar el coste de tenerlo separado en varios archivos y que me haga varias request. 
+Y se lo hace así porque queremos tener organizado nuestro css si o si, y para esto tengo que pagar el coste de tenerlo separado en varios archivos y que me haga varias request. 
 
-Eso es un problema cuando está montado el css asi en plan vanilla, pero en el siguiente módulo esto va a cobrar mucho más sentido porque se va a importar de una manera en que todo va a ser un solo archivo y cada uno de los css cargados se vana poner en orden por improtación y luego vamos a poder minificarlo, etc.
+Pero eso es un problema cuando está montado el css asi en plan vanilla, pero en el siguiente módulo esto va a cobrar mucho más sentido porque se va a importar de una manera en que todo va a ser un solo archivo y eso significa que todo va a estar en el `styles.css` cada uno de los css cargados se van poner en orden por importación y luego vamos a poder minificarlo, etc.
 
 Esta vez como no estamos usando preprocesadores, va a dar un coste en el rendimiento.
+Tener en cuenta que como esto esta sin preprocesadores, y saber que el tenerlo separado tiene un coste en el rendimiento.
 
 Ahora agregamos el navbar:
 ```html
@@ -1732,6 +1733,7 @@ Ahora agregamos el navbar:
 
 Si vemos la consola del navegador y cambiamos el tamaño vemos que el navbar cambia si está en tamaño mobiles mostrando un ícono de buscar, o tamaño escritorio que muestra el input para buscar.
 
-Trabaja con la key o clase `no-search` y si es que le cambio el `no-search` por `search` esta navbar cambia al layout con el input para ingresar búsqueda.
+Trabajamos con la key o clase css `no-search` y si es que le cambio el `no-search` por `search` esta navbar cambia al layout con el input para ingresar búsqueda. 
+La idea es jugar con esta clase para ahcer esta animaciòn al cambiar de pantalla mobiles a pantallas de escritorio.
 
-Luego jugaremos con el formulario usando el input de búsqueda, y jugaremos a escribir y que cuando mandemos la peticion haga la query filtrada, y haga los shows y empecemos a filtrar.
+Luego jugaremos con el formulario y tambien jugaremos a escribir y que cuando mandemos la petición haga la query filtrada y que nos devuelva ya los shows y los empecemos a pintar.
