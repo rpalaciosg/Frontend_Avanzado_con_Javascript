@@ -27,7 +27,7 @@
   <form class="form" id="form" novalidate>
     <div class="group-input>
       <label for="name">Name: </label>
-      <input id="name" name="name" type="text" required data-error="Error en el input">
+      <input id="name" required name="name" type="text"  data-error="Error en el input">
       <span class="error"></span>
       <span class="error"></span>
       <span class="error"></span>
@@ -35,12 +35,18 @@
       <span class="error"></span>
       <span class="error"></span>
     </div>
+    <div class="group-input>
+      <label for="age">Age: </label>
+      <input id="age" required max="2" name="age" type="number">
+    </div>
+
     <button type="submit">submit</button>
   </form>
   
   <script>
     const nameInput = document.querySelector('#name');
     const form = document.querySelector('#form');
+    const age = document.querySelector('#age');
     // nameInput.setCustomValidity("Error custom modificado!!!");    
     
     const showError = message => {
@@ -51,15 +57,17 @@
       form.classList.add('invalid');
     };
 
-    nameInput.addEventListener('keyup', () => {      
+    nameInput.addEventListener('keyup', (evt) => {
+      console.log(evt);
       form.classList.remove('invalid');
       console.log('quita el invalid!!!!');
     });
 
-    form.addEventListener('submit', evt => {
-      // console.log(evt.target.checkValidity());
-      evt.preventDefault();
-      
+    form.addEventListener('submit', evento => {
+      console.log(evento);
+      // console.log(evt.target.checkValidity()); // checa que esten validados todos los campos del formulario
+      evento.preventDefault();
+      console.log(age.validity);
       if(!nameInput.validity.valid) {
         return showError(nameInput.dataset.error);
       }

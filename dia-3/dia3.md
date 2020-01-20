@@ -28,4 +28,89 @@ doucment.querySelectorALL('.por-clases')
 - ¿Que es backend?, en la parte clientside haremos una peticiòn desde el frontend y no al servidor para que el servidor vuelva a renderizar todo el html, eso es lo que llaman el concepto de AJAX.
 
 ## Validaciòn de formularios
-Lo que no estaba funcionando es la validacion de formulario es el `evt.target.checkValidity()` y vamos tambien a añadir un selec() con varios options, y tambien otra condicion que no sea solo require en un input, para ver el objeto `validity.valid` que nos devolverìa las claves de true o false de si es vàlido o nò.
+Lo que no estaba funcionando es la validación de formulario es el `evt.target.checkValidity()` y vamos tambien a añadir un selec() con varios options, y tambien otra condición que no sea solo require en un input, para ver el objeto `validity.valid` que nos devolvería las claves de true o false de si es vàlido o nò.
+
+### checkValidity()
+Lo que hace es hacer una validación del formulario.
+¿En que sentido y como la hace? -> Si tiene màs inputs y almeos uno de llos no cumple las validaciones que hemos definido en este caso el `required` el `checkCalidity()' va a devolver un `false` o un `true` en caso de que sean exitosas.
+
+```html
+form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" name="name" type="text" required data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <button type="submit">submit</button>
+  </form>
+```
+
+Es decir si copi el input que habia puesto y en vez de `name` le llamo 'surname:'  
+
+```html
+  <form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" required name="name" type="text"  data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <div class="group-input>
+      <label for="surname">Surname: </label>
+      <input id="surname" required name="surname" type="text">      
+    </div>
+    
+    <button type="submit">submit</button>
+  </form>
+```
+
+Entonces si voy al navegador, y pongo en la consola, si lleno solo un input el checkValidity() me va a devolver `false` y si relleno ambos me va a devolver `true`.
+Recordemos que esta función la estoy tomando del event target `evt.target.checkValidity()`, del evento que le hemos puesto al elemento `form`, asi podemos poner un trigger para saber si el formulario esta validado.
+
+Ahora vamos a cambiar el input `surname` por age y vamos a ponerle un validador `max="2"`.
+
+```html
+<form class="form" id="form" novalidate>
+    <div class="group-input>
+      <label for="name">Name: </label>
+      <input id="name" required name="name" type="text"  data-error="Error en el input">
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+      <span class="error"></span>
+    </div>
+    <div class="group-input>
+      <label for="age">Age: </label>
+      <input id="age" required max="2" name="age" type="number">
+    </div>
+
+    <button type="submit">submit</button>
+  </form>
+```
+
+Al escribir un nùmero largo y darle a submit el `evt.target.checkValidity()`, va a devolver `false` debito a que pusimos en el input `age` la validación `max="2"`.
+
+Lo que nos interesaba es ver el objeto validity
+
+Lo que si es que veremos que esta forma de acceder a estos eventos con librerias o frameworks de js es diferente.
+
+La forma en la uq estamos usando y validando el formulario, es que al usar el `evento.preventDefault()` no va a hacer el submit como tal, pero despues que sabemos que todos los campos del formulario estan valdiados, debemos llamar a otra función, la cual hará una request a un api y asì no recarga la pàgina y a la final hariamos que sea asincrono con fetch.
+
+Al gestionar el formulario de esta forma, es buscar darle mas feedback al usuario con respecto a las valdiaciones y sea mas amigable. Que a lo mejor recargue y ya me salga el error arriba. Y poner queryParam para que el formulario se autocomplete, que es algo como serverside rendering.
+
+## Continua Maquetación de TVMaze
+
+Nos creamos un archivo llamado `TVMaze/src/js/ui.js`, y este archivo lo creamos para ejecutar el javascript fuera del html, para que nos sea luego facil organizar nuestro proyecto.
+
+Para importar ese archivo en el html  antes de que termine el body creamos una etiqueta `<script>`.
