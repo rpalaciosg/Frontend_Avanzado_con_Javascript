@@ -114,3 +114,5 @@ Al gestionar el formulario de esta forma, es buscar darle mas feedback al usuari
 Nos creamos un archivo llamado `TVMaze/src/js/ui.js`, y este archivo lo creamos para ejecutar el javascript fuera del html, para que nos sea luego facil organizar nuestro proyecto.
 
 Para importar ese archivo en el html  antes de que termine el body creamos una etiqueta `<script>`.
+
+Me quedé en 29_08 del dia 3
