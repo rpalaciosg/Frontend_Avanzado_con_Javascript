@@ -113,6 +113,52 @@ Al gestionar el formulario de esta forma, es buscar darle mas feedback al usuari
 
 Nos creamos un archivo llamado `TVMaze/src/js/ui.js`, y este archivo lo creamos para ejecutar el javascript fuera del html, para que nos sea luego facil organizar nuestro proyecto.
 
-Para importar ese archivo en el html  antes de que termine el body creamos una etiqueta `<script>`.
+Hasta ahora hemos realizado el javascript dentro del html, pero ahora lo vamos a realizar desde afuera, desde otro archivo para que nos sea mas facil organizar nuestro còdigo. Para importar ese archivo en el html  antes de que termine el body creamos una etiqueta `<script>`.
 
-Me quedé en 29_08 del dia 3
+```html
+<script src="/src/js/ui.js"></script>
+```
+
+El tema de las barras, en la ruta `src="/src/js/ui.js"` si yo abro con `open in browser`, esto se rompe, y esto porque si vamos a Network en la consola de chrome, vemos que tanto el `styles.css` lo como el `ui.js` da un error, y fijémonos porque da un error, es porque va a buscar a `file:///src/css/stykes.css` y es porque al poner la barra iriamos a la ruta de origen o ruta absoluta.
+
+Si por ejemplo no le pongo "/" barra o slash, al importar el css en el html, el css me va a funcionar, porque al no poner el barra està yendo o tomando desde donde yo tengo mi archivo `Request URL: file:///home/richard/Fullstack_web_bootcamp_keepcoding/Frontend_Avanzado_con_Javascript/TVMaze/src/css/styles.css` al igual que si pongo `./` o `./../`, pero esto seria muy redundante. 
+
+> Pero cual usar? Recomienda siempre barra, pero porque cuando levanto con el server funciona? Porque va al origen de mi servidor `Request URL: http://127.0.0.1:8080/src/css/styles.css` justo la ruta origen. Siempre se pondría barra, porque cuando se hacen transformaciones con algùn preprocesador como `webpack` o algo por el estilo, luego es un lío gestionar eso, y si ponemos solo "/" sabemos que esta viniendo de un solo origen y si no està cargando algo es porque no esta puesto correctamente en base al origen de mi carpeta, luego veremos que cuando hagamos `serverside rendering` cambiaremos un poquito esto de aquí. Recordar que para probar esto necesitamos el paquete `http-server`.
+
+Alquien pregunta sobre donde poner el `<script>` de donde ponerlo si en el head o al final del body, el profesor dice que depende de como este el còdigo, pero que suele ponerlo al final porque suele dar error si se quiere usar un elemento y el javascritp carga antes de que exista el elemento suele dar error.
+Las libreria como `jquery` o librerias que dan algunos frameworks js los suele poner en la parte de arriba del head pero el instructor los archivos de script los pone al final. 
+Alguien tambien pregunta que si se puede poner una validaciòn con el evento `DOMContentLoaded` y el instructor dice que si se puede poner cuando esta cargado, y ahi si mandar todo el código.
+
+Los preprocesadores ya no ponen estilos css ni js y luego por debajo tu haces tus cosas de js con imports, con async/await, usando todo lo más nuevo, todo lo más chulo con preprocesadores de css o con plugins y luego ellos el js lo añaden al final `hasheado`  con un identificador por un tema de caché y el css te lo añaden en el head pero lo añaden al final, esto para que cuando añadas links o cosas externas no pisen a tus estilos, ahi entonces el instructor sigue la convenciòn de los preprocesadors de poner los scripts al final.
+
+Para modificar nuestra `navbar` vamos a hacer algo rollo muy js que es hacer un `closure` que es una función que retorne a otra función, para modificar este navbar, que recordemos era jugar con estas clases.
+
+Primero en el archivo `ui.js` vamos a crear un closure para agregar y quitar clases de css a nuestro navbar.
+
+```js
+const navbar = document.querySelector('#navbar');
+
+const handleNavBar = (removeClass, addClass) => {
+  navbar.classList.remove(removeClass);
+  navbar.classList.add(addClass);
+};
+
+setTimeout( () => handleNavBar('no-search', 'search'), 1000);
+```
+
+Para probar ponemos un timeout que ejecute la funcion `handleNavBar()` y que cambie la clase `no-search` por `search`.
+
+Pero esto lo podemos hacer de otra manera, lo que podemos hacer aquí es crearnos un función a la que le llamaremos `toggle`, y lo que vamos a ahcer es esperar que nos pasen un `elemento` y este elemento nos retorne una función.
+
+Se va a escribir con function que se entiende mejor que con arros
+
+```js
+function toggle(elemento) {
+  return function (removeClass, addClass) {
+    navbar.classList.remove(removeClass);
+    navbar.classList.add(addClass);
+  };
+}
+```
+
+Aqui estamos haciendo una función que a su vez retorna otra function que hace ya cosas. La cosa es que ya puedo pasar o dejar de usar solo navbar y puedo ponerle el `elemento`
