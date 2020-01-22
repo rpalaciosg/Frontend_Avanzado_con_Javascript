@@ -161,4 +161,27 @@ function toggle(elemento) {
 }
 ```
 
-Aqui estamos haciendo una función que a su vez retorna otra function que hace ya cosas. La cosa es que ya puedo pasar o dejar de usar solo navbar y puedo ponerle el `elemento`
+Aqui estamos haciendo una función que a su vez retorna otra function que hace ya cosas. La cosa es que ya puedo pasar o dejar de usar solo navbar y puedo ponerle el `elemento` que yo quiera.
+
+```js
+const navbar = document.querySelector('#navbar');
+
+function toggle(elemento) {
+  return function (removeClass, addClass) {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  };
+}
+```
+Entonces ya podria hacer otro tipo de còdigo estilo el `handleNavBar` que sea igual a la function `toggle(navbar)` y le paso el `navbar`.
+
+Entonces la funcion `toggle` dentro de  `handleNavBar` se ejecute que va hacer?, me va a devolver  esta función:
+
+```js
+function (removeClass, addClass) {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  };
+```
+Y si nos fijamos es exactamente lo mismo que teniamos antes, con la ventaja que mi `toggle` ya no es solo para navbar sino que podria poner mas elementos y tener una funcion muy descriptiva que se encargue de esa responsabilidad que es hacer ese toogle, podriamos decir que es un creador de toggles, una especie de factoria por asì decirlo, que lo me crea son funciones que hacen toggle en base a un elemento que yo decido cual es. 
+Es un aproach que vamos a ver mucho hacerlo de esta manera, con funciones que especializan, pero con arrow function que siempre se escribe menos.
