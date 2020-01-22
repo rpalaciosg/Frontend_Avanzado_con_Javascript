@@ -194,3 +194,5 @@ const toggle = elemento => (removeClass, addClass) =>{
 ```
 
 vemos que funciona igual, al segundo cambia la clase `no-search` por `search`.
+
+Me quedé en dia 3 tiempo 43:50
