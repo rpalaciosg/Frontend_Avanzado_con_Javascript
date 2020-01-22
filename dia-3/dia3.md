@@ -185,3 +185,12 @@ function (removeClass, addClass) {
 ```
 Y si nos fijamos es exactamente lo mismo que teniamos antes, con la ventaja que mi `toggle` ya no es solo para navbar sino que podria poner mas elementos y tener una funcion muy descriptiva que se encargue de esa responsabilidad que es hacer ese toogle, podriamos decir que es un creador de toggles, una especie de factoria por asì decirlo, que lo me crea son funciones que hacen toggle en base a un elemento que yo decido cual es. 
 Es un aproach que vamos a ver mucho hacerlo de esta manera, con funciones que especializan, pero con arrow function que siempre se escribe menos.
+
+```js
+const toggle = elemento => (removeClass, addClass) =>{
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+};
+```
+
+vemos que funciona igual, al segundo cambia la clase `no-search` por `search`.
