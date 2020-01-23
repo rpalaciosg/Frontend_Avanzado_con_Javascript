@@ -411,3 +411,5 @@ Creamos un archivo llamado `TVMaze/src/js/navbar.js` e importamos este script al
 Tambien todo lo de navbar que este en ui.js me lo voy a llevar a navbar.js
 
 llegados a este punto, ya tenemos las cosas separadas, pero vemos en en ui.js toggle no está definido, entonces la manera enq ue vamos a gestionar esto es muy parecida a Node de `ES6` pero distinta, que es con `imports` ya que en Node se usa `common.js` que es diferente.
+
+Me quedé en dia 3 - 1:02:30
