@@ -217,6 +217,7 @@ handleLogClassName('', 'test-class');
 
 Tendriamos esto una funcion que se encarga de gestioanr las clases, y lo que mola de hacerla pagina más funcional es que cuando veamos testing es que podre darme cuenta que una funcion es muy facil de testear, es decir testear una entrada y un resultado. Y puedo decir vale tengo una funcion y debo testear que la función me garantiza que las `classList` se van a cambiar. Entonces yo se que eso va a ser perfecto, entonces si yo la dopo o le doy mas información entonces ya tengo otra función que permite recibir funciones que sé que me va a dejar jugar con el `classList` de esa manera. Esto es batante pontente y se usa bastante.
 
+### Pasar una funcion como parámetro, funcino que retorna otra función
 El típico ejemplo que el instrutor usa para explicar esto es:
 
 ```js
@@ -322,3 +323,79 @@ Tambien podemos ver aveces que hay algunos códigos que tienen como muchos paren
 const multiplicarPor5 = multiplicar(5)()();
 ```
 Lo que van haciendo es que a cada parentesis vas especificando a cada parentesis un poquito más, lo que tienes un funcion mas abstrabta o que la puedas usar mejor.
+
+### Add nuestra funcion Toogle al evento click del incono search
+Bueno tenemos una fucnion de UI que se llama `toggle` y queremos es hacer el cambio que cuando clicke en el icono de buscar me haga ese cambio.
+
+Y vamos añadir nuestra fucnion de handleNavBar para hacer ese cambio, y luego lo que vamos a hacer es lelvar ese handle a otro sitio que tenga mas sentido en nuestro proyecto.
+
+Cuando hagamos click en ` <button type="submit" class="button search">Search</button>`,se nos cambie la barra de navegacion:
+
+Algo que debemos tener en cuenta es que debemos ayudarnos del querySelector()para seleccionar el elemento correcto, en este caso como el button no tiene id y tiene 2 clases la selección se la haría así.
+
+```js
+const searchButton = document.querySelector('#navbar .button.search');
+```
+
+Algo que debemos recordar tambien que en un arrow fucntion si en lugar de {llaves} ponemos (parentesis), no es necesario poner `returns` ni nada pero que no podemos poner (;) punto y coma al final de la linea tampo:
+
+```js
+searchButton.addEventListener('click', () => (
+  handleNavBar('no-search', 'search')
+));
+```
+
+Esto es porque por ejemplo si pongo esta arrow function es una sola línea me quedaría muy larga y no muy facil de leer:
+
+```js
+searchButton.addEventListener('click', () => handleNavBar('no-search', 'search'));
+```
+
+Entonces yo para mejorar esto pongo con llaves el arrow function:
+
+```js
+searchButton.addEventListener('click', () => {
+    handleNavBar('no-search', 'search')
+});
+```
+Pero hay herramientas que me pondrian un error en el arrowFuction y me dirian que debo poner un return;
+
+```js
+searchButton.addEventListener('click', () => {
+  return handleNavBar('no-search', 'search')
+});
+```
+
+Pero entonces para mejorar esto, dejarlo mas facil de leer y en 2 líneas, yo usaría parentesis() en lugar de lalves{} para el arrow function y asi ya no tengo que poner el return:
+
+```js
+searchButton.addEventListener('click', () => (
+  handleNavBar('no-search', 'search')
+));
+```
+
+Y ya lo puedo tener en 2 líneas sin que esas herramientas que gestionan la consistencia del código entre equipos no me de un error. 
+
+> esto lo veremos la semana que viene como instala una de estas herramientas para trabajar en equipo.
+
+Entonces con este código ya tendriamos ese evento en la UI cuando clickemos en el icon-search:
+
+```js
+const navbar = document.querySelector('#navbar');
+const logo = document.querySelector('#navbar .navbar-log');
+const searchIcon = document.querySelector('#navbar-search');
+
+const toggle = elemento => (removeClass, addClass) =>{
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+};
+
+const handleNavBar = toggle(navbar);
+
+const handleLogClassName = toggle(logo);
+
+searchIcon.addEventListener('click', () => (
+  handleNavBar('no-search', 'search'),
+  console.log('click en search..')
+));
+```
