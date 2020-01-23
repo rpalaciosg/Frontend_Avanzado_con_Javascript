@@ -195,4 +195,130 @@ const toggle = elemento => (removeClass, addClass) =>{
 
 vemos que funciona igual, al segundo cambia la clase `no-search` por `search`.
 
-Me quedé en dia 3 tiempo 43:50
+Ademàs hacemos lo mismo pero para el div `navbar-logo`.
+
+```js
+const navbar = document.querySelector('#navbar');
+const logo = document.querySelector('#navbar .navbar-log');
+
+const toggle = elemento => (removeClass, addClass) =>{
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+};
+
+const handleNavBar = toggle(navbar);
+
+const handleLogClassName = toggle(logo);
+
+setTimeout( () => handleNavBar('no-search', 'search'), 1000);
+
+handleLogClassName('', 'test-class');
+```
+
+Tendriamos esto una funcion que se encarga de gestioanr las clases, y lo que mola de hacerla pagina más funcional es que cuando veamos testing es que podre darme cuenta que una funcion es muy facil de testear, es decir testear una entrada y un resultado. Y puedo decir vale tengo una funcion y debo testear que la función me garantiza que las `classList` se van a cambiar. Entonces yo se que eso va a ser perfecto, entonces si yo la dopo o le doy mas información entonces ya tengo otra función que permite recibir funciones que sé que me va a dejar jugar con el `classList` de esa manera. Esto es batante pontente y se usa bastante.
+
+El típico ejemplo que el instrutor usa para explicar esto es:
+
+```js
+const data = [1,2,3,4];
+
+const result = data.map(item => item * 2);
+
+console.log(result); // me devuelve el resultado del array multiplicado x 2
+```
+Esto lo que me devuelve es el resultado del array multiplicado x 2
+
+```sh
+(4) [2, 4, 6, 8]
+```
+
+Pero claro si ahora pensamos en lo que hemos hecho en la funcion anterior usando closures, ps vamos a cambiarlo:
+
+```js
+const data = [1,2,3,4];
+
+const multiplicarPor2 = item => {
+  const result = item * 2;
+  return result;
+};
+
+const result = data.map(multiplicarPor2);
+
+console.log(result);
+```
+Entonces en la línea del map, yo puedo pasar la funcion `multiplicarPor2` y no pasa nada ya que js me permite pasar funciones como parámetros.
+
+Esto funcionaría completamente igual. Y si queremos hacerlo más genérico como el toggle.
+
+```js
+onst data = [1,2,3,4];
+
+const multiplicar = valor => item => {
+  const result = item * value;
+  return result;
+};
+
+const result = data.map(multiplicar);
+
+console.log(result);
+```
+Y si es que yo pongo solo la funciona multiplicar sin pasar el value, me va a devolver solo f's que es la funcion que le estamos pasando en el map:
+
+```sh
+ui.js:10 (4) [ƒ, ƒ, ƒ, ƒ]
+```
+Lo que mola de esto es que a multiplicar le agrego multiplicar(2) ya va a funcionar igual.
+
+```js
+const data = [1,2,3,4];
+
+const multiplicar = value => item => {
+  const result = item * value;
+  return result;
+};
+
+const result = data.map(multiplicar(2));
+
+console.log(result);
+```
+
+Ahora si esto lo ponemos como más expresivo o declarativo podemos poner algo como esto:
+
+```js
+const data = [1,2,3,4];
+
+const multiplicar = value => item => {
+  const result = item * value;
+  return result;
+};
+
+const multiplicarPor2 = multiplicar(2);
+const multiplicarPor5 = multiplicar(5);
+
+const result = data.map(multiplicarPor5);
+
+console.log(result); 
+```
+
+Entonces aqui ya podríamos ver esta forma que sería más comodo tener las 2 funciones separadas. multiplicar por 2 x un lado y x 5 por otro y tener que añadirselas al map y de esta manera provechandome de estas 2 caracteristicas, closures (funcion que retorna otra funcion) y que lo puedo pasar como un parámetro puedo obtener este tipo de resultados. Y si queremos mermar mas el código y llevar esto al límite podríamos hacer esto:
+
+```js
+const data = [1,2,3,4];
+
+const multiplicar = value => item => item * value;
+
+const multiplicarPor2 = multiplicar(2);
+const multiplicarPor5 = multiplicar(5);
+
+const result = data.map(multiplicarPor5);
+
+console.log(result);
+```
+
+Esto es más acostumbrar el ojo, xq al principio si es raro o un poco dificil al principio.
+
+Tambien podemos ver aveces que hay algunos códigos que tienen como muchos parentesis:
+```js
+const multiplicarPor5 = multiplicar(5)()();
+```
+Lo que van haciendo es que a cada parentesis vas especificando a cada parentesis un poquito más, lo que tienes un funcion mas abstrabta o que la puedas usar mejor.

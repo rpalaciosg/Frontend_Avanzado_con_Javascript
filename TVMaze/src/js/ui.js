@@ -1,10 +1,26 @@
-const navbar = document.querySelector('#navbar');
+const data = [1,2,3,4];
 
-const toggle = elemento => (removeClass, addClass) =>{
-    elemento.classList.remove(removeClass);
-    elemento.classList.add(addClass);
-};
+const multiplicar = value => item => item * value;
 
-const handleNavBar = toggle(navbar);
+const multiplicarPor2 = multiplicar(2);
+const multiplicarPor5 = multiplicar(5);
 
-setTimeout( () => handleNavBar('no-search', 'search'), 1000);
+const result = data.map(multiplicarPor5);
+
+console.log(result); // me devuelve el resultado del array multiplicado x 2
+
+// const navbar = document.querySelector('#navbar');
+// const logo = document.querySelector('#navbar .navbar-log');
+
+// const toggle = elemento => (removeClass, addClass) =>{
+//     elemento.classList.remove(removeClass);
+//     elemento.classList.add(addClass);
+// };
+
+// const handleNavBar = toggle(navbar);
+
+// const handleLogClassName = toggle(logo);
+
+// setTimeout( () => handleNavBar('no-search', 'search'), 1000);
+
+// handleLogClassName('', 'test-class');
