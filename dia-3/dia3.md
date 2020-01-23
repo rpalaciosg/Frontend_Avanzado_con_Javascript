@@ -399,3 +399,15 @@ searchIcon.addEventListener('click', () => (
   console.log('click en search..')
 ));
 ```
+
+### Modularizar el js
+
+Lo que vamos hacer, pensar en este archivo se llama `ui.js` y bueno pienso aqui voy a meter todo el código que sea para la gestion de UI, ya tenemos el navabar luego vamos agregar el evento para darle click al icon-x para que regrese como estaba, pero luego esto podria crecer luego indefinidamente.
+
+Lo que vamos a hacer es que todo la parte del navbar no este en este archivo y todo lo que este relacionado con gestion del UI, como seria el toogle se va a quedar aqui y luego eso lo vamos a usar fuera en otro archivo js.
+
+Creamos un archivo llamado `TVMaze/src/js/navbar.js` e importamos este script al final del body de nuestro index.html
+
+Tambien todo lo de navbar que este en ui.js me lo voy a llevar a navbar.js
+
+llegados a este punto, ya tenemos las cosas separadas, pero vemos en en ui.js toggle no está definido, entonces la manera enq ue vamos a gestionar esto es muy parecida a Node de `ES6` pero distinta, que es con `imports` ya que en Node se usa `common.js` que es diferente.
