@@ -447,3 +447,5 @@ ui.js:1 Failed to load resource: net::ERR_FAILED
 index.html:1 Access to script at 'file:///src/js/navbar.js' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https.
 navbar.js:1 Failed to load resource: net::ERR_FAILED
 ```
+
+Me quedé en 1:06:33
