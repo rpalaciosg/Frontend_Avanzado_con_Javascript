@@ -18,7 +18,7 @@ const toggle = elemento => (removeClass, addClass) =>{
     elemento.classList.add(addClass);
 };
 
-
+export default toggle;
 
 // const handleLogClassName = toggle(logo);
 

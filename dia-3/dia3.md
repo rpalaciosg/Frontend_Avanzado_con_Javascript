@@ -412,4 +412,38 @@ Tambien todo lo de navbar que este en ui.js me lo voy a llevar a navbar.js
 
 llegados a este punto, ya tenemos las cosas separadas, pero vemos en en ui.js toggle no está definido, entonces la manera enq ue vamos a gestionar esto es muy parecida a Node de `ES6` pero distinta, que es con `imports` ya que en Node se usa `common.js` que es diferente.
 
-Me quedé en dia 3 - 1:02:30
+Entonces en el archivo `navbar.js` agregamos un import para llamar a toggle.
+
+```js
+import toggle from './ui.js';
+```
+
+Lo que esta haciendo este import es que esta pillando lo que yo ponga en el archivo ui.js como `export default` en este caso toggle;
+
+```js
+export default toggle;
+```
+Entonces en teoria esto va a funcionar como estoy usando import de es6, y tengo el export default de toogle esto va a funcionar, pero que pasa si ejecutamos la página vemos que nos dá ciertos errores, 1 es que se esta quejando de la estructura de exports que estamos haciendo en navbar.js.
+```sh
+Uncaught SyntaxError: Unexpected token 'export'
+```
+
+Y bueno hay 2 formas de resolver esto, una que es lo que vamos a hacer aquì:
+  - 1 que es la forma que vamos a hacer aquí, es que nuestros archivo de js en el index.html los debemos definir en nuestros scripts como modulos.
+    ```js
+    <script type="module" src="/src/js/ui.js"></script>
+    <scrtip type="module" src="/src/js/navbar.js"></scrtip>
+    ```
+  - Y la segunda forma que la vamos a ver en el módulo de FRontend Pro, es con un compiler o con un empaquetador que será webpack, que loque hace es que coge todos los archivos y los convertirá en un solo javascript, entonces por debajo lo que hará es unir todos esos módulos, minificar y todas esas cosas. Aquí como no vamos a ver webpack, lo que vamos a usar es type="module".
+
+Aquì si guardamos y recargamos vemos que mi barra de navbar sigue funcionando.
+
+Que pasa si por ejemplo ejecito esto con `Open in browser` que el problema es el de las rutas, debido a que cuando se usa el type="module" si no se lo levanta con un servidor de estaticos, esto no va a funcionar y daria estos errores, asi que por eso lo del `http-server`
+
+```sh
+styles.css:1 Failed to load resource: net::ERR_FILE_NOT_FOUND
+index.html:1 Access to script at 'file:///src/js/ui.js' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https.
+ui.js:1 Failed to load resource: net::ERR_FAILED
+index.html:1 Access to script at 'file:///src/js/navbar.js' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https.
+navbar.js:1 Failed to load resource: net::ERR_FAILED
+```
