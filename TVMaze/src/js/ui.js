@@ -13,12 +13,14 @@
 // const logo = document.querySelector('#navbar .navbar-log');
 
 
-const toggle = elemento => (removeClass, addClass) =>{
+export const toggle = elemento => (removeClass, addClass) =>{
     elemento.classList.remove(removeClass);
     elemento.classList.add(addClass);
 };
 
-export default toggle;
+// const NOMBRE = 'nombre';
+
+// export default NOMBRE;
 
 // const handleLogClassName = toggle(logo);
 

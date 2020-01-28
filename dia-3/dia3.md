@@ -448,4 +448,100 @@ index.html:1 Access to script at 'file:///src/js/navbar.js' from origin 'null' h
 navbar.js:1 Failed to load resource: net::ERR_FAILED
 ```
 
-Me quedé en 1:06:33
+Que pasa si ejecuto esto con `Open in browser`, esto no va a funcionar por necesita el http-server para funcionar.
+
+Los `mòdulos` son ES6 pero distinto de como lo hacemos en webpack o con otros frameworks que ya llevan webpack por debajo y procesan el javascript en el import, la extensión no se añade.
+
+```js 
+import toggle from './ui';
+```
+
+Pero aqui en este caso si no pongo la extensión no lo encuentra al archivo entonces falla. Aqui la extensión del archivo la vamos a poner.
+
+Lo importante en la forma de gestión de los módulos con Node y ES6 no es esa, es otra, que seria la siguiente, esta va a servir para cualquier framework moderno de fronted, el sistema de import va a ser exactamente igual.
+
+La equivalencia del import y export en Node.
+
+```js
+//importa en node
+const toggle = require('./ui.js');
+
+//export en node
+module.exports = toogle;
+```
+
+Hay diferentes maneras de exprotar en ambos sitemas de módulos en `common.js` y `es6` de hecho ya hay una propuesta abierta para ya usar solo `export default toogle;`
+
+Un compañero pregunta que cual es mejor de usar, que a el y lo que enseño el profe de Node.js es que gustamas el de common.js con `module.export `, y este isntructor dice que para el es mejor el `export default toogle`.
+
+Lo que pasa con node si queires usarlo con `export default tootle` necesitas montar un picfox con babel y bueno es mucha pereza mucha cosa, entonces entiende que le guste mas la de common.js y que bueno el tampoco lo haría, y lo que hace este instrrctor es que en backed esta o usa con la forma de common.js `module.exports` y en el frontend esta con la de es6 `export default..` ya que montarse un babel para el backend solo para esto ps parece un poco rollo, y si quieres usar algún typescript o alguna cosa de esas mas concreta ahi si tiene su gracai montarse un babel.js. Pero no es solo por eso que el instructor prefiere ese sino por otra cosa.
+
+Tambien tenemos otra forma de exportar para ambas usando destructuring
+
+```js
+//es6
+export {toogle};
+//common.js
+module.export = {export}
+```
+y la forma de importar sería, hay que hacer destructuring porque a la final estamos importando un objeto que tiene adentro una función.
+```js
+import { toogle } from './ui.js'
+```
+
+Vamos a ver la última forma de hacer import y export:
+```js
+export const toogle = elemento => (removeClass, addClass) => {
+  elemento.classList.remove(removeClass);
+  elemento.clasddList.add(addClass);
+};
+
+// con modulos de ES6
+const NOMBRE = 'nombre';
+export default NOMBRE;
+// equivalencia con common.js no hay ninguna
+//modeule.exports = { toogle };
+```
+
+la forma de importar sería:
+
+```js
+// modulos  ES6
+import NOMBRE, { toogle } from './ui.js';
+//common.js :( no se puede
+//const { toogle } = require('./ui.js');
+```
+
+Por eso al instructor le gusta mas la forma de es6.
+
+Un matíz importante es que los que pille de `destructuring` no puedo liarla con el nombre, por ejemplo esto
+```js
+import NOMBRE, { toogl } from './ui.js';
+```
+
+Esto no va a funcionar y me va a dar error diciendo que no exportado `toggl`
+```bash
+Uncaught SyntaxError: The requested module './ui.js' does not provide an export named 'toggl'
+```
+
+El nombre tiene que matachear, y si lo exporto como `export.default` da igual porque va a seguir saliendo:
+
+```js
+import NAAA, { toggle } from './ui.js';
+
+console.log(NAAA);
+```
+Esto hay que tener en cuenta.
+
+Y si es que esto no te mola o este nombre lo estás usando en mas imports, lo que puedo hacer es un señor alias y esto esta ya resuelto.
+
+```js
+//alias en ES6
+import NOMBRE, { toggle as changeClassName} from './ui.js';
+//alias en common.js
+const { toogle: className } = require('./ui.js');
+```
+
+Esto pasa siempre, aveces te lias porque hay funciones que se llaman igual entonces les pones un alias.
+
+Pues hemos hecho la importanción desde nuetro archivo `ui.js` y ya sabemos que podemos hacer este tipo de modularización.
