@@ -1,8 +1,6 @@
 // console.log('navbar');
 import { toggle } from './ui.js';
 
-console.log(NOMBRE);
-
 const navbar = document.querySelector('#navbar');
 const searchIcon = document.querySelector('#navbar-search');
 

@@ -545,3 +545,7 @@ const { toogle: className } = require('./ui.js');
 Esto pasa siempre, aveces te lias porque hay funciones que se llaman igual entonces les pones un alias.
 
 Pues hemos hecho la importanción desde nuetro archivo `ui.js` y ya sabemos que podemos hacer este tipo de modularización.
+
+Antes de seguir hechando código es ver en la parte de `network` que está pasando y vamos a recargar.
+
+Aqui pasa lo mismo que en css, ya que como estamos haciendo imports, en network nos aparece los 2 archivos ui.js y navbar.js y cada uno de ellos tiene Waiting(WTTF). Este es el precio que hay que pagar para que nuestro código se vea mas legible y facil de leer. PEro en el siguiente módulo, con webpack esto cambiará y lo tendremos un archivo super comprimido, mas optimizado, etc.
