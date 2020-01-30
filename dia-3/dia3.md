@@ -550,4 +550,85 @@ Antes de seguir hechando código es ver en la parte de `network` que está pasan
 
 Aqui pasa lo mismo que en css, ya que como estamos haciendo imports, en network nos aparece los 2 archivos ui.js y navbar.js y cada uno de ellos tiene Waiting(WTTF). Este es el precio que hay que pagar para que nuestro código se vea mas legible y facil de leer. PEro en el siguiente módulo, con webpack esto cambiará y lo tendremos un archivo super comprimido, mas optimizado, etc.
 
-Me quede en dia 3 , 1:19:37
+Hay que tener claro, cuando una funcion retorna otra función, podemos hacerlo mas optimizado usando arrows functions encadenadas.
+
+Para esto podemos ir cambiandolas una a una:
+
+```js
+function toggle(elemento) {
+  return function (removeClass, addClass){
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+
+Por ejemplo la primera, la convierto en arrow function:
+```js
+function toggle(elemento) {
+  return (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+Luego la de afuera:
+
+```js
+toggle(elemento) => {
+  return (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+
+Que está nombrada?, la asigno en un const y hago un igual
+```js
+const toggle = (elemento) => {
+  return (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+
+Que solo tiene un elemento, le quito los parentesis:
+```js
+const toggle = elemento => {
+  return (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+Que tengo un return y directamente una llave?, no me hace falta el return:
+```js
+const toggle = elemento => {
+    (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+}
+```
+
+Que la quiero poner en varias líneas, pongo parentesis:
+```js
+const toggle = elemento => (
+    (removeClass, addClass) => {
+    elemento.classList.remove(removeClass);
+    elemento.classList.add(addClass);
+  }
+)
+```
+Y ya está!! esto seria el cambio de funcion a arrow functions.
+La gracia de hacerlo así es que sea mas descriptivo y sea reusable.
+
+Una pregunta. de un compañero:
+OTra forma de poder ejecutar la funcion toggle() y el resultado seria el mismo.
+```js
+  toggle(navbar)('search','no-search');
+```
+
+### Evento click al navbar-close
+Agregar evento click al navbar-close.
