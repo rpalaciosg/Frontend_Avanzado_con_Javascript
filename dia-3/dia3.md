@@ -632,3 +632,5 @@ OTra forma de poder ejecutar la funcion toggle() y el resultado seria el mismo.
 
 ### Evento click al navbar-close
 Agregar evento click al navbar-close.
+
+Me quedé en dia3, 1:35:40
