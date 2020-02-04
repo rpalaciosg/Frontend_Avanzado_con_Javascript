@@ -633,4 +633,250 @@ OTra forma de poder ejecutar la funcion toggle() y el resultado seria el mismo.
 ### Evento click al navbar-close
 Agregar evento click al navbar-close.
 
-Me quedé en dia3, 1:35:40
+
+### Validar formulario search dentro del navbar
+
+Creamos un evento submit para el formulario en navbar.js
+
+```js
+const searchForm = document.querySelector('#search-form');
+const searchInput = document.querySelector('#navbar .input.search');
+
+
+ searchForm.addEventListener('submit', evt => {
+    evt.preventDefault();
+    if(searchInput.validity.valid) {
+      // render shows, series o películas
+      renderShowsDOM(searchInput.value);
+    }
+    console.log('Submit!!!');
+  });
+
+```
+
+Luego si es que el formulario es vàlifo vamos a renderizar los shows en el DOM, para esto vamos a importar esa funcion desde el archivo  `shows.js`
+
+Además a esa funcion `renderShowsDOM` le vamos a pasar para pdoer hacer filtrado o nó, el valor del input `renderShowsDOM(searchInput.value);`. Entonces cuando haga submit si es valido el input vamos a llamar a esta funcion que pintara en el DOM lo que devuelve el API de tvmaze.
+
+## Crear funcion de renderizado en el DOM
+Creamos el archivo `TVMaze/src/js/shows.js`, luego en el html lo importamos como mòdulo. A esta funcion si queremos filtrar le pasamos como parametro el valor del `searchInput.value`.
+
+Hemos dicho que queremos garantizar una funcion que renderice shows en el DOM.
+
+Lo primero es importar este archivo `shows.js` como modulo en el index.html
+
+Luego en el archivo shows.js lo primero que debemos hacer es exportar esta funcion., porque estamos diciendo a los que estan usando este archivo que estamos exponiendo un renderShowsDOM
+```js
+export { renderShowsDOM }
+```
+Luego creamos la funcion, pasandole el parametros de texto para poder filtrar.
+```js
+const renderShowsDOM = text => {
+
+};
+
+export { renderShowsDOM }
+```
+
+
+Lo que suele hacer el instructor, imaginemos que nos pasan un diseño y empezamos con el maquetado, ps empezamos con el css, tenerlo mas o menos claro y empezar a jugar con los estados, como vimos en la aplicaciòn, jugando con el css, como aqui poniendole o quitandole el search, etc para luego meterle js y para pintar elementos en base a una API, la jugada es parecida.
+
+Lo que suele hacer el instructor es, primero hace el maquetado y luego lo adapta a lo que va a hacer o pintar con js.
+
+El maquetado como no va a escribir css u html, el instructor pasa por slack este còdigo.
+Aqui pegaremos en el index.html el còdigo de la seccion show.sections que el nos pasa:
+```html
+<!-- main–section -->
+    <main>
+      <section id="show-section" class="show-section">
+        <!-- <div class="card principal">
+          <header class="card-header">
+            <h2>First movie</h2>
+          </header>
+          <div class="card-content">
+            <div class="card-content-image">
+              <img src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png">
+            </div>
+            <div class="card-content-text">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloribus, ab nam, ea quod nihil maxime soluta tempore, quo pariatur explicabo beatae possimus expedita sunt nulla aspernatur! Harum, itaque, quia.
+              </p>
+              <div class="rating-container">
+                <button class="icon">
+                  <i class="fas fa-star"></i>
+                </button>
+                <button class="icon">
+                  <i class="far fa-star"></i>
+                </button>
+                <button class="icon">
+                  <i class="far fa-star"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="test-card" class="card secondary close">
+          <header class="card-header">
+            <h2>First movie</h2>
+          </header>
+          <div class="card-content">
+            <div class="card-content-image">
+              <img src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png">
+            </div>
+            <div class="card-content-text">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloribus, ab nam, ea quod nihil maxime soluta tempore, quo pariatur explicabo beatae possimus expedita sunt nulla aspernatur! Harum, itaque, quia.
+              </p>
+              <div class="rating-container">
+                <button class="icon">
+                  <i class="fas fa-star"></i>
+                </button>
+                <button class="icon">
+                  <i class="far fa-star"></i>
+                </button>
+                <button class="icon">
+                  <i class="far fa-star"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      -->
+      </section>
+    </main>
+    <!-- main-section end -->
+```
+
+Luego descomentamos el código que se ve comentado para ver en la web.
+Aqui vemos que se ve un poco descuadrado, pero le agregamos en linea un margen, `margin-top: 80px;` esto hay que agregarselo luego en css.
+
+Lo que tenemos aquí sería el trabajo de un maquetador o de nosotros despues de hacer el css y html.
+
+Es un poco como el navbar , pero poco a poco va pintando.
+
+Aqui ya podemos ir jugando con las clases css en cada elemento html tal cual hicimos con el filter. 
+
+Por ejemplo en la `test-card` si le quito la clase `.close` esta carta se abrir o desplegarà y se cambiará el ícono hacia arria. Entonces con esto voy a irme jugando a que se abra y se cierre.
+
+La primera card es la principal esta no se cierra. Y en version desktop la card secundaria cuando se hacia un hover tienen un tipo de layout de que se cambia de color el background.
+
+Luego de que ya se tiene el maquetado decidido, se dice ok, entonces voy a empezar a pintar con javascript, o sino pintando directamente que es lo que otras librerias suelen hacer como angular o react.
+
+Lo que vamos a hacer primero es definir que es un show, y para ello me voy a crear una funcion que se llame `tamplateShow` y voy a definir que es un show para mi UI, y esta función me va a devolver un `tamplate string`, porque un template string? y no usamos el `+` para contactenar?.
+
+Lo que voy hacer es irme al div que tiene la clase `card principla` y lo voy a colapsar en el código, lo copio y lo voy a llevar a mi script de shows.
+
+Como esto no enta en una sola línea voy a tener que usar los backtips las comilla inclinadas invertidas y pego el html y tendria lo que para mi UI es un `show`.
+
+Ahora si nos fijamos, este show recibe o tiene varios datos que estàn puestos a fuego o a mano, por ahora no nos importa mucho. Lo que si debemos hacer es un tipo de condición para saber si es una tarjeta principal o secundario.
+
+Vamos a suponer que en la funcion recibimos un 'booleano' para saber si es principal o secundario.
+
+Asì que lo que vamos a hacer aquì, va a ser jugar con lo que nos está devolviendo esta clase, y como? con variables de js dentro del `template string`.
+E
+ntonces podemos poner, lo que le pase a la funcion principla evaluarlo con un operador ternario.
+
+```js
+return `
+    <div class="card ${principal ? 'principal' : 'secondary close'}">
+`
+```
+
+Asì que vamos a pintar algunos shows, que sean fake que no vengan del API.
+
+Entonces en la funcion `renderShowsDOM` vamos a seleccionar algun selector, podria ser el`main`
+
+```js
+const renderShowsDOM = text =>{
+    const mainSection = document.querySelector('main');
+};
+```
+
+Y ahora vamos a usar o cambiar el html con el `innerHtml` y le digo que me pinte un show en el main section.
+
+```js
+const renderShowsDOM = text =>{
+    const mainSection = document.querySelector('main');
+    mainSection.innerHTML = templateShow(false);
+};
+```
+
+Esto hace que cuando llamemos a este método  `` nos garantiza que sobre la seccion main si esta presente en el DOM por supuesto, su inner html va a cambiar añadiendonos un show que no es de tipo principal.
+
+Aqui entonces ejecutamos la funcion `renderShowsDOM` y probamos.
+
+PEro aqui lo que queremos hacer es pintar shows, no un show. Asi que lo que vamos hacer es crearnos otra función que se llame `renderShows` y esta funcion podría esperar el elemento `const renderShows = (element) => {` pero en este caso no se lo hacer porque no va a ser una funcion donde vaya a renderizar shows en muchos sitios, es decir para este elementos renderizame show aqui, aqui y aqui. No se lo va a usar una vez para un elemento dado, no queremos hacer una especie de factoria de renderizar shows. Entonces por eso pongo un elemento aqui.
+
+```js
+//shows es un array
+const renderShows = (element, shows) => {
+  const htmlShows = shows.map((show) => {
+    return templateShow(true);
+  })
+};
+```
+
+Lo que hace esta funcion es recibe el elment, y un array de `shows`, luego yo mapeo ese array y por cada elemento, lo que voy a retornar es un template, en este caso que sea principal.
+
+```js
+//shows es un array
+const renderShows = (element, shows) => {
+  const htmlShows = shows.map((show) => {
+    return templateShow(true);
+  })
+  element.innerHTML = htmlShows;
+};
+
+const renderShowsDOM = text =>{
+    const mainSection = document.querySelector('main');
+};
+```
+
+Y como este es el render de los show voy a hacer que mi element.innerHTML va a tener estos htmlShows.
+
+Asi que yo podria llamar justo abajo de mainSection llamar a `renderShows(element, array)` que espera recibir un elemento del DOM que en este caso es mi main senction, y tambien espera recibir un array de peliculas, etc.
+
+```js
+//shows es un array
+const renderShows = (element, shows) => {
+  const htmlShows = shows.map((show) => {
+    return templateShow(true);
+  })
+  element.innerHTML = htmlShows;
+};
+
+const renderShowsDOM = text =>{
+    const mainSection = document.querySelector('main');
+    renderShows(mainSection, [1,2,3,4])
+};
+
+renderShowsDOM();
+```
+
+Entonces que es lo que va a pasar?
+Lo que va a pasar es que pinta los 4 templates dados por renderShows. Pero si vemos bien, al pintar, vemos que en el html hay una coma(,), y esto es xq al elemento le dimos o pasamos un array para que pintara. PEro yo tendria que pasarle un string para que lo pintase sin esa coma(,).
+
+Una solución rápida que se podria hacer es usar `.join('')` que lo que hace es que une cada posision del array en un solo string, con la condicion que le ponga entre parentesis, y si no le pongo nada, no va a poner nada.
+
+```js
+//shows es un array
+const renderShows = (element, shows) => {
+  const htmlShows = shows.map((show) => {
+    return templateShow(true);
+  }).join('');
+  element.innerHTML = htmlShows;
+};
+```
+
+Lo que haremos despuès del descanso es que le pasaremos, el tìtulo, la imagen, la descripciòn, primero lo haremos fake, ya luego nos pasa y presenta el API de Tvmaze y ver si podemos hacer una petición  y pintar datos reales de los shows.
+
+Bueno aqui antes refactorizamos un poquito el código:
+
+```js
+//shows es un array
+const renderShows = (element, shows) => {
+  const htmlShows = shows.map((show) => templateShow(true)).join('');
+  console.log(htmlShows);
+  element.innerHTML = htmlShows;
+};
+```
+
+Y luego vamos a ver algo rollo funcional con los `map` que nos va a vale para los shows.
