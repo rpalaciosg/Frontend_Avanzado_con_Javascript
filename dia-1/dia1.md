@@ -31,49 +31,55 @@ https://tvmaze-keepcoding-2019.herokuapp.com/
 
 ## Clien-server model
 
-**Modelo Cliente servidor**, es una apliclacion distribuida que divide tareas entre los providers y luego los servicios requesters que son los clients.
+**Modelo Cliente servidor**, es una aplicacion distribuida que divide tareas entre los providers(SERVIDORES EN NODE, JAVA) y luego los servicios requesters que son los clients(raspberryPi, televisor, navegador).
 
 - Los clientes pueden ser, un pc, linux, mac, una app android o ios, un raspberrypi.
-- Tenemos que entender la diferencia que hay entre client side y server side, y luego meter cliente side renderind y server side renderind.
+- 
+- Tenemos que entender la diferencia que hay entre 'client side' y server side, y luego meter cliente side renderind y server side renderind.
 
 ## Frontend Development
-Conocido como cliente side developmet, producir html, css y javascript, en una web para que el usuario pueda interactuar con el usuario.
+Conocido como cliente side developmet, producir html, css y javascript, en una web para que el usuario pueda interactuar con el ella.
 El frontend a cambiado mucho, ya no es lo mismo.
 - cuando me enfrente a frontend hay un monton de deciciones que hacer.
   - Como se maneja ES6 (ECAM SCRIPT) dentro del DOM. BAse de javascript del frontend.
+  - Lo importante es conocer ECMAscript, como funciona dentro del DOM.
   - Como maneja el css reactjs, como maneja el css Angular, o backbone.
 
 ## Javascript
 
 Lenguaje de alto nivel, intepretado de scripting, basado en ECMAScript specification. Node lo implemente de una manera, los navegadores lo implementan de otra manera. y tiene sus diferencias.
 ECMAScript es el standard del lenguaje.
-https://github.com/tc39/ecma262
+    
+    [https://github.com/tc39/ecma262](https://github.com/tc39/ecma262)
 
 **Babel.js** : es una libreria de javascript para transpilar javascript moderno es decir compilarlo a algo que los browsers lo entiendan.
-https://babeljs.io 
+
+[https://babeljs.io](https://babeljs.io)
 
 ## ¿Como funciona Javascript?
-Como funcionaria nuestro código en el browser en el motor V8.
 
-htpps://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf
+Como funcionaria nuestro código en el browser o en el motor V8.
+
+[How JavaScript works: an overview of the engine, the runtime, and the call stack](htpps://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf)
 
 La forma que funciona javascript lo podemos dividir en 2 partes:
 
-- Memory Heap : creas una variable donde se almacena.
-- Call Stacks : Donde se apilan las llamadas de nuestro código.
+- **Memory Heap** : creas una variable o referencia donde se almacena.
+- **Call Stacks** : Donde se apilan las llamadas de nuestro código, es decir si pongo un console.log, lo pone en el callstack, lo pinta en el navegador y cuando haga esa accion lo va a quitar. Si nos acordamos en Node, el js es multihilo, pero en el callstack si yo lo rompo se para todo. En Node si se cae, sale el error con un mensaje chungo de leer. PEro en el navegador deja de funcionar y dejan de funcionar los assets.
+
+Tiene un poquito mas es en donde esta la magia de JS.
+Luego tenemos en la parte de webs APIS que iremos viendo como el DOM. AJAX para ahcer peticiones (XMLHttpRequest) APIs especificamente. Timeout (setTimeout) estas son APIs internas dentros del navegador. Y la gracia que tiene es que pueden enviar a otra parte de este browser o motor V8 JS parte de su ejecucion al `Callback Queue`.
 
 ### Memory Heap
 Cuando creas una variable se almacena en memory heap.
 - Es donde se aloja la memoria.
-- Aqui se puede entender cuando se hacen fugas de memoria, viendo el error o mensaje memory leak, js maneja su propio garbage collector.
+- Aqui se puede entender cuando se hacen fugas de memoria, viendo el error o mensaje `memory leak`, esto no pasa tanto, xq js maneja su propio garbage collector y m,aneja su propia memoria.
 
 ### Call Stacks
 Es donde se apilan las llamadas de nuestro código, es decir si yo pongo un console.log loq ue va a hacer es poner un console log en el Call stack, pinta en el navegador, y luego lo quita del call stack. JAva script era multihilo, es bueno ya que no hay problema para gestionar esos hilos, pero en el callstack si lo rompo, se para, es decir en el navegador deja de funcionar y de cargar los assets.
 
 - Donde se apila la ejecución del código.
-
-En la parte de Web tenemos 
-
+ 
 #### WEB APIs
 
 - DOM (document)
@@ -83,9 +89,14 @@ En la parte de Web tenemos
 - Son APIS internas dentro del navegador. No vienen dadas por el motor sino que las da el DOM. Está ECMA pero luego está como lo interpreta cada uno.
 
 La gracia de estos es que pueden enviar parte de su ejecuciòn a otra parte del motor de javascript en este caso el browser o motor V8, al `Callback Queue`
-**Callback Queue** -> esto es toda la parte de callback o parte asincrona. Funciona en el eventloop. (onClick, onLoad, onDone)
+**Callback Queue** -> esto es toda la parte de callback o parte asincrona.  Esto en la parte de Node est toda la parte de callbacks y parte asincrona.
+Por ejm. en el navegador cuando hago un click, se va a jecutar eso de manera sincrona y eventualmente se resolvera. 
+Funciona en el eventloop. (onClick, onLoad, onDone)
+
+No vienen dadas por el motor si no que las da el DOM. Esta ECMA que es la especificacion del lenguaje pero luego esta como lo interpreta cada uno.
 
 *Ejemplo:* Como se vería en el Callstack
+
 ```js
 function multiply(x,y) {
     return x * y;
@@ -112,18 +123,20 @@ foo();
 
 Esta es una función recursiva que se llama a si mismo, básicamente es un bucle infinito. Se va a llenar el callstack llamando demasiadas veces a una funciòn, o es una parte que esta renderizando html y llama a otra función.
 
-> Incluso puede ser una pregunta de entrevista, ¿porque es importante mantener el callstack limpio? = Es porque no debemos bloquear al eventloop.
+> Incluso puede ser una pregunta de entrevista, ¿porque es importante mantener el callstack limpio? = **Es porque no debemos bloquear al eventloop.**
 
 ### Event Loop
 
 Estas funciones que habiamos dicho que son como asincronas, se quedan en el `Callback Queue`. 
-Y se ejecutan cuando el event loop se lo dice, y Cuando se lo dice? Cuando el `Call Stack` está limpio, el event loop puede decir venga estas limpio, timeout, y asi es como js va manejando esa asincronia, no se debe tener funciones muy grandes o pesadas como subbucles, operaciones matematicas muy pesadas que dejen el Call Stack lleno, sino mis funciones asincronas no se van a resolver correctamente o mi web va a correr muy lenta.
+Y cuando el callback actua?. Este se ejecutan cuando el `event loop` se lo dice, y Cuando se lo dice? 
+Ps cuando el `Call Stack` está limpio, el event loop puede decir venga estas limpio,  1er timeout o lo que sea, y asi es como js va manejando esa asincronia.
+No se debe tener funciones muy grandes o pesadas como subbucles, operaciones matematicas muy pesadas que dejen el Call Stack lleno, sino mis funciones asincronas no se van a resolver correctamente o mi web va a correr muy lenta.
 
 - Monitoriza el call stack y el callback queue. Si el primero està vacio toma el primer evento del callback queue y lo manda al call stack.
 
 ### Callback Queue
 
-Donde se almacenan las ejecuciones de las Web APIs asincronas. Mas o menos lo que está detras de escena.
+Donde se almacenan las ejecuciones de las Web APIs asincronas. Mas o menos lo que está detras de escena con JS.
 
 ## Creando un Proyecto
 
@@ -145,7 +158,7 @@ Estos temas lo vamos a ver en el terminal del navegador directamente. con ctrl +
 
 Es muy útil, y se ve todos los días sobre todo en react.js. 
 Algo que se usa mucho es este destructuring. 
-Lo que hace es tener uqe acceder a una variable sin vía punto (.)
+Lo que hace es tener que acceder a una variable pero sin vía punto (.)
 
 Ejemplo:
 
@@ -158,37 +171,42 @@ Se puede acceder a detail usando lo siguiente:
     data.info.detail
 ```
 Pero hay otras formas o hay una manera mas nueva o no muy nueva y mas interesante, que se usa bastante.
-ponemos {} a la izquierda e igualamos al objeto o data, y dentro de las llave nos quedamos con lo que queramos usar.
+Ponemos `var {}` a la izquierda e igualamos al objeto o data a la derecha, y dentro de las llaves de la izquierda nos quedamos con lo que queramos usar. Ejm
 
 ```js
-var data = { title: 'title', age: 26, info: {detail: 'more info'} };
-var { title, age } = data;
+  var data = { title: 'title', age: 26, info: {detail: 'more info'} };
+  var { title, age } = data;
 title
 "title"
 age
 .>26
 ```
+
 Luego si usamos la variable title o age, ps vemos que la podemos usar normal y correctamente.
 
-- Que mas podemos hacer, podemos hacerlo un poco más anidado, pero eso ya e sun poco mas raro el instructor no lo suele usar tanto. Por ejemplo:
+- Que mas podemos hacer, podemos hacerlo un poco más anidado, pero eso ya es un poco mas raro el instructor no lo suele usar tanto. Por ejemplo:
 
 ```js
-    var { info: { detail } } = data;
+  var { info: { detail } } = data;
 detail
 "more info"
 ```
 
 Vemos que ya podemos usar la variable detail que está dentro de info haciendo `destructuring`.
 
-Una cosa que le ha pasado al instructor aveces, con este ejemplo ya que nos es muy fan del `snakeCase` sino del `camelCase`.
+Una cosa que le ha pasado al instructor aveces, con este ejemplo ya que nos es muy fan del `snakeCase` sino del `camelCase`. 
+O por ejemplo mi UI no esta preparada para recibir este tipo de nombre de variables.
 
 ```js
 var data = { main_title: 'title', main_age: 26, info: { detail: 'more info' } };
 ```
-Entonces aquí decimos si hago destructuring me tengo que quedar con el nombre. Aveces para cambiar estos formatos de nombre de variables es usar:
+Entonces aquí decimos si hago destructuring me tengo que quedar con el nombre. Aveces para cambiar estos formatos de nombre de variables es usar, entonces lo que se ha hecho es:
+
 ```js
-    var mainTitle = data.main_title
+  var mainTitle = data.main_title
 ```
+Pero con object destructuring podemos hacer otra cosita:
+
 ##### Dando alias con destructuring
 Pero con `destructuring` podemos hacer otra cosita dandole un alias como:
 
@@ -198,7 +216,9 @@ Pero con `destructuring` podemos hacer otra cosita dandole un alias como:
     "title"
 ```
 
-Asi podemos decir que si mi UI no esperaba recibir snakeCase,yo me puedo formatear con alias.
+Asi podemos decir que si mi UI no esperaba recibir snakeCase,yo me puedo formatear mi data de esta manera usando con alias.
+
+Tambien puedo hacerlo con arrays.
 
 #### Destructuracion de Arrays
 Esto es para objetos pero con arrays también se puede. Ejemplo:
@@ -212,9 +232,9 @@ Esto es para objetos pero con arrays también se puede. Ejemplo:
     "a"
 ```
 
-Aquí al darle el nombre es el nombre que tendrá la variable que voy a usar con el dato de la posición del array.
+Aquí al darle un nombre como `position1` ese sera el nombre que tendrá la variable que voy a usar con el dato de la posición del array.
 
-Pero que pasa si solo quiero el objeto que está en la 3ra posición y las demás me dan igual, entonces usando `destructuring` lo hago de la siguiente manera:
+Pero que pasa *si solo quiero el objeto que está en la 3ra posición* y las demás me dan igual, entonces usando `destructuring` lo hago de la siguiente manera:
 
 ```js
     var [,,object] = data;
@@ -222,10 +242,23 @@ Pero que pasa si solo quiero el objeto que está en la 3ra posición y las demá
     {title: "title"}
 ```
 
-Lo que hago es saltarme con comas (,) las posiciones hasta llegar al dato que quiero.
+Lo que hago es saltarme con comas (,) las posiciones hasta llegar al dato que quiero. En este caso como quiero llegar al 3ro pongo 2 comas (,,) y luego el nombre de la variable.
+Quedo una notacion un poco rara pero funciona.
+
+Pero a esto lo podemos hilar un poquito mas todavia, por ejemplo si no quiero todo el objeto, puedo especificar un key dentro del objeto, de la siguiente manera:
+
 ```js
-var [,,{ title }] = data;
+  var [,,{ title }] = data;
 ```
+
+Tambien puedo aun enraizarlo un poquito mas y a parte ponerle un alias:
+
+```js
+  var [,,{ title: richard }] = data;
+  richard
+  'title3'
+```
+
 ##### Dando alias con destructuring en arrays
 Incluso puedo ponerle un alias.
 
@@ -235,11 +268,16 @@ Incluso puedo ponerle un alias.
 ```
 
 Así puedo usar destructuring en arrays o en objetos para acceder a sus variables. Es una forma de acceder mas senccilla a las variables de un array, o a las keys de un objeto.
+Entonces ya tendria las 3 cosas completas:
+- Destructuracion de Objetos 
+- Destructuracion de Arrays
+- Y luego si el array es un arrays de objetos destructurarlo tambien, para ccesder a sus variables ya sea de un array o un objeto, ese es nuestro objetivo.
 
 Esto es un concepto del dìa a día.
 
 ### Object Mutability (Mutabilidad)
-Esto es un cocepto del lenguaje. También es un tema del dìa a día.
+Esto es un concepto del lenguaje. También es un tema del dìa a día.
+Hay que entender que es mutable y que no es mutable.
 
 #### Que es inmutable
 
@@ -253,16 +291,37 @@ Ejemplo 1 inmutable:
     undefined
     b=3
     3
+    a
+    2
 ```
+En este ejm. `a` sigue siendo igual a 2 a pesar de que aunque era b=a luego iguale b=3 a no cambio. Esto quiere decir que las variables tipo number no son mutables, o son inmutables. Es decir no pueden ser mutadas por una referencia a ellas.
+
+Tambien pasa con los strings. Si yo por ejm:
 
 Ejemplo 2:
 ```js
-
+  var a = 'qwerty';
+  undefined
+  var b = a;
+  undefined
+  b = 'richard';
+  "richard"
+  b
+  "richard"
+  a
+  "qwerty"
 ```
-> Estos ejemplos no tienen nada que ver con var o let, se usa let para que el navegador luego no le diga de que ya esta definida y tal.
+
+En este ejemplo se ve algo parecido al anterior, b=a es decir v tiene una referencia de a, pero al igualar b a otra cosa en este caso 'richard', la variable a no cambia y sigue valiendo 'qwerty', es decir es inmutable.
+
+
+Pero aqui es donde ya entran los objetos y los arrays.
+
 
 ####  Que es mutable
 Aquí es donde entran ya los objetos y los arrays y esto ya cambia la cosa, ya que al crear un objeto e igualar otro objeto a otro, si cambiamos el segundoobjeto que esta igualado al primero, el primer objeto que està referenciado también cambiará:
+
+> Estos ejemplos no tienen nada que ver con var o let, se usa let para que el navegador luego no le diga de que ya esta definida y tal.
 
 Ejemplo mutabilidad en objetos:
 
@@ -285,9 +344,30 @@ Ejemplo mutabilidad en objetos:
     (anonymous) @ VM496:1
 ```
 
-Esto es un problema, ya que si por alguna razòn se tenia referenciado un objeto al cambiar la variable que referencia a ese objeto ps se cambiaría todo.
+Aqui en el ejm anterior vemos que al hacer `contact2.numer=21` aniadimos un nuevo key al objeto contact2. Pero si revisamos tambien el `contact` normal, vemos que tambien a cambiado.
+
+>Esto es un problema, ya que si por alguna razòn se tenia referenciado un objeto al cambiar la variable que referencia a ese objeto ps se cambiaría todo.
+
+Es decir si tenia la variable contact para otra parte del UI, ps le estoy aniadiendo una key demas.
+
+Pero un problemas mas grande seria si yo asigno null a un key y este tiene referenciado a otro objeto:
+
+```js
+  contact2.title = null
+  null
+  contact
+  {title: null, number: 21}
+  contact.title.a
+  VM1480:1 Uncaught TypeError: Cannot read property 'a' of null
+      at <anonymous>:1:15
+```
+ESto si es un problema tipico de JS: ya que me daria el error `VM1480:1 Uncaught TypeError: Cannot read property 'a' of null at <anonymous>:1:15`
+
+Con los **Arrays** pasa lo mismo, a lo mejor no es un problema, depende tambien de como este planteando el sistema, pero por lo general se intenta evitar:
 
 Ejemplo mutabilidad en arrays:
+
+Si por ejm defino un array que sea 
 ```js
     var data = [1,3,4]
     undefined
@@ -300,7 +380,17 @@ Ejemplo mutabilidad en arrays:
     data
     (4) [1, 3, 4, 5]
 ```
+Si agregamos un nuevo elemento `5` al array data2, imprimirmos data2 y vemos el nuevo elemento, luego si imprimirmos el arraya data, vemos que tambien se agrego el elemento 5, esto por data2 tenia una referencia a data, y es mutable.
+
+
+Un companiero hace una pregunta: Si yo quiero clonar un objeto sin tener que hacerlo manualmente haciendome una funcion o algo, existe algo de ECMAscript o alguna lib externa para clonar un objeto sin tener que modificar el original. 
+Respuesta instructor: Si existe desde antes de ECMAscript 6 pero vamos a ver las 2 maneras ahora. Es sencillo. Al final talvez no es muy vistoso pero se puede hacer.
+
+
+
 #### Corregir la mutabilidad en los arrays y lso objetos.
+
+ASi que tenemos claro esto, que hay 2 problemas que hay que solucionar son:  la mutabilidad en los arrays y la mutabilidad en los objetos.
 
 La idea es clonar un objeto.
 
@@ -325,6 +415,10 @@ Esta forma no se usa mucho pero es una forma y si es que la preguntan en una ent
     contact
     {title: "titulo 1"}
 ```
+Aqui se clona el contact en contact2, y al agregar un elemento al contact2 usando JSON.parse(JSON.stringify(conctact)), este contact se hace inmutable. (Cogemos el objeto lo pasamos a un string y luego lo volvemos a pasar a objeto, esto como que limpiaria la referencia por asi decirlo).
+
+Esta forma el instructor casi no la usa nunca pero la aniadido porque aveces la toman como preguntas de entrevistas, y te pueden preguntar a y como lo haces con lo que te da la especificacion ECMAscript 6.
+
 Esto seria una buean forma de clonar un objeto y que sea inmutable:
 ```js
     var objetc1 = {data: 1, detail: { info: 'My info' } };
@@ -364,12 +458,15 @@ La manera mas usada hasta ahora es usar `Object.assign()` al cual se le pasa com
     {title: "titulo 1"}
 ```
 
-Es la que mas se ha usado pero con la nueva feature de js llamada SPREAD operator se usa cada vez menos:
+Es la que mas se ha usado o por lo menos el instructor, pero con la nueva feature de JS llamada `SPREAD operator` ya se usa o la usa cada vez menos:
 
 #### SPREAD operator (corrigio el tutor)
 
-Con esta nueva feature de js hacemos lo mismo que el `Object.assign` pero ahora usamos un objeto en el que le pasaremos  { ...objeto_a_clonar }. 
-Esto funcionar igual pero ya no es necesario escribir Object.assign
+Con esta nueva feature de JS hacemos casi lo mismo que el `Object.assign` pero ahora usamos un objeto en el que le pasaremos  3 puntos seguidos y el nombre del objeto a clobnar `{ ...objeto_a_clonar }`.
+
+Esto funciona igual pero ya no es necesario escribir `Object.assign`
+
+Esta seria la forma que mas se va a ver o que mas voy a usar.
 
 ```js
 // SPREAD OPERATOR
@@ -387,8 +484,13 @@ Esto funcionar igual pero ya no es necesario escribir Object.assign
     {title: "titulo 1"}
 ```
 
-Este REST OPERATOR se puede usar tanto para objetos, arrays o parametros de funciones.
-Hay que tener en cuenta que es muy importante el orden en que se pasan los objetos, ya que si los objetos a pasarle usando `Object.assign` o `REST OPERATOR` tienen las mismas keys, esta se pisaran con la del último objeto que se le pase.
+Este `SPREAD OPERATOR` se puede usar tanto para objetos, arrays o parametros de funciones.
+
+##### Sintaxis SPREAD para parametros de funciones Arrays literales o Strings
+
+Me quede aqui -> dia 1 -> 43:05
+
+Hay que tener en cuenta que es muy importante el orden en que se pasan los objetos, ya que si los objetos a pasarle usando `Object.assign` o `SPREAD OPERATOR` tienen las mismas keys, esta se pisaran con la del último objeto que se le pase.
 
 ```js
     var a = { name : 'name' }
