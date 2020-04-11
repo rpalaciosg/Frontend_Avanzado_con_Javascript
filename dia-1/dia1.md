@@ -439,7 +439,7 @@ Esto seria una buean forma de clonar un objeto y que sea inmutable:
 
 Se puede hacer una copia limpia con este método. El cleanCopy es una funcion que me hara copias limpias de objetos.
 
-##### Segunda forma de clonar un objeto o array y que no se mutable
+##### Segunda forma de clonar un objeto o array y que no sea mutable
 La manera mas usada hasta ahora es usar `Object.assign()` al cual se le pasa como parametro un objeto vacio `{}` y como segundo parametro el objeto que queremos clonar en este caso el objeto `contact`, es decir igualar en un objeto vacio lo que tiene el objeto contact.
 
 
@@ -488,9 +488,61 @@ Este `SPREAD OPERATOR` se puede usar tanto para objetos, arrays o parametros de 
 
 ##### Sintaxis SPREAD para parametros de funciones Arrays literales o Strings
 
-Me quede aqui -> dia 1 -> 43:05
 
-Hay que tener en cuenta que es muy importante el orden en que se pasan los objetos, ya que si los objetos a pasarle usando `Object.assign` o `SPREAD OPERATOR` tienen las mismas keys, esta se pisaran con la del último objeto que se le pase.
+El SPREAD OPERATOR para los parametros de una funcion eso si es mas antiguo que ES6.
+
+Lo bueno del SPREADOPERATOR es si tenemos estos 2 objetos a y b:
+
+```js
+  var a = { name: 'name'}
+  var b = {surname: 'surname'}
+
+```
+Y ahora queremos crear un objeto 'c' que sea las 2 cosas, que tenga tanto a como b:
+
+- Una forma no tan buena o bonita es hacerlo igualando las keys de cada objeto:
+
+```js
+  var c = {}
+  c.name = a.name
+  "name"
+  c.surname = b.surname
+  "surname"
+```
+- Otra forma mas rapida y mejor es hacerla con Object.assign():
+
+```js
+  var c = Object.assign({}, a, b);
+  c
+  {name: "name", surname: "surname"}
+```
+
+Ahora el mismo ejemplo con SPREAD OPERATOR:
+
+```js
+  var c = { ...a, ...b};
+  c
+  {name: "name", surname: "surname"}
+```
+
+Lo chevere del SPREAD OPERATOR es que puedo meter mas cosas, por ejm: le metos otros  keys, unos iteems, en este caso un array de items, y ahora 'c' vale todo eso:
+```js
+  var c = { ...a, ...b, phone: 123, items: [1,2] };
+  c
+  {name: "name", surname: "surname", phone: 123, items: Array(2)}
+```
+
+Es un manejo de objetos muy comodo, lo tengo ahi bien identado con un editor es muy comodo hacerlo de esta manera.
+
+Pero me puedo estar preguntando que pasa si los 2 objetos tienen la misma key, que pasa ahi da un error?, no da error!, vamos aprobarlo cambiando el key de 'b' surname por name y comprobarlo:
+
+```js
+  var b = {name: 'surname'}
+```
+
+Si yo ahora hago la sentencia que hicimos aqui `var c = { ...a, ...b};` lo que va a pasar es que c solo va a tener una clave name y se va apisar con la de b, porque primero coge uno y luego el siguiente, y con Obvject.assign es exactmente lo mismo.
+
+Por eso es muy importante el orden en que se pasan los objetos, ya que si los objetos a pasarle usando `Object.assign` o `SPREAD OPERATOR` tienen las mismas keys, esta se pisaran con la del último objeto que se le pase.
 
 ```js
     var a = { name : 'name' }
@@ -523,12 +575,12 @@ Hay que tener en cuenta que es muy importante el orden en que se pasan los objet
     undefined
 ```
 
-Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidados los items u objetos anidados son mutables cuando se usa el `Object assing`, en cambio usando el `stringify` o `SPREAD OPERATOR` (corrigio tutor) esto si hace una copia profunda.
+Aqui un companiero hace una pregunta: con Object.assign() solo copias el primer nivel de propiedades del objeto, es decir un subnivel del objeto seria mutable? Osea no hace un copiado profundo.
+
+Y es correcto, hay que tener en cuenta que al clonar un objeto que tiene objetos anidados los items u objetos anidados son mutables cuando se usa el `Object assing` y `SPREAD OPERATOR` (corrigio tutor), en cambio usando el `stringify`  esto si hace una copia profunda y se hacen inmutables.
 ```js
     var b = { surname: 'surname', detail: { info: 1234} };
-    undefined
     var a = Object.assign({} , b);
-    undefined
     a
     {surname: "surname", detail: {…}}detail: {info: 1234}info: 1234__proto__: Objectsurname: "surname"__proto__: Objectconstructor: ƒ Object()hasOwnProperty: ƒ hasOwnProperty()isPrototypeOf: ƒ isPrototypeOf()propertyIsEnumerable: ƒ propertyIsEnumerable()toLocaleString: ƒ toLocaleString()toString: ƒ toString()valueOf: ƒ valueOf()__defineGetter__: ƒ __defineGetter__()__defineSetter__: ƒ __defineSetter__()__lookupGetter__: ƒ __lookupGetter__()__lookupSetter__: ƒ __lookupSetter__()get __proto__: ƒ __proto__()set __proto__: ƒ __proto__()
     a.detail.info = 123123123
@@ -537,13 +589,12 @@ Hay que tener en cuenta tambien que al clonar un objeto que tiene objetos anidad
     {surname: "surname", detail: {…}}
 ```
 
-Para evitar esto se puede usar el stringigy o el SPREAD OPERATOR (corrigio el tutor) pero aumentando las keys de las llaves de objetos anidados: ```var a = { ...b, detail: { ...b.detail } };```
+Para evitar esto se puede usar el stringify o el SPREAD OPERATOR (corrigio el tutor) pero aumentando las keys de las llaves de objetos anidados, o funcionaria sin agregar las demas keys a menos que el objeto contenga solo valores primitivos para que sean `inmutables`: 
+```var a = { ...b, detail: { ...b.detail } };```
 
 ```js
     var b = { surname: 'surname', detail: { info: 1234} };
-    undefined
     var a = { ...b };
-    undefined
     a.detail.info = 'erororor';
     "erororor"
     a
@@ -556,8 +607,15 @@ Para evitar esto se puede usar el stringigy o el SPREAD OPERATOR (corrigio el tu
     detail: {info: "erororor"}
     surname: "surname"
     __proto__: Object
+    
+```
+
+Como vemos si clonamos el objeto solo con un SPREAD OPERATOR los demas niveles se hacen mutables, Pero si clono los objetos con SPREAD OPERATOR e incluyo SPREAD OPERATOR en sus keys o subniveles, evitamos esta mutabilidad. 
+Nota debo probar que tan eficiente en codigo seria y probar con objetos sumamente grandes  y con varios subniveles, creo que seria demasiado codigo o keys que repetir con SPREAD OPERATOR.  
+
+```js
     var a = { ...b, detail: { ...b.detail } };
-    undefined
+    
     a.detail.info = 5678;
     5678
     b
@@ -571,6 +629,61 @@ Para evitar esto se puede usar el stringigy o el SPREAD OPERATOR (corrigio el tu
     surname: "surname"
     __proto__: Object
 ```
+
+Aqui vemos un ejemplo con mas subniveles, y clonamos con SPREAD OPERATOR pero usandolo solo en los keys del primer subnivel:
+
+```js
+  var x = { name: 'name', detail: { second: 'xyz', dir: { calle: 'Calle1' } }, info: { tercero: 1234 } }
+  var y = { ...x, detail: { ...x.detail }, info: { ...x.info } }
+  y // imprimo y
+  {name: "name", detail: {…}, info: {…}}
+    name: "name"
+    detail:
+    second: "xyz"
+    dir: {calle: "Calle1"}
+    __proto__: Object
+    info: {tercero: 1234}
+    __proto__: Object
+
+  // cambio la key calle
+  x.detail.dir.calle = 'Gonzalo Pizarro'
+  y // imprimo nuevamente y
+  {name: "name", detail: {…}, info: {…}}
+    name: "name"
+    detail:
+    second: "xyz"
+    dir: {calle: "Gonzalo Pizarro"}
+    __proto__: Object
+    info: {tercero: 1234}
+    __proto__: Object
+```
+
+Vemos que el 2do subnivel, el objeto dir, se ha hecho mutable.
+
+Para corregir esto entonces debemos clonar el objeto pero usando el SPREAD OPERATOR incluso en los niveles necesarios para evitar la `mutabilidad` , lo que indica que debemos usar mas codigo y se hara menos legible:
+
+```js
+  var y = { ...x, detail: { ...x.detail, dir : {...x.detail.dir } }, info: { ...x.info } }
+  y //imprimo y
+  {name: "name", detail: {…}, info: {…}}
+    name: "name"
+    detail: {second: "xyz", dir: {…}}
+      second: "xyz"
+      dir: {calle: "Gonzalo Pizarro"}
+      __proto__: Objectinfo: {tercero: 1234}__proto__: Object
+  // cambio el key calle dentro del segundo subnivel
+  x.detail.dir.calle = 'Bartolome Ruiz'
+  y // vuelvo a imprimir y
+  {name: "name", detail: {…}, info: {…}}
+    name: "name"
+    detail: 
+    second: "xyz"
+    dir: {calle: "Gonzalo Pizarro"}
+    __proto__: Objectinfo: {tercero: 1234}__proto__: Object
+```
+Como vemos se logra la `INMUTABILIDAD` pero la sintaxis o codigo se hace mas compleja de entender.
+
+Me quede aqui en el minuto 48:12, se explica porque el SPREAD OPERATOR y object.assign no hacen una copia profunda.
 
 ##### Corregir inmutabilidad en arrays
 Ejemplo de como corregir la mutabilidad en arrays.
